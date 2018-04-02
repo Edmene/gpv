@@ -1,4 +1,9 @@
 package app.models;
 
-public class Destination {
+import org.javalite.activejdbc.Model;
+
+public class Destination extends Model {
+    static {
+        validatePresenceOf("name","address_id");
+    }
 }

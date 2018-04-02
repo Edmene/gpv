@@ -1,4 +1,10 @@
 package app.models;
 
-public class Stop {
+import org.javalite.activejdbc.Model;
+
+public class Stop extends Model {
+    static {
+        validatePresenceOf("time","address_id","availability_id," +
+                "shift","day","plan_id");
+    }
 }

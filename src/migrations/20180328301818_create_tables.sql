@@ -37,7 +37,7 @@ CREATE TABLE passengers (
   cpf VARCHAR(11) CHECK(cpf ~ '^[0-9]{11}$') NOT NULL UNIQUE,
   rg VARCHAR(20) NOT NULL,
   birth_date DATE NOT NULL,
-  telephone VARCHAR(20) CHECK(telephone ~ '^9[0-9]{8}|[0-9]{8}$'),
+  telephone VARCHAR(20) CHECK(telephone ~ '^9[0-9]{8}|[0-9]{8}$') NOT NULL,
   email VARCHAR(200) NOT NULL CHECK(email ~ '^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$')
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE plans(
   id SERIAL NOT NULL PRIMARY KEY,
   availability_condition CHAR(1) NOT NULL,
   ticket_price FLOAT CHECK (ticket_price > 0),
-  daily_value FLOAT CHECK (daily_value > 0) NOT NULL,
+  daily_value FLOAT CHECK (daily_value > 0),
   available_reservations SMALLINT NOT NULL CHECK (plans.available_reservations > 0),
   destination_id INT REFERENCES destinations NOT NULL
 );
@@ -76,8 +76,8 @@ CREATE TABLE availabilities(
   id SERIAL NOT NULL,
   shift INT NOT NULL,
   day INT NOT NULL,
-  plan INT NOT NULL REFERENCES plans,
-  PRIMARY KEY (id, shift, day, plan)
+  plan_id INT NOT NULL REFERENCES plans,
+  PRIMARY KEY (id, shift, day, plan_id)
 );
 
 CREATE TABLE allocations(
@@ -85,8 +85,8 @@ CREATE TABLE allocations(
   id SERIAL NOT NULL REFERENCES availabilities(id),
   shift INT NOT NULL REFERENCES availabilities(shift),
   day INT NOT NULL REFERENCES availabilities(day),
-  plan INT NOT NULL REFERENCES availabilities(plan),
-  PRIMARY KEY (driver_id, id, shift, day, plan)
+  plan_id INT NOT NULL REFERENCES availabilities(plan_id),
+  PRIMARY KEY (driver_id, id, shift, day, plan_id)
 );
 
 CREATE TABLE vehicle_allocations(
@@ -98,7 +98,11 @@ CREATE TABLE vehicle_allocations(
 CREATE TABLE stops(
   id SERIAL NOT NULL PRIMARY KEY,
   time TIME NOT NULL,
-  address INT NOT NULL REFERENCES addresses
+  address_id INT NOT NULL REFERENCES addresses,
+  availability_id INT NOT NULL REFERENCES availabilities(id),
+  shift INT NOT NULL REFERENCES availabilities(shift),
+  day INT NOT NULL REFERENCES availabilities(day),
+  plan_id INT NOT NULL REFERENCES availabilities(plan_id)
 );
 
 CREATE TABLE reservations(

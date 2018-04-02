@@ -1,4 +1,9 @@
 package app.models;
 
-public class State {
+import org.javalite.activejdbc.Model;
+
+public class State extends Model {
+    static {
+        validatePresenceOf("name","acronym");
+    }
 }

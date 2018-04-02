@@ -1,4 +1,9 @@
 package app.models;
 
-public class Allocation {
+import org.javalite.activejdbc.Model;
+
+public class Allocation extends Model {
+    static {
+        validatePresenceOf("driver_id","id","shift","day","plan_id");
+    }
 }
