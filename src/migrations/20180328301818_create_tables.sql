@@ -89,7 +89,7 @@ CREATE TABLE allocations(
   PRIMARY KEY (driver_id, id, shift, day, plan)
 );
 
-CREATE TABLE vehicles_allocations(
+CREATE TABLE vehicle_allocations(
   vehicle_id INT NOT NULL REFERENCES vehicles,
   allocation_id INT NOT NULL REFERENCES allocations,
   PRIMARY KEY (vehicle_id, allocation_id)
