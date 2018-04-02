@@ -5,7 +5,7 @@
 
 
 
-<@link_to action="new_form">Adicionar novo motorista</@link_to>
+<@link_to action="new_form">Adicionar novo driver</@link_to>
 
 <table>
     <tr>
@@ -15,21 +15,21 @@
         <td>CNH</td>
         <td>Edit</td>
     </tr>
-<#list motoristas as motorista>
+<#list motoristas as driver>
     <tr>
         <td>
-            <@link_to action="show" id=motorista.id>${motorista.nome}</@link_to>
+            <@link_to action="show" id=driver.id>${driver.nome}</@link_to>
         </td>
         <td>
-            ${motorista.sobrenome}</td>
+            ${driver.sobrenome}</td>
         <td>
         <td>
-            ${motorista.rg}</td>
+            ${driver.rg}</td>
         <td>
         <td>
-            ${motorista.cnh}</td>
+            ${driver.cnh}</td>
         <td>
-            <@form  id=motorista.id action="delete" method="delete" html_id=motorista.id>
+            <@form  id=driver.id action="delete" method="delete" html_id=driver.id>
                 <button type="submit">delete</button>
             </@form>
         </td>

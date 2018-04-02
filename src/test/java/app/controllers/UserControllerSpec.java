@@ -16,19 +16,17 @@ limitations under the License.
 
 package app.controllers;
 
-import app.models.Usuario;
+import app.models.User;
 import org.javalite.activeweb.DBControllerSpec;
-import org.javalite.test.XPathHelper;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Igor Polevoy
  */
-public class UsuarioControllerSpec extends DBControllerSpec {
+public class UserControllerSpec extends DBControllerSpec {
 
     String nome = "160413402X";
     String senha = "Erich Maria Remarque";
@@ -36,10 +34,10 @@ public class UsuarioControllerSpec extends DBControllerSpec {
 
     @Before
     public void before() {
-        Usuario.deleteAll();
-        Usuario u = (Usuario) Usuario.createIt("nome", nome, "senha", senha);
+        User.deleteAll();
+        User u = (User) User.createIt("nome", nome, "senha", senha);
         id = u.getId();
-        Usuario.createIt("nome", "rwerewr", "senha", "a1b2c3d4");
+        User.createIt("nome", "rwerewr", "senha", "a1b2c3d4");
 
     }
 
@@ -53,8 +51,8 @@ public class UsuarioControllerSpec extends DBControllerSpec {
     @Test
     public void shouldFindOneBookByIsbn() {
         request().param("id", id).get("show"); //<< this is where we execute the controller and pass a parameter
-        Usuario usuario = (Usuario) assigns().get("usuario");
-        a(usuario.get("senha")).shouldBeEqual(senha);
+        User user = (User) assigns().get("user");
+        a(user.get("senha")).shouldBeEqual(senha);
     }
 
     @Test
@@ -69,23 +67,23 @@ public class UsuarioControllerSpec extends DBControllerSpec {
 
     @Test
     public void shouldDeleteBookById() {
-        Usuario b = (Usuario) Usuario.findAll().get(0);
+        User b = (User) User.findAll().get(0);
 
         request().param("id",  b.getId()).delete("delete");
         
         a(redirected()).shouldBeTrue();
-        a(Usuario.count()).shouldBeEqual(1);
+        a(User.count()).shouldBeEqual(1);
         a(flash("message")).shouldNotBeNull();
     }
 
     @Test
     public void shouldShowBookByIdAndVerifyGeneratedHTML() {
-        Usuario u = (Usuario) Usuario.findAll().get(0);
+        User u = (User) User.findAll().get(0);
 
         request().integrateViews().param("id",  u.getId()).get("show");
 
-        Usuario usuario = (Usuario) assigns().get("book");
-        a(usuario.get("nome")).shouldBeEqual(u.get("nome"));
+        User user = (User) assigns().get("book");
+        a(user.get("nome")).shouldBeEqual(u.get("nome"));
         String html = responseContent();
         a(html.contains(u.getString("nome"))).shouldBeTrue();
     }

@@ -13,15 +13,15 @@
         <td>Senha</td>
         <td>Edit</td>
     </tr>
-<#list usuarios as usuario>
+<#list usuarios as user>
     <tr>
         <td>
-            <@link_to action="show" id=usuario.id>${usuario.nome}</@link_to>
+            <@link_to action="show" id=user.id>${user.nome}</@link_to>
         </td>
         <td>
-            ${usuario.senha}</td>
+            ${user.senha}</td>
         <td>
-            <@form  id=usuario.id action="delete" method="delete" html_id=usuario.id >
+            <@form  id=user.id action="delete" method="delete" html_id=user.id >
                 <button type="submit">delete</button>
             </@form>
         </td>

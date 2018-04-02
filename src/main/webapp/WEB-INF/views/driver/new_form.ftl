@@ -1,7 +1,7 @@
-<@content for="title">Add new motorista</@content>
+<@content for="title">Add new driver</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adding new motorista</h2>
+<h2>Adding new driver</h2>
 
 
 <@form action="create" method="post">
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Add new motorista"></td>
+            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Add new driver"></td>
 
         </tr>
     </table>

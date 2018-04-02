@@ -19,20 +19,18 @@ package app.models;
 import org.javalite.activeweb.DBSpec;
 import org.junit.Test;
 
-import java.util.List;
-
 /**
  * @author Igor Polevoy
  */
-public class UsuarioSpec extends DBSpec {
+public class UserSpec extends DBSpec {
 
     @Test
     public void shouldValidateRequiredAttributes(){
-        Usuario usuario = new Usuario();
-        a(usuario).shouldNotBe("valid");
+        User user = new User();
+        a(user).shouldNotBe("valid");
 
-        usuario.set("nome", "fake title", "senha", "fake author");
-        a(usuario).shouldBe("valid");
+        user.set("nome", "fake title", "senha", "fake author");
+        a(user).shouldBe("valid");
     }
 
 }

@@ -15,8 +15,8 @@ limitations under the License.
 */
 package app.config;
 
-import app.controllers.MotoristaController;
-import app.controllers.UsuarioController;
+import app.controllers.DriverController;
+import app.controllers.UserController;
 import org.javalite.activeweb.AbstractControllerConfig;
 import org.javalite.activeweb.AppContext;
 import org.javalite.activeweb.controller_filters.DBConnectionFilter;
@@ -30,6 +30,6 @@ public class AppControllerConfig extends AbstractControllerConfig {
 
     public void init(AppContext context) {
         addGlobalFilters(new TimingFilter());
-        add(new DBConnectionFilter()).to(UsuarioController.class, MotoristaController.class);
+        add(new DBConnectionFilter()).to(UserController.class, DriverController.class);
     }
 }
