@@ -16,10 +16,10 @@
 <#list users as user>
     <tr>
         <td>
-            <@link_to action="show" id=user.id>${user.nome}</@link_to>
+            <@link_to action="show" id=user.id>${user.name}</@link_to>
         </td>
         <td>
-            ${user.senha}</td>
+            ${user.password}</td>
         <td>
             <@form  id=user.id action="delete" method="delete" html_id=user.id >
                 <button type="submit">delete</button>

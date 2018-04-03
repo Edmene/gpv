@@ -38,7 +38,7 @@ public class UserController extends AppController {
 
     public void show(){
         //this is to protect from URL hacking
-        User u = (User) User.findById(getId());
+        User u = User.findById(Integer.parseInt(getId()));
         if(u != null){
             view("user", u);
         }else{

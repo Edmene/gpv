@@ -1,5 +1,5 @@
 
-<@content for="title">Motorista: ${driver.nome}</@content>
+<@content for="title">Motorista: ${driver.name}</@content>
 
 
 
@@ -8,7 +8,7 @@
 
 
 
-<h2>Motorista: "${driver.nome}"</h2>
+<h2>Motorista: "${driver.name}"</h2>
 
-<strong>Sobrenome:</strong> ${driver.sobrenome}, <strong>RG:</strong> ${driver.rg},
+<strong>Sobrenome:</strong> ${driver.surname}, <strong>RG:</strong> ${driver.rg},
 <strong>CNH:</strong> ${driver.cnh}

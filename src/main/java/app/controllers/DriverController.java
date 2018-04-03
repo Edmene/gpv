@@ -27,7 +27,7 @@ public class DriverController extends AppController {
 
     public void show(){
         //this is to protect from URL hacking
-        Driver m = (Driver) Driver.findById(getId());
+        Driver m = Driver.findById(Integer.parseInt(getId()));
         if(m != null){
             view("driver", m);
         }else{
