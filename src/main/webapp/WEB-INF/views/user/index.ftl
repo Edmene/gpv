@@ -11,7 +11,7 @@
     <tr>
         <td>Nome</td>
         <td>Senha</td>
-        <td>Edit</td>
+        <td>Editar</td>
     </tr>
 <#list users as user>
     <tr>
@@ -22,7 +22,7 @@
             ${user.password}</td>
         <td>
             <@form  id=user.id action="delete" method="delete" html_id=user.id >
-                <button type="submit">delete</button>
+                <button type="submit">Excluir</button>
             </@form>
         </td>
     </tr>
