@@ -13,7 +13,10 @@ public class CityController extends AppController {
     @POST
     public void create(){
         City city = new City();
-        city.fromMap(params1st());
+        //city.fromMap(params1st());
+        //String name = param("name");
+        city.set("name", param("name"));
+        city.setInteger("state_id", Integer.parseInt(param("state_id")));
         if(!city.save()){
             flash("message", "Something went wrong, please  fill out all fields");
             flash("errors", city.errors());
