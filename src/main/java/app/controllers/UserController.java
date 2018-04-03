@@ -66,7 +66,7 @@ public class UserController extends AppController {
     public void delete(){
 
         User u = User.findById(Integer.parseInt(getId()));
-        String nome = u.getString("nome");
+        String nome = u.getString("name");
         u.delete();
         flash("message", "User: '" + nome + "' was deleted");
         redirect(UserController.class);

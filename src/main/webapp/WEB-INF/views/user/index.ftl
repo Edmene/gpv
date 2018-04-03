@@ -13,7 +13,7 @@
         <td>Senha</td>
         <td>Edit</td>
     </tr>
-<#list usuarios as user>
+<#list users as user>
     <tr>
         <td>
             <@link_to action="show" id=user.id>${user.nome}</@link_to>

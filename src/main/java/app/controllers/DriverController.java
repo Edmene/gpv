@@ -20,7 +20,7 @@ public class DriverController extends AppController {
             flash("params", params1st());
             redirect(DriverController.class, "new_form");
         }else{
-            flash("message", "New driver was added: " + driver.get("nome"));
+            flash("message", "New driver was added: " + driver.get("name"));
             redirect(DriverController.class);
         }
     }

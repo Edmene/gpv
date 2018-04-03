@@ -8,15 +8,16 @@
     <table style="margin:30px">
         <tr>
             <td>Nome:</td>
-            <td><input type="text" name="nome" value="${(flasher.params.nome)!}"> *
-                            <span class="error">${(flasher.errors.nome)!}</span>
+            <td><input type="text" name="name" value="${(flasher.params.name)!}"> *
+                            <span class="error">${(flasher.errors.name)!}</span>
             </td>
         </tr>
         <tr>
             <td>Senha:</td>
-            <td><input type="text" name="senha" value="${(flasher.params.senha)!}"> *
-                            <span class="error">${(flasher.errors.senha)!}</span>
+            <td><input type="text" name="password" value="${(flasher.params.password)!}"> *
+                            <span class="error">${(flasher.errors.password)!}</span>
             </td>
+            <input type="hidden" name="extra" value="extra">
         </tr>
         <tr>
             <td></td>

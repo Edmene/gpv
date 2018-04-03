@@ -1,5 +1,5 @@
 
-<@content for="title">Usuario: ${user.nome}</@content>
+<@content for="title">Usuario: ${user.name}</@content>
 
 
 
@@ -8,6 +8,6 @@
 
 
 
-<h2>Usuario: "${user.nome}"</h2>
+<h2>Usuario: "${user.name}"</h2>
 
-<strong>Senha:</strong> ${user.senha}
+<strong>Senha:</strong> ${user.password}

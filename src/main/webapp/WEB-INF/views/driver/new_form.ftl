@@ -8,14 +8,14 @@
     <table style="margin:30px">
         <tr>
             <td>Nome:</td>
-            <td><input type="text" name="nome" value="${(flasher.params.nome)!}"> *
-                <span class="error">${(flasher.errors.nome)!}</span>
+            <td><input type="text" name="name" value="${(flasher.params.name)!}"> *
+                <span class="error">${(flasher.errors.name)!}</span>
             </td>
         </tr>
         <tr>
             <td>Sobrenome:</td>
-            <td><input type="text" name="sobrenome" value="${(flasher.params.sobrenome)!}"> *
-                <span class="error">${(flasher.errors.sobrenome)!}</span>
+            <td><input type="text" name="surname" value="${(flasher.params.surname)!}"> *
+                <span class="error">${(flasher.errors.surname)!}</span>
             </td>
         </tr>
         <tr>

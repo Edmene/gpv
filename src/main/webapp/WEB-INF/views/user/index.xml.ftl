@@ -1,5 +1,5 @@
 <books>
-<#list usuarios as user>
+<#list users as user>
     <book>
         <id>${user.id}</id>
         <title>${user.nome}</title>

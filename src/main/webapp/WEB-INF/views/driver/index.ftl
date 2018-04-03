@@ -15,13 +15,13 @@
         <td>CNH</td>
         <td>Edit</td>
     </tr>
-<#list motoristas as driver>
+<#list drivers as driver>
     <tr>
         <td>
-            <@link_to action="show" id=driver.id>${driver.nome}</@link_to>
+            <@link_to action="show" id=driver.id>${driver.name}</@link_to>
         </td>
         <td>
-            ${driver.sobrenome}</td>
+            ${driver.surname}</td>
         <td>
         <td>
             ${driver.rg}</td>
