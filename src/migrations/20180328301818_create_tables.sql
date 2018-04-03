@@ -73,36 +73,42 @@ CREATE TABLE plans(
 );
 
 CREATE TABLE availabilities(
-  id SERIAL NOT NULL,
   shift INT NOT NULL,
   day INT NOT NULL,
   plan_id INT NOT NULL REFERENCES plans,
-  PRIMARY KEY (id, shift, day, plan_id)
+  PRIMARY KEY (shift, day, plan_id)
 );
 
 CREATE TABLE allocations(
   driver_id INT NOT NULL REFERENCES drivers,
-  id SERIAL NOT NULL REFERENCES availabilities(id),
-  shift INT NOT NULL REFERENCES availabilities(shift),
-  day INT NOT NULL REFERENCES availabilities(day),
-  plan_id INT NOT NULL REFERENCES availabilities(plan_id),
-  PRIMARY KEY (driver_id, id, shift, day, plan_id)
+  shift INT NOT NULL,
+  day INT NOT NULL,
+  plan_id INT NOT NULL,
+  CONSTRAINT availabilities_fk FOREIGN KEY (shift, day, plan_id)
+  REFERENCES availabilities(shift, day, plan_id),
+  PRIMARY KEY (driver_id, shift, day, plan_id)
 );
 
 CREATE TABLE vehicle_allocations(
   vehicle_id INT NOT NULL REFERENCES vehicles,
-  allocation_id INT NOT NULL REFERENCES allocations,
-  PRIMARY KEY (vehicle_id, allocation_id)
+  driver_id INT NOT NULL,
+  shift INT NOT NULL,
+  day INT NOT NULL,
+  plan_id INT NOT NULL,
+  CONSTRAINT allocations_fk FOREIGN KEY (driver_id, shift, day, plan_id)
+  REFERENCES allocations(driver_id, shift, day, plan_id),
+  PRIMARY KEY (vehicle_id, driver_id, shift, day, plan_id)
 );
 
 CREATE TABLE stops(
   id SERIAL NOT NULL PRIMARY KEY,
   time TIME NOT NULL,
   address_id INT NOT NULL REFERENCES addresses,
-  availability_id INT NOT NULL REFERENCES availabilities(id),
-  shift INT NOT NULL REFERENCES availabilities(shift),
-  day INT NOT NULL REFERENCES availabilities(day),
-  plan_id INT NOT NULL REFERENCES availabilities(plan_id)
+  shift INT NOT NULL,
+  day INT NOT NULL,
+  plan_id INT NOT NULL,
+  CONSTRAINT availabilities_fk FOREIGN KEY (shift, day, plan_id)
+  REFERENCES availabilities(shift, day, plan_id)
 );
 
 CREATE TABLE reservations(
