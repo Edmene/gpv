@@ -1,7 +1,7 @@
-<@content for="title">Adicionar cidade</@content>
+<@content for="title">Adicionar destino</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando nova cidade</h2>
+<h2>Adicionando novo destino</h2>
 
 
 <@form action="create" method="post" name="create">
@@ -13,13 +13,13 @@
             </td>
         </tr>
         <tr>
-            <td>Estado:</td>
+            <td>Endereco:</td>
             <td>
-                <select name="state_id">
-                <#list states as state>
-                    <option value="${state.id}">${state.acronym}</option>
+                <select name="address_id">
+                <#list addresses as address>
+                    <option value="${address.id}">${address.name}</option>
                 </#list>
-                </select> *<span class="error">${(flasher.errors.state_id)!}</span>
+                </select> *<span class="error">${(flasher.errors.address_id)!}</span>
 
             </td>
         </tr>

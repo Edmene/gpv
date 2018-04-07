@@ -117,28 +117,3 @@ CREATE TABLE passenger_plans (
   REFERENCES destination_plans(destination_id, plan_id),
   PRIMARY KEY(passenger_id, destination_id, plan_id)
 );
-
-
-
-/*
-CREATE TABLE allocations(
-  driver_id INT NOT NULL REFERENCES drivers,
-  shift INT NOT NULL,
-  day INT NOT NULL,
-  plan_id INT NOT NULL,
-  CONSTRAINT availabilities_fk FOREIGN KEY (shift, day, plan_id)
-  REFERENCES availabilities(shift, day, plan_id),
-  PRIMARY KEY (driver_id, shift, day, plan_id)
-);
-
-CREATE TABLE vehicle_allocations(
-  vehicle_id INT NOT NULL REFERENCES vehicles,
-  driver_id INT NOT NULL,
-  shift INT NOT NULL,
-  day INT NOT NULL,
-  plan_id INT NOT NULL,
-  CONSTRAINT allocations_fk FOREIGN KEY (driver_id, shift, day, plan_id)
-  REFERENCES allocations(driver_id, shift, day, plan_id),
-  PRIMARY KEY (vehicle_id, driver_id, shift, day, plan_id)
-);
-*/

@@ -3,7 +3,7 @@
     {
         "id": "${user.id}",
         "name": "${user.name}",
-        "password": "${user.password}"
+        "type": "${user.type}"
     }
     <#if user_has_next>,</#if>
 </#list>

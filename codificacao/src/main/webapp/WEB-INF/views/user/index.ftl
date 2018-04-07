@@ -10,7 +10,7 @@
 <table>
     <tr>
         <td>Nome</td>
-        <td>Senha</td>
+        <td>Tipo</td>
         <td>Editar</td>
     </tr>
 <#list users as user>
@@ -19,7 +19,7 @@
             <@link_to action="show" id=user.id>${user.name}</@link_to>
         </td>
         <td>
-            ${user.password}</td>
+            ${user.type}</td>
         <td>
             <@form  id=user.id action="delete" method="delete" html_id=user.id >
                 <button type="submit">Excluir</button>

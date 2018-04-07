@@ -10,4 +10,4 @@
 
 <h2>Usuario: "${user.name}"</h2>
 
-<strong>Senha:</strong> ${user.password}
+<strong>Tipo:</strong> ${user.type}

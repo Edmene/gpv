@@ -14,14 +14,15 @@
         </tr>
         <tr>
             <td>Senha:</td>
-            <td><input type="text" name="password" value="${(flasher.params.password)!}"> *
+            <td><input type="password" name="password" value="${(flasher.params.password)!}"> *
                             <span class="error">${(flasher.errors.password)!}</span>
             </td>
             <input type="hidden" name="extra" value="extra">
+            <input type="hidden" name="type" value="A">
         </tr>
         <tr>
             <td></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Add new user"></td>
+            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo usuario"></td>
 
         </tr>
     </table>

@@ -3,7 +3,7 @@
     <book>
         <id>${user.id}</id>
         <title>${user.name}</title>
-        <author>${user.password}</author>
+        <author>${user.type}</author>
     </book>
 </#list>
 </books>

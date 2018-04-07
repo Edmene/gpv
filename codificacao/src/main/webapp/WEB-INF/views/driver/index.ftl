@@ -23,9 +23,7 @@
         <td>
             ${driver.surname}</td>
         <td>
-        <td>
             ${driver.rg}</td>
-        <td>
         <td>
             ${driver.cnh}</td>
         <td>
