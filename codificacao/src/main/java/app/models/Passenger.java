@@ -4,7 +4,8 @@ import org.javalite.activejdbc.Model;
 
 public class Passenger extends Model {
     static {
-        validatePresenceOf("name","surname","cpf","rg","birth_date",
+        validatePresenceOf("id","name","surname","cpf","rg","birth_date",
                 "telephone","email");
+        validateEmailOf("email");
     }
 }

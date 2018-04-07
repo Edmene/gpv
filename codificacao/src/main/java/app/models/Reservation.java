@@ -4,7 +4,7 @@ import org.javalite.activejdbc.Model;
 
 public class Reservation extends Model {
     static {
-        validatePresenceOf("reservation_type","status","date",
+        validatePresenceOf("reservation_type","status",
                 "passenger_id","stop_id");
     }
 }

@@ -32,9 +32,9 @@ public class AppControllerConfig extends AbstractControllerConfig {
     public void init(AppContext context) {
         addGlobalFilters(new TimingFilter());
         add(new DBConnectionFilter()).to(UserController.class, DriverController.class, AddressController.class,
-                AllocationController.class, AvailabilityController.class, CityController.class,
-                DestinationController.class, HolidayController.class, PassengerController.class,
+                AvailabilityController.class, CityController.class, DestinationController.class,
+                HolidayController.class, PassengerController.class,
                 PlanController.class, ReservationController.class, StateController.class,
-                StopController.class, VehicleController.class, VehicleAllocationController.class);
+                StopController.class, VehicleController.class);
     }
 }

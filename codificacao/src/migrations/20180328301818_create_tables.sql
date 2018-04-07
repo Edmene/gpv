@@ -68,7 +68,7 @@ CREATE TABLE plans(
   id SERIAL NOT NULL PRIMARY KEY,
   availability_condition CHAR(1) NOT NULL,
   ticket_price FLOAT CHECK (ticket_price > 0),
-  daily_value FLOAT CHECK (daily_value > 0),
+  daily_value FLOAT CHECK (daily_value > 0) NOT NULL,
   available_reservations SMALLINT NOT NULL CHECK (plans.available_reservations > 0)
 );
 
@@ -103,6 +103,12 @@ CREATE TABLE reservations(
   stop_id INT NOT NULL REFERENCES stops
 );
 
+CREATE TABLE destination_plans (
+  destination_id INT NOT NULL REFERENCES destinations,
+  plan_id INT NOT NULL REFERENCES plans,
+  PRIMARY KEY (destination_id, plan_id)
+);
+
 CREATE TABLE passenger_plans (
   passenger_id INT NOT NULL REFERENCES passengers,
   destination_id INT NOT NULL,
@@ -112,11 +118,7 @@ CREATE TABLE passenger_plans (
   PRIMARY KEY(passenger_id, destination_id, plan_id)
 );
 
-CREATE TABLE destination_plans (
-  destination_id INT NOT NULL REFERENCES destinations,
-  plan_id INT NOT NULL REFERENCES plans,
-  PRIMARY KEY (destination_id, plan_id)
-);
+
 
 /*
 CREATE TABLE allocations(
