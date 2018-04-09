@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.models.Vehicle;
+import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -22,7 +23,9 @@ public class VehicleController extends AppController {
             flash("params", params1st());
             redirect(VehicleController.class, "new_form");
         }else{
-            flash("message", "New vehicle was added: " + vehicle.get("license_plate"));
+            LazyList a = Vehicle.find("capacity = ? AND license_plate = ? AND model = ? AND year = ?",
+                    vehicle.get("capacity"), vehicle.get("license_plate"), vehicle.get("model"), vehicle.get("year"));
+            flash("message", "New vehicle was added: " + vehicle.get("license_plate") + " " + a.collect("id").get(0));
             redirect(VehicleController.class);
         }
     }
