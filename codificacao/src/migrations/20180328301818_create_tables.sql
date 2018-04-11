@@ -32,7 +32,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE passengers (
-  id INT REFERENCES users PRIMARY KEY,
+  user_id INT REFERENCES users PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
   surname VARCHAR(200) NOT NULL,
   cpf VARCHAR(11) CHECK(cpf ~ '^[0-9]{11}$') NOT NULL UNIQUE,
