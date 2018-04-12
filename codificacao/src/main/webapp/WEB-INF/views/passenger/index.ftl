@@ -21,7 +21,7 @@
 <#list passengers as passenger>
     <tr>
         <td>
-            <@link_to action="show" id=passenger.id>${passenger.name}</@link_to>
+            <@link_to action="show" id=passenger.user_id>${passenger.name}</@link_to>
         </td>
         <td>
             ${passenger.surname}</td>
@@ -36,7 +36,7 @@
         <td>
             ${passenger.email}</td>
         <td>
-            <@form  id=passenger.id action="delete" method="delete" html_id=passenger.id >
+            <@form  id=passenger.user_id action="delete" method="delete" html_id=passenger.user_id >
                 <button type="submit">Excluir</button>
             </@form>
         </td>

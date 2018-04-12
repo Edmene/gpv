@@ -25,7 +25,7 @@ CREATE TABLE destinations(
 
 CREATE TABLE users(
   id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR(150) NOT NULL,
+  name VARCHAR(150) NOT NULL UNIQUE,
   password VARCHAR(600) NOT NULL,
   extra VARCHAR(200) NOT NULL,
   type CHAR(1) NOT NULL
@@ -39,7 +39,7 @@ CREATE TABLE passengers (
   rg VARCHAR(20) NOT NULL,
   birth_date DATE NOT NULL,
   telephone VARCHAR(20) CHECK(telephone ~ '^9[0-9]{8}|[0-9]{8}$') NOT NULL,
-  email VARCHAR(200) NOT NULL CHECK(email ~ '^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$')
+  email VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE drivers (

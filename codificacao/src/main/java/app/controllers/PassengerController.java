@@ -22,7 +22,7 @@ public class PassengerController extends AppController {
         //this is to protect from URL hacking
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
         if(passenger != null){
-            view("user", passenger);
+            view("passenger", passenger);
         }else{
             view("message", "are you trying to hack the URL?");
             render("/system/404");
@@ -49,7 +49,7 @@ public class PassengerController extends AppController {
             passenger.setDate("birth_date", date);
             //u.get(0).add(passenger);
 
-            if (!passenger.save()) {
+            if (!passenger.insert()) {
                 user.setId(u.get(0).getId()).delete();
                 flash("message", "Something went wrong, please  fill out all fields " + passenger);
                 flash("errors", passenger.errors());
