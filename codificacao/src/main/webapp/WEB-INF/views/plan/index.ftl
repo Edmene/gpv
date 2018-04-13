@@ -13,6 +13,7 @@
         <td>Preco de passagem</td>
         <td>Preco diario</td>
         <td>Numero de vagas</td>
+        <td>Destinos</td>
         <td>Edit</td>
     </tr>
 <#list plans as plan>
@@ -27,10 +28,16 @@
         <td>
             ${plan.available_reservations}</td>
         <td>
+            <@form id=plan.id action="add_destination" method="put" html_id=plan.id>
+                <button type="submit">Adicionar Destinos</button>
+            </@form>
+        </td>
+        <td>
             <@form  id=plan.id action="delete" method="delete" html_id=plan.id >
                 <button type="submit">delete</button>
             </@form>
         </td>
+
     </tr>
 </#list>
 </table>

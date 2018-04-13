@@ -1,9 +1,11 @@
 package app.controllers;
 
+import app.models.Destination;
 import app.models.Plan;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class PlanController extends AppController {
     public void index(){
@@ -47,4 +49,22 @@ public class PlanController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void addDestination(){
+        Plan plan = Plan.findById(Integer.parseInt(getId()));
+        if(plan != null){
+            view("plan", plan, "destinations", Destination.findAll().toMaps());
+            //view("destinations", Destination.findAll().toMaps());
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+
+    }
+
+    @POST
+    public void newDestination(){
+
+    }
 }
