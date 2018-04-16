@@ -1,11 +1,14 @@
 package app.controllers;
 
 import app.models.Destination;
+import app.models.DestinationPlan;
 import app.models.Plan;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
+
+import java.util.Map;
 
 public class PlanController extends AppController {
     public void index(){
@@ -64,7 +67,14 @@ public class PlanController extends AppController {
     }
 
     @POST
-    public void newDestination(){
-
+    public void addDestinations(){
+        String[] destinations = param("destinations").split(",");
+        for (String destination : destinations) {
+            DestinationPlan destinationPlan = new DestinationPlan();
+            destinationPlan.set("destination_id", Integer.parseInt(destination),
+                    "plan_id", Integer.parseInt(param("plan")));
+            destinationPlan.insert();
+        }
+        redirect(PlanController.class);
     }
 }

@@ -20,7 +20,7 @@ CREATE TABLE addresses(
 CREATE TABLE destinations(
   id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
-  address_id INT REFERENCES addresses
+  address_id INT REFERENCES addresses UNIQUE
 );
 
 CREATE TABLE users(
