@@ -5,6 +5,7 @@ import app.models.Stop;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class StateController extends AppController {
     public void index(){
@@ -27,6 +28,32 @@ public class StateController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        State state = State.findById(Integer.parseInt(getId()));
+        if(state != null){
+            view("state", state);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        State state = new State();
+        state.fromMap(params1st());
+        state.set("id", Integer.parseInt(param("id")));
+        if(!state.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(StateController.class);
+        }
+        else{
+            flash("message", "Estado alterado " + state.get("name"));
+            redirect(StateController.class);
+        }
+    }
 
     @DELETE
     public void delete(){
