@@ -50,7 +50,7 @@ public class StateController extends AppController {
         }
         else{
             flash("message", "Estado alterado " + state.get("name"));
-            redirect(StateController.class, "new_form");
+            redirect(StateController.class);
         }
     }
 
