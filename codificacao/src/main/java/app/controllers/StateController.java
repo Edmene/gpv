@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.models.State;
-import app.models.Stop;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -51,19 +50,19 @@ public class StateController extends AppController {
         }
         else{
             flash("message", "Estado alterado " + state.get("name"));
-            redirect(StateController.class);
+            redirect(StateController.class, "new_form");
         }
     }
 
     @DELETE
     public void delete(){
 
-        Stop stop = Stop.findById(Integer.parseInt(getId()));
+        State state = State.findById(Integer.parseInt(getId()));
         //Integer id = Integer.valueOf(getId());
-        //Driver stop = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
+        //Driver state = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
 
-        String name = stop.getString("name");
-        stop.delete();
+        String name = state.getString("name");
+        state.delete();
         flash("message", "Estado: '" + name + "' was deleted");
         redirect(StateController.class);
     }
