@@ -14,7 +14,8 @@
         <td>Preco diario</td>
         <td>Numero de vagas</td>
         <td>Destinos</td>
-        <td>Edit</td>
+        <td>Remover Destinos</td>
+        <td>Deletar</td>
     </tr>
 <#list plans as plan>
     <tr>
@@ -30,6 +31,11 @@
         <td>
             <@form id=plan.id action="add_destination" method="put" html_id=plan.id>
                 <button type="submit">Adicionar Destinos</button>
+            </@form>
+        </td>
+        <td>
+            <@form id=plan.id action="rm_destination" method="put" html_id=plan.id>
+                <button type="submit">Remover Destinos</button>
             </@form>
         </td>
         <td>

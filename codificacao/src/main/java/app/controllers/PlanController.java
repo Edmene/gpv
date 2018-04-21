@@ -3,10 +3,14 @@ package app.controllers;
 import app.models.Destination;
 import app.models.DestinationPlan;
 import app.models.Plan;
+import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PlanController extends AppController {
     public void index(){
@@ -80,6 +84,19 @@ public class PlanController extends AppController {
 
     }
 
+    @PUT
+    public void rmDestination(){
+        LazyList destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()));
+        if(destinationsPlan != null){
+            view("destinationsPlan", destinationsPlan.toMaps());
+            //view("destinations", Destination.findAll().toMaps());
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+
+    }
+
     @POST
     public void addDestinations(){
         String[] destinations = param("destinations").split(",");
@@ -88,6 +105,20 @@ public class PlanController extends AppController {
             destinationPlan.set("destination_id", Integer.parseInt(destination),
                     "plan_id", Integer.parseInt(param("plan")));
             destinationPlan.insert();
+        }
+        redirect(PlanController.class);
+    }
+
+    @POST
+    public void rmDestinations(){
+        LazyList destinationsPlan = DestinationPlan.find("plan_id = ?",
+                Integer.parseInt(param("plan")));
+        List destinations = Arrays.asList(param("destinations").split(","));
+        for(Object destination : destinationsPlan){
+            DestinationPlan destinationPlan = (DestinationPlan) destination;
+            if(!destinations.contains(destinationPlan.get("destination_id").toString())){
+                destinationPlan.delete();
+            }
         }
         redirect(PlanController.class);
     }
