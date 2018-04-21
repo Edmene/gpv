@@ -10,7 +10,8 @@
 <table>
     <tr>
         <td>Nome</td>
-        <td>Data</td>
+        <td>Dia</td>
+        <td>Mes</td>
         <td>Edit</td>
     </tr>
 <#list holidays as holiday>
@@ -19,7 +20,10 @@
             <@link_to action="show" id=holiday.id>${holiday.name}</@link_to>
         </td>
         <td>
-            ${holiday.date}</td>
+            ${holiday.day}</td>
+        <td>
+        <td>
+            ${holiday.month}</td>
         <td>
             <@form  id=holiday.id action="delete" method="delete" html_id=holiday.id>
                 <button type="submit">delete</button>

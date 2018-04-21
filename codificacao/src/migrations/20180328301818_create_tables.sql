@@ -61,14 +61,17 @@ CREATE TABLE vehicles (
 CREATE TABLE holidays(
   id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  date DATE NOT NULL
+  month SMALLINT NOT NULL CHECK (month BETWEEN 1 AND 12),
+  day SMALLINT NOT NULL CHECK (day BETWEEN 1 AND 31)
 );
 
 CREATE TABLE plans(
   id SERIAL NOT NULL PRIMARY KEY,
   availability_condition CHAR(1) NOT NULL,
-  ticket_price FLOAT CHECK (ticket_price > 0),
-  daily_value FLOAT CHECK (daily_value > 0) NOT NULL,
+  ticket_price FLOAT CHECK (ticket_price > 0 AND availability_condition IN ('A','P')
+  OR ticket_price = 0 AND availability_condition = 'M'),
+  daily_value FLOAT CHECK (daily_value > 0 AND availability_condition IN ('A','M')
+  OR ticket_price = 0 AND availability_condition = 'P') NOT NULL,
   available_reservations SMALLINT NOT NULL CHECK (plans.available_reservations > 0)
 );
 
@@ -78,20 +81,14 @@ CREATE TABLE availabilities(
   plan_id INT NOT NULL REFERENCES plans,
   driver_id INT NOT NULL REFERENCES drivers,
   vehicle_id INT NOT NULL REFERENCES vehicles,
-  PRIMARY KEY (day, shift, plan_id, driver_id, vehicle_id)
+  stop_id INT NOT NULL REFERENCES stops,
+  PRIMARY KEY (day, shift, plan_id, driver_id, vehicle_id, stop_id)
 );
 
 CREATE TABLE stops(
   id SERIAL NOT NULL PRIMARY KEY,
   time TIME NOT NULL,
-  address_id INT NOT NULL REFERENCES addresses,
-  day INT NOT NULL,
-  shift INT NOT NULL,
-  plan_id INT NOT NULL,
-  driver_id INT NOT NULL,
-  vehicle_id INT NOT NULL,
-  CONSTRAINT availabilities_fk FOREIGN KEY (day, shift, plan_id, driver_id, vehicle_id)
-  REFERENCES availabilities(day, shift, plan_id, driver_id, vehicle_id)
+  address_id INT NOT NULL REFERENCES addresses
 );
 
 CREATE TABLE reservations(
@@ -100,7 +97,14 @@ CREATE TABLE reservations(
   date DATE,
   alteration_date DATE,
   passenger_id INT NOT NULL REFERENCES passengers,
-  stop_id INT NOT NULL REFERENCES stops
+  day INT NOT NULL,
+  shift INT NOT NULL,
+  plan_id INT NOT NULL,
+  driver_id INT NOT NULL,
+  vehicle_id INT NOT NULL,
+  stop_id INT NOT NULL,
+  CONSTRAINT availabilities_fk FOREIGN KEY (day, shift, plan_id, driver_id, vehicle_id, stop_id)
+  REFERENCES availabilities(day, shift, plan_id, driver_id, vehicle_id, stop_id)
 );
 
 CREATE TABLE destination_plans (

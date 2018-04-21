@@ -19,13 +19,25 @@
         </tr>
         <tr>
             <td>Preco da passagem:</td>
-            <td><input type="text" name="ticket_price" value="${(flasher.params.ticket_price)!}">
+            <td><input type="text" name="ticket_price" value="
+            <#if (flasher.params.ticket_price)! > 0
+                ${(flasher.params.ticket_price)!}
+            <#else>
+                0
+            </#if>
+            ">
                 <span class="error">${(flasher.errors.ticket_price)!}</span>
             </td>
         </tr>
         <tr>
             <td>Valor diario:</td>
-            <td><input type="text" name="daily_value" value="${(flasher.params.daily_value)!}"> *
+            <td><input type="text" name="daily_value" value="
+            <#if (flasher.params.daily_value)! > 0
+                ${(flasher.params.daily_value)!}
+            <#else>
+                0
+            </#if>
+            "> *
                 <span class="error">${(flasher.errors.daily_value)!}</span>
             </td>
         </tr>

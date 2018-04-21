@@ -8,8 +8,6 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-import java.util.Map;
-
 public class PlanController extends AppController {
     public void index(){
         view("plans", Plan.findAll().toMaps());
@@ -29,8 +27,16 @@ public class PlanController extends AppController {
     public void create(){
         Plan plan = new Plan();
         plan.fromMap(params1st());
-        plan.set("ticket_price", Float.parseFloat(param("ticket_price")));
-        plan.set("daily_value", Float.parseFloat(param("daily_value")));
+        String ticketPrice = param("ticket_price");
+        String dailyValue = param("daily_value");
+        if(ticketPrice.length() == 0){
+            ticketPrice = "0";
+        }
+        if(dailyValue.length() == 0){
+            dailyValue = "0";
+        }
+        plan.set("ticket_price", Float.parseFloat(ticketPrice));
+        plan.set("daily_value", Float.parseFloat(dailyValue));
         plan.set("available_reservations", Short.parseShort(param("available_reservations")));
         if(!plan.save()){
             flash("message", "Something went wrong, please  fill out all fields");

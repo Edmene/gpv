@@ -13,8 +13,14 @@
             </td>
         </tr>
         <tr>
-            <td>Data:</td>
-            <td><input type="date" name="date" value="${(flasher.params.date)!}"> *
+            <td>Dia:</td>
+            <td><input type="number" name="day" value="${(flasher.params.date)!}"> *
+                <span class="error">${(flasher.errors.date)!}</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Mes:</td>
+            <td><input type="number" name="month" value="${(flasher.params.date)!}"> *
                 <span class="error">${(flasher.errors.date)!}</span>
             </td>
         </tr>

@@ -6,8 +6,6 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class HolidayController extends AppController {
     public void index(){
@@ -18,8 +16,8 @@ public class HolidayController extends AppController {
     public void create() throws ParseException {
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(param("date"));
-        holiday.setDate("date", date);
+        holiday.setShort("day", Short.parseShort(param("day")));
+        holiday.setShort("month", Short.parseShort(param("month")));
         if(!holiday.save()){
             flash("message", "Something went wrong, please  fill out all fields");
             flash("errors", holiday.errors());
@@ -46,9 +44,6 @@ public class HolidayController extends AppController {
     public void delete(){
 
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver holiday = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = holiday.getString("name");
         holiday.delete();
         flash("message", "Feriado: '" + name + "' foi deletado");

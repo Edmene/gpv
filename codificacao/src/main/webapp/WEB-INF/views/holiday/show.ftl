@@ -10,4 +10,4 @@
 
 <h2>Feriado: "${holiday.name}"</h2>
 
-<strong>Data:</strong> ${holiday.date}
+<strong>Data:</strong> ${holiday.day}/${holiday.month}
