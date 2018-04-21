@@ -13,6 +13,7 @@
 <table id="table">
     <tr>
         <td>Destino</td>
+        <td>Remover</td>
     </tr>
 </table>
 
@@ -23,24 +24,36 @@
 </@form>
 
 <script>
-    var select = document.getElementById("select_destination")
+    let select = document.getElementById("select_destination")
 
     function addTable() {
         //a.value;
-        var table = document.getElementById("table");
-        var row = document.createElement("tr");
-        var input = document.getElementById("destination");
-        var lastPosition = input.value.length;
+        let table = document.getElementById("table");
+        let row = document.createElement("tr");
+        let input = document.getElementById("destination");
+        let lastPosition = input.value.length;
 
-        var inputContent = input.value.split(",");
-        
+        let inputContent = input.value.split(",");
+
         function checkValuePresence(value) {
             return value.toString() === select.value.toString();
         }
 
         function addValues() {
-            row.innerHTML = select.options[select.selectedIndex].text;
-            row.className = "tr_destination"
+            let column = document.createElement("td");
+            let columnDelete = document.createElement("td");
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Deletar"
+
+            columnDelete.appendChild(deleteButton);
+
+            column.innerText = select.options[select.selectedIndex].text;
+            row.appendChild(column);
+            row.appendChild(columnDelete);
+            row.id = select.value.toString();
+            row.className = "tr_destination";
+            //deleteButton.addEventListener("onclick(removeLine("+row.id+"));
+            deleteButton.onclick = function() { removeLine(row.id) };
             table.appendChild(row);
 
             if (input[lastPosition - 1] !== "," && lastPosition != 0) {
@@ -59,6 +72,34 @@
                 addValues();
             }
         }
+    }
+
+    function removeLine(lineId){
+
+        let input = document.getElementById("destination");
+        let inputContent = input.value.split(",");
+
+        function checkValuePresence(value) {
+            return value.toString() === lineId.toString();
+        }
+
+        let row = document.getElementById(lineId.toString());
+
+        for (let i = 0;i < inputContent.length; i++) {
+            if(inputContent[i].toString() === lineId.toString()){
+                inputContent[i] = "";
+            }
+        }
+
+        let newValues = "";
+        for (let i = 0;i < inputContent.length; i++) {
+            if(inputContent[i] !== ""){
+                newValues += inputContent[i]+",";
+            }
+        }
+        input.value = newValues;
+        row.parentElement.removeChild(row);
+
     }
 
     $(document).ready(function () {

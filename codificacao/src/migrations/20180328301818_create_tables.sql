@@ -71,8 +71,14 @@ CREATE TABLE plans(
   ticket_price FLOAT CHECK (ticket_price > 0 AND availability_condition IN ('A','P')
   OR ticket_price = 0 AND availability_condition = 'M'),
   daily_value FLOAT CHECK (daily_value > 0 AND availability_condition IN ('A','M')
-  OR ticket_price = 0 AND availability_condition = 'P') NOT NULL,
+  OR daily_value = 0 AND availability_condition = 'P') NOT NULL,
   available_reservations SMALLINT NOT NULL CHECK (plans.available_reservations > 0)
+);
+
+CREATE TABLE stops(
+  id SERIAL NOT NULL PRIMARY KEY,
+  time TIME NOT NULL,
+  address_id INT NOT NULL REFERENCES addresses
 );
 
 CREATE TABLE availabilities(
@@ -83,12 +89,6 @@ CREATE TABLE availabilities(
   vehicle_id INT NOT NULL REFERENCES vehicles,
   stop_id INT NOT NULL REFERENCES stops,
   PRIMARY KEY (day, shift, plan_id, driver_id, vehicle_id, stop_id)
-);
-
-CREATE TABLE stops(
-  id SERIAL NOT NULL PRIMARY KEY,
-  time TIME NOT NULL,
-  address_id INT NOT NULL REFERENCES addresses
 );
 
 CREATE TABLE reservations(

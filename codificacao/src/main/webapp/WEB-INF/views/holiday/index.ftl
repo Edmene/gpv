@@ -22,7 +22,6 @@
         <td>
             ${holiday.day}</td>
         <td>
-        <td>
             ${holiday.month}</td>
         <td>
             <@form  id=holiday.id action="delete" method="delete" html_id=holiday.id>

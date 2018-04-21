@@ -19,31 +19,21 @@
         </tr>
         <tr>
             <td>Preco da passagem:</td>
-            <td><input type="text" name="ticket_price" value="
-            <#if (flasher.params.ticket_price)! > 0
-                ${(flasher.params.ticket_price)!}
-            <#else>
-                0
-            </#if>
-            ">
+            <td><input type="text" name="ticket_price" value="<#if ((flasher.params.ticket_price)??)>${(flasher.params.ticket_price)!}
+            <#else>0</#if>">
                 <span class="error">${(flasher.errors.ticket_price)!}</span>
             </td>
         </tr>
         <tr>
             <td>Valor diario:</td>
-            <td><input type="text" name="daily_value" value="
-            <#if (flasher.params.daily_value)! > 0
-                ${(flasher.params.daily_value)!}
-            <#else>
-                0
-            </#if>
-            "> *
+            <td><input type="text" name="daily_value" value="<#if ((flasher.params.daily_value)??)>${(flasher.params.daily_value)!}
+            <#else>0</#if>">
                 <span class="error">${(flasher.errors.daily_value)!}</span>
             </td>
         </tr>
         <tr>
             <td>Numero de vagas:</td>
-            <td><input type="text" name="available_reservations" value="${(flasher.params.available_reservations)!}"> *
+            <td><input type="text" name="available_reservations" required="required" value="${(flasher.params.available_reservations)!}"> *
                 <span class="error">${(flasher.errors.available_reservations)!}</span>
             </td>
         </tr>
