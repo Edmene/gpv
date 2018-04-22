@@ -8,7 +8,7 @@
     <table style="margin:30px">
         <tr>
             <td>Nome de Usuario:</td>
-            <td><input type="text" name="user_name" value="${(passenger.user_name)!}"> *
+            <td><input type="text" name="user_name" value="${(user.name)!}"> *
                             <span class="error">${(flasher.errors.user_name)!}</span>
             </td>
         </tr>
@@ -51,7 +51,7 @@
         <tr>
             <td>Data de nascimento</td>
             <td>
-                <input type="date" name="birth_date" value="${(passenger.birth_date)!}"> *
+                <input type="date" name="birth_date" value="${(birth)!}"> *
                 <span class="error">${(flasher.errors.birth_date)!}</span>
             </td>
         </tr>
@@ -71,11 +71,10 @@
         </tr>
         <tr>
             <td><input type="hidden" name="id" value="${passenger.user_id}"</td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo usuario"></td>
+            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Alterar usuario"></td>
 
         </tr>
     </table>
 </@form>
-
 
 

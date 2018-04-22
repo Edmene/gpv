@@ -79,8 +79,10 @@ public class PassengerController extends AppController {
     @PUT
     public void alterForm(){
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
+        User user = User.findById(Integer.parseInt(getId()));
+        Date date = passenger.getDate("birth_date");
         if(passenger != null){
-            view("passenger", passenger);
+            view("passenger", passenger, "user", user, "birth", date.toString());
         }else{
             view("message", "are you trying to hack the URL?");
             render("/system/404");

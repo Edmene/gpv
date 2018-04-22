@@ -18,9 +18,9 @@
                 <select name="address_id">
                 <#list addresses as address>
                     <#if destination.address_id == address.id>
-                    <option value="${address.id}" selected="selected">${address.acronym}</option>
+                    <option value="${address.id}" selected="selected">${address.name}</option>
                     <#else>
-                    <option value="${address.id}">${address.acronym}</option>
+                    <option value="${address.id}">${address.name}</option>
                     </#if>
                 </#list>
                 </select> *<span class="error">${(flasher.errors.address_id)!}</span>
