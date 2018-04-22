@@ -13,6 +13,7 @@
         <td>Dia</td>
         <td>Mes</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list holidays as holiday>
     <tr>
@@ -23,6 +24,11 @@
             ${holiday.day}</td>
         <td>
             ${holiday.month}</td>
+        <td>
+            <@form  id=holiday.id action="alter_form" method="put" html_id=holiday.id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=holiday.id action="delete" method="delete" html_id=holiday.id>
                 <button type="submit">delete</button>

@@ -12,6 +12,7 @@
         <td>Nome</td>
         <td>Endereco</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list destinations as destination>
     <tr>
@@ -20,6 +21,11 @@
         </td>
         <td>
             ${destination.address_id}</td>
+        <td>
+            <@form  id=destination.id action="alter_form" method="put" html_id=destination.id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=destination.id action="delete" method="delete" html_id=destination.id >
                 <button type="submit">delete</button>

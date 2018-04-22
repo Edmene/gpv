@@ -16,8 +16,6 @@ limitations under the License.
 package app.config;
 
 import app.controllers.*;
-import app.models.Destination;
-import app.models.Passenger;
 import org.javalite.activeweb.AbstractControllerConfig;
 import org.javalite.activeweb.AppContext;
 import org.javalite.activeweb.controller_filters.DBConnectionFilter;

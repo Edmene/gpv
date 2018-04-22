@@ -4,7 +4,7 @@
 <h2>Alterando estado ${state.name}</h2>
 
 
-<@form action="update" method="post">
+<@form action="update" method="post" name="update">
     <table style="margin:30px">
         <tr>
             <td>Nome:</td>

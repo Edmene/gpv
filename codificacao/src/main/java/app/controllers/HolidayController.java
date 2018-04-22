@@ -4,6 +4,7 @@ import app.models.Holiday;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 import java.text.ParseException;
 
@@ -51,4 +52,30 @@ public class HolidayController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
+        if(holiday != null){
+            view("holiday", holiday);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        Holiday holiday = new Holiday();
+        holiday.fromMap(params1st());
+        holiday.set("id", Integer.parseInt(param("id")));
+        if(!holiday.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(HolidayController.class);
+        }
+        else{
+            flash("message", "Destino alterado " + holiday.get("name"));
+            redirect(HolidayController.class);
+        }
+    }
 }

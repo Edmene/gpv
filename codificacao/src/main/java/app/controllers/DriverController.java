@@ -4,6 +4,7 @@ import app.models.Driver;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class DriverController extends AppController {
     public void index(){
@@ -50,4 +51,30 @@ public class DriverController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        Driver driver = Driver.findById(Integer.parseInt(getId()));
+        if(driver != null){
+            view("driver", driver);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        Driver driver = new Driver();
+        driver.fromMap(params1st());
+        driver.set("id", Integer.parseInt(param("id")));
+        if(!driver.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(DriverController.class);
+        }
+        else{
+            flash("message", "Motorista alterado " + driver.get("name") + " " + driver.get("surname"));
+            redirect(DriverController.class);
+        }
+    }
 }

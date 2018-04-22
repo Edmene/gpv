@@ -14,6 +14,7 @@
         <td>RG</td>
         <td>CNH</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list drivers as driver>
     <tr>
@@ -26,6 +27,11 @@
             ${driver.rg}</td>
         <td>
             ${driver.cnh}</td>
+        <td>
+            <@form  id=driver.id action="alter_form" method="put" html_id=driver.id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=driver.id action="delete" method="delete" html_id=driver.id>
                 <button type="submit">delete</button>

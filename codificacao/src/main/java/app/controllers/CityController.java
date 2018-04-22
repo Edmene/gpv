@@ -5,6 +5,7 @@ import app.models.State;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class CityController extends AppController {
     public void index(){
@@ -29,6 +30,33 @@ public class CityController extends AppController {
 
     public void newForm(){
         view("states", State.findAll().toMaps());
+    }
+
+    @PUT
+    public void alterForm(){
+        City city = City.findById(Integer.parseInt(getId()));
+        if(city != null){
+            view("city", city, "states", State.findAll().toMaps());
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        City city = new City();
+        city.fromMap(params1st());
+        city.setInteger("state_id", Integer.parseInt(param("state_id")));
+        city.set("id", Integer.parseInt(param("id")));
+        if(!city.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(CityController.class);
+        }
+        else{
+            flash("message", "Cidade alterada " + city.get("name"));
+            redirect(CityController.class);
+        }
     }
 
     @DELETE

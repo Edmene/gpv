@@ -5,6 +5,7 @@ import app.models.Address;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class AddressController extends AppController {
     public void index(){
@@ -29,6 +30,33 @@ public class AddressController extends AppController {
 
     public void newForm(){
         view("cities", City.findAll().toMaps());
+    }
+
+    @PUT
+    public void alterForm(){
+        Address address = Address.findById(Integer.parseInt(getId()));
+        if(address != null){
+            view("address", address, "cities", City.findAll().toMaps());
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        Address address = new Address();
+        address.fromMap(params1st());
+        address.setInteger("city_id", Integer.parseInt(param("city_id")));
+        address.set("id", Integer.parseInt(param("id")));
+        if(!address.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(AddressController.class);
+        }
+        else{
+            flash("message", "Endereco alterado " + address.get("name"));
+            redirect(AddressController.class);
+        }
     }
 
     @DELETE

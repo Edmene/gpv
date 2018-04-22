@@ -12,6 +12,7 @@
         <td>Nome</td>
         <td>Estado</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list cities as city>
     <tr>
@@ -20,6 +21,11 @@
         </td>
         <td>
             ${city.state_id}</td>
+        <td>
+            <@form  id=city.id action="alter_form" method="put" html_id=city.id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=city.id action="delete" method="delete" html_id=city.id >
                 <button type="submit">delete</button>

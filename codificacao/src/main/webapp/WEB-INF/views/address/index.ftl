@@ -13,6 +13,7 @@
         <td>Extra</td>
         <td>Cidade</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list addresses as address>
     <tr>
@@ -20,11 +21,15 @@
             <@link_to action="show" id=address.id>${address.name}</@link_to>
         </td>
         <td>
-            <#if address.extra??>${address.extra}<#else>sem complemento
-            </#if>
+            <#if address.extra??>${address.extra}<#else>sem complemento</#if>
         </td>
         <td>
             ${address.city_id}</td>
+        <td>
+            <@form  id=address.id action="alter_form" method="put" html_id=address.id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=address.id action="delete" method="delete" html_id=address.id >
                 <button type="submit">delete</button>

@@ -14,6 +14,7 @@
         <td>Ano</td>
         <td>Modelo</td>
         <td>Edit</td>
+        <td>Deletar</td>
     </tr>
 <#list vehicles as vehicle>
     <tr>
@@ -26,6 +27,11 @@
             ${vehicle.model}</td>
         <td>
             ${vehicle.year}</td>
+        <td>
+            <@form  id=vehicle.id action="alter_form" method="put" html_id=vehicle.id>
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=vehicle.id action="delete" method="delete" html_id=vehicle.id>
                 <button type="submit">delete</button>

@@ -5,6 +5,7 @@ import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class VehicleController extends AppController {
     public void index(){
@@ -55,4 +56,30 @@ public class VehicleController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
+        if(vehicle != null){
+            view("vehicle", vehicle);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        Vehicle vehicle = new Vehicle();
+        vehicle.fromMap(params1st());
+        vehicle.set("id", Integer.parseInt(param("id")));
+        if(!vehicle.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(VehicleController.class);
+        }
+        else{
+            flash("message", "Veiculo alterado " + vehicle.get("placa"));
+            redirect(VehicleController.class);
+        }
+    }
 }
