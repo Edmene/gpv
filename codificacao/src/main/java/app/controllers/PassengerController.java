@@ -7,6 +7,7 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,4 +75,42 @@ public class PassengerController extends AppController {
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
+        if(passenger != null){
+            view("passenger", passenger);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update() throws ParseException{
+        User user = new User();
+        user.fromMap(params1st());
+        user.set("name", param("user_name"));
+        user.set("id", Integer.parseInt(param("id")));
+        if(!user.save()){
+            flash("message", "Something went wrong, please  fill out all fields");
+            redirect(PassengerController.class);
+        }
+        else {
+            Passenger passenger = new Passenger();
+            passenger.fromMap(params1st());
+            passenger.set("user_id", Integer.parseInt(param("id")));
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(param("birth_date"));
+            passenger.setDate("birth_date", date);
+            if (!passenger.save()) {
+                flash("message", "Something went wrong, please  fill out all fields ");
+                redirect(PassengerController.class);
+            }
+            else {
+                flash("message", "Passageiro Alterado: " + passenger.get("name"));
+                redirect(PassengerController.class);
+            }
+        }
+    }
 }

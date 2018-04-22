@@ -3,7 +3,7 @@
 
 
 
-<@link_to>Back to all books</@link_to>
+<@link_to>Listagem de usuarios</@link_to>
 
 
 

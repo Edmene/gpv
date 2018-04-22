@@ -72,6 +72,51 @@ public class PlanController extends AppController {
     public void newForm(){}
 
     @PUT
+    public void alterForm(){
+        Plan plan = Plan.findById(Integer.parseInt(getId()));
+        if(plan != null){
+            view("plan", plan);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        Plan plan = new Plan();
+        plan.fromMap(params1st());
+        plan.set("id", Integer.parseInt(param("id")));
+        String ticketPrice = param("ticket_price");
+        String dailyValue = param("daily_value");
+        if(ticketPrice.trim().length() == 0){
+            ticketPrice = "0";
+        }
+        if(dailyValue.trim().length() == 0){
+            dailyValue = "0";
+        }
+        plan.set("ticket_price", Float.parseFloat(ticketPrice));
+        plan.set("daily_value", Float.parseFloat(dailyValue));
+        if(param("available_reservations").length() <= 0){
+            flash("message", "Preencha o campo numero de reservas");
+            redirect(PlanController.class);
+        }
+        else {
+            plan.set("available_reservations", Short.parseShort(param("available_reservations")));
+            if (!plan.save()) {
+                flash("message", "Something went wrong, please fill out all fields");
+                redirect(PlanController.class);
+            } else {
+                flash("message", "Plano Alterado");
+                redirect(PlanController.class);
+            }
+        }
+    }
+
+    //DestinationPlan Model related methods
+
+
+    @PUT
     public void addDestination(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
@@ -122,4 +167,5 @@ public class PlanController extends AppController {
         }
         redirect(PlanController.class);
     }
+
 }

@@ -15,6 +15,7 @@
         <td>Numero de vagas</td>
         <td>Destinos</td>
         <td>Remover Destinos</td>
+        <td>Alterar</td>
         <td>Deletar</td>
     </tr>
 <#list plans as plan>
@@ -36,6 +37,11 @@
         <td>
             <@form id=plan.id action="rm_destination" method="put" html_id=plan.id>
                 <button type="submit">Remover Destinos</button>
+            </@form>
+        </td>
+        <td>
+            <@form  id=plan.id action="alter_form" method="put" html_id=plan.id >
+                <button type="submit">alterar</button>
             </@form>
         </td>
         <td>

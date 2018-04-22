@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td>Numero de vagas:</td>
-            <td><input type="text" name="available_reservations" required="required" value="${(flasher.params.available_reservations)!}"> *
+            <td><input type="number" name="available_reservations" required="required" value="${(flasher.params.available_reservations)!}"> *
                 <span class="error">${(flasher.errors.available_reservations)!}</span>
             </td>
         </tr>

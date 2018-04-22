@@ -17,6 +17,7 @@
         <td>Telefone</td>
         <td>Email</td>
         <td>Editar</td>
+        <td>Deletar</td>
     </tr>
 <#list passengers as passenger>
     <tr>
@@ -35,6 +36,11 @@
             ${passenger.telephone}</td>
         <td>
             ${passenger.email}</td>
+        <td>
+            <@form  id=passenger.user_id action="alter_form" method="put" html_id=passenger.user_id >
+                <button type="submit">alterar</button>
+            </@form>
+        </td>
         <td>
             <@form  id=passenger.user_id action="delete" method="delete" html_id=passenger.user_id >
                 <button type="submit">Excluir</button>

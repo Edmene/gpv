@@ -20,6 +20,7 @@ import app.models.User;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 public class UserController extends AppController {
 
@@ -57,7 +58,7 @@ public class UserController extends AppController {
             flash("params", params1st());
             redirect(UserController.class, "new_form");
         }else{
-            flash("message", "New book was added: " + user.get("name"));
+            flash("message", "Novo usuario foi adicionado: " + user.get("name"));
             redirect(UserController.class);
         }
     }
@@ -68,9 +69,35 @@ public class UserController extends AppController {
         User u = User.findById(Integer.parseInt(getId()));
         String nome = u.getString("name");
         u.delete();
-        flash("message", "User: '" + nome + "' was deleted");
+        flash("message", "User: '" + nome + "' foi deletado");
         redirect(UserController.class);
     }
 
     public void newForm(){}
+
+    @PUT
+    public void alterForm(){
+        User user = User.findById(Integer.parseInt(getId()));
+        if(user != null){
+            view("user", user);
+        }else{
+            view("message", "are you trying to hack the URL?");
+            render("/system/404");
+        }
+    }
+
+    @POST
+    public void update(){
+        User user = new User();
+        user.fromMap(params1st());
+        user.set("id", Integer.parseInt(param("id")));
+        if(!user.save()){
+            flash("message", "Something went wrong, please restart the process");
+            redirect(UserController.class);
+        }
+        else{
+            flash("message", "Usuario alterado " + user.get("name"));
+            redirect(UserController.class);
+        }
+    }
 }
