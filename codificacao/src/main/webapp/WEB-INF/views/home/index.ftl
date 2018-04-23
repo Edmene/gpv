@@ -12,7 +12,8 @@
     <li><@link_to controller="vehicle">Veiculo</@link_to></li>
     <li><@link_to controller="destination">Destino</@link_to></li>
     <li><@link_to controller="passenger">Cadastro de cliente</@link_to></li>
-    <li><@link_to controller="plan">Cadastro de planos</@link_to></li>
+    <li><@link_to controller="plan">Planos</@link_to></li>
+    <li><@link_to controller="stop">Paradas</@link_to></li>
     <li><a href="user.xml" >Books XML Service example<a></li>
     <li><a href="user.json" >Books JSON Service example<a></li>
     <li><@link_to controller="greeting">Dependency injection example</@link_to></li>
