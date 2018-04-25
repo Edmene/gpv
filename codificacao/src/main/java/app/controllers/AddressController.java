@@ -1,18 +1,19 @@
 package app.controllers;
 
-import app.models.City;
 import app.models.Address;
-import org.javalite.activeweb.AppController;
+import app.models.City;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class AddressController extends AppController {
+public class AddressController extends GenericAppController {
+
+    @Override
     public void index(){
         view("addresses", Address.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Address address = new Address();
         address.fromMap(params1st());
@@ -28,11 +29,12 @@ public class AddressController extends AppController {
         }
     }
 
+    @Override
     public void newForm(){
         view("cities", City.findAll().toMaps());
     }
 
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Address address = Address.findById(Integer.parseInt(getId()));
         if(address != null){
@@ -43,7 +45,7 @@ public class AddressController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Address address = new Address();
         address.fromMap(params1st());
@@ -59,7 +61,7 @@ public class AddressController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Address address = Address.findById(Integer.parseInt(getId()));
@@ -72,6 +74,7 @@ public class AddressController extends AppController {
         redirect(AddressController.class);
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Address address = Address.findById(Integer.parseInt(getId()));

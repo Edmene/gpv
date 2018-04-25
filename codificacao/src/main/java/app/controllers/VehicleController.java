@@ -2,17 +2,18 @@ package app.controllers;
 
 import app.models.Vehicle;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class VehicleController extends AppController {
+public class VehicleController extends GenericAppController {
+
+    @Override
     public void index(){
         view("vehicles", Vehicle.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());
@@ -31,6 +32,7 @@ public class VehicleController extends AppController {
         }
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
@@ -42,7 +44,7 @@ public class VehicleController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
@@ -55,9 +57,7 @@ public class VehicleController extends AppController {
         redirect(VehicleController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         if(vehicle != null){
@@ -68,7 +68,7 @@ public class VehicleController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());

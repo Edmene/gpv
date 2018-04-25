@@ -2,19 +2,20 @@ package app.controllers;
 
 import app.models.Address;
 import app.models.Stop;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
 import java.sql.Time;
 
-public class StopController extends AppController {
+public class StopController extends GenericAppController{
+
+    @Override
     public void index(){
         view("stops", Stop.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Stop stop = new Stop();
         stop.fromMap(params1st());
@@ -31,11 +32,12 @@ public class StopController extends AppController {
         }
     }
 
+    @Override
     public void newForm(){
         view("addresses", Address.findAll().toMaps());
     }
 
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Stop stop = Stop.findById(Integer.parseInt(getId()));
         if(stop != null){
@@ -46,7 +48,7 @@ public class StopController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Stop stop = new Stop();
         stop.fromMap(params1st());
@@ -63,7 +65,7 @@ public class StopController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Stop stop = Stop.findById(Integer.parseInt(getId()));
@@ -76,6 +78,7 @@ public class StopController extends AppController {
         redirect(StopController.class);
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Stop stop = Stop.findById(Integer.parseInt(getId()));

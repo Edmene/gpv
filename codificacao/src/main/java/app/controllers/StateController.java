@@ -1,17 +1,18 @@
 package app.controllers;
 
 import app.models.State;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class StateController extends AppController {
+public class StateController extends GenericAppController {
+
+    @Override
     public void index(){
         view("states", State.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         State state = new State();
         state.fromMap(params1st());
@@ -26,9 +27,7 @@ public class StateController extends AppController {
         }
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         State state = State.findById(Integer.parseInt(getId()));
         if(state != null){
@@ -39,7 +38,7 @@ public class StateController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         State state = new State();
         state.fromMap(params1st());
@@ -54,7 +53,7 @@ public class StateController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         State state = State.findById(Integer.parseInt(getId()));
@@ -67,6 +66,7 @@ public class StateController extends AppController {
         redirect(StateController.class);
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         State state = State.findById(Integer.parseInt(getId()));

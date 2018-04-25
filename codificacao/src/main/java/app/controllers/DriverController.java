@@ -1,17 +1,18 @@
 package app.controllers;
 
 import app.models.Driver;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class DriverController extends AppController {
+public class DriverController extends GenericAppController {
+
+    @Override
     public void index(){
         view("drivers", Driver.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Driver driver = new Driver();
         driver.fromMap(params1st());
@@ -26,6 +27,7 @@ public class DriverController extends AppController {
         }
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Driver m = Driver.findById(Integer.parseInt(getId()));
@@ -37,7 +39,7 @@ public class DriverController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Driver m = Driver.findById(Integer.parseInt(getId()));
@@ -50,9 +52,7 @@ public class DriverController extends AppController {
         redirect(DriverController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Driver driver = Driver.findById(Integer.parseInt(getId()));
         if(driver != null){
@@ -63,7 +63,7 @@ public class DriverController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Driver driver = new Driver();
         driver.fromMap(params1st());

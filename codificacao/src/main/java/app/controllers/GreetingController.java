@@ -16,9 +16,9 @@ limitations under the License.
 
 package app.controllers;
 
-import org.javalite.activeweb.AppController;
 import app.services.Greeter;
 import com.google.inject.Inject;
+import org.javalite.activeweb.AppController;
 
 /**
  * @author Igor Polevoy

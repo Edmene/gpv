@@ -17,13 +17,13 @@ limitations under the License.
 package app.controllers;
 
 import app.models.User;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class UserController extends AppController {
+    public class UserController extends GenericAppController {
 
+    @Override
     public void index(){
 
         if("xml".equals(format())){
@@ -37,6 +37,7 @@ public class UserController extends AppController {
         view("users", User.findAll().toMaps());
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         User u = User.findById(Integer.parseInt(getId()));
@@ -48,7 +49,7 @@ public class UserController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void create(){
         User user = new User();
         user.fromMap(params1st());
@@ -63,7 +64,7 @@ public class UserController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         User u = User.findById(Integer.parseInt(getId()));
@@ -73,9 +74,7 @@ public class UserController extends AppController {
         redirect(UserController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         User user = User.findById(Integer.parseInt(getId()));
         if(user != null){
@@ -86,7 +85,7 @@ public class UserController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         User user = new User();
         user.fromMap(params1st());

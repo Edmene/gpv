@@ -1,20 +1,19 @@
 package app.controllers;
 
 import app.models.Holiday;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-import java.text.ParseException;
+public class HolidayController extends GenericAppController {
 
-public class HolidayController extends AppController {
+    @Override
     public void index(){
         view("holidays", Holiday.findAll().toMaps());
     }
 
-    @POST
-    public void create() throws ParseException {
+    @Override @POST
+    public void create(){
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());
         holiday.setShort("day", Short.parseShort(param("day")));
@@ -30,6 +29,7 @@ public class HolidayController extends AppController {
         }
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
@@ -41,7 +41,7 @@ public class HolidayController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
@@ -51,9 +51,7 @@ public class HolidayController extends AppController {
         redirect(HolidayController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
         if(holiday != null){
@@ -64,7 +62,7 @@ public class HolidayController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());

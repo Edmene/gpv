@@ -4,7 +4,6 @@ import app.models.Destination;
 import app.models.DestinationPlan;
 import app.models.Plan;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -12,11 +11,14 @@ import org.javalite.activeweb.annotations.PUT;
 import java.util.Arrays;
 import java.util.List;
 
-public class PlanController extends AppController {
+public class PlanController extends GenericAppController {
+
+    @Override
     public void index(){
         view("plans", Plan.findAll().toMaps());
     }
 
+    @Override
     public void show(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
@@ -27,7 +29,7 @@ public class PlanController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Plan plan = new Plan();
         plan.fromMap(params1st());
@@ -61,7 +63,7 @@ public class PlanController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         plan.delete();
@@ -69,9 +71,7 @@ public class PlanController extends AppController {
         redirect(PlanController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
@@ -82,7 +82,7 @@ public class PlanController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Plan plan = new Plan();
         plan.fromMap(params1st());

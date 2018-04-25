@@ -2,17 +2,18 @@ package app.controllers;
 
 import app.models.City;
 import app.models.State;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class CityController extends AppController {
+public class CityController extends GenericAppController {
+
+    @Override
     public void index(){
         view("cities", City.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         City city = new City();
         city.fromMap(params1st());
@@ -28,11 +29,12 @@ public class CityController extends AppController {
         }
     }
 
+    @Override
     public void newForm(){
         view("states", State.findAll().toMaps());
     }
 
-    @PUT
+    @Override @PUT
     public void alterForm(){
         City city = City.findById(Integer.parseInt(getId()));
         if(city != null){
@@ -43,7 +45,7 @@ public class CityController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         City city = new City();
         city.fromMap(params1st());
@@ -59,7 +61,7 @@ public class CityController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         City city = City.findById(Integer.parseInt(getId()));
@@ -72,6 +74,7 @@ public class CityController extends AppController {
         redirect(CityController.class);
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         City city = City.findById(Integer.parseInt(getId()));

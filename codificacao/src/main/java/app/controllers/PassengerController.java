@@ -4,21 +4,21 @@ import app.models.Passenger;
 import app.models.User;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class PassengerController extends AppController {
+public class PassengerController extends GenericAppController {
 
+    @Override
     public void index(){
         view("passengers", Passenger.findAll().toMaps());
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
@@ -30,8 +30,8 @@ public class PassengerController extends AppController {
         }
     }
 
-    @POST
-    public void create() throws ParseException {
+    @Override @POST
+    public void create() throws Exception{
         User user = new User();
         user.fromMap(params1st());
         user.set("name", param("user_name"));
@@ -64,7 +64,7 @@ public class PassengerController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
@@ -74,9 +74,7 @@ public class PassengerController extends AppController {
         redirect(PassengerController.class);
     }
 
-    public void newForm(){}
-
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
         User user = User.findById(Integer.parseInt(getId()));
@@ -89,8 +87,8 @@ public class PassengerController extends AppController {
         }
     }
 
-    @POST
-    public void update() throws ParseException{
+    @Override @POST
+    public void update() throws Exception{
         User user = new User();
         user.fromMap(params1st());
         user.set("name", param("user_name"));

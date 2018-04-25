@@ -2,17 +2,18 @@ package app.controllers;
 
 import app.models.Address;
 import app.models.Destination;
-import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-public class DestinationController extends AppController {
+public class DestinationController extends GenericAppController {
+
+    @Override
     public void index(){
         view("destinations", Destination.findAll().toMaps());
     }
 
-    @POST
+    @Override @POST
     public void create(){
         Destination destination = new Destination();
         destination.fromMap(params1st());
@@ -28,11 +29,12 @@ public class DestinationController extends AppController {
         }
     }
 
+    @Override
     public void newForm(){
         view("addresses", Address.findAll().toMaps());
     }
 
-    @PUT
+    @Override @PUT
     public void alterForm(){
         Destination destination = Destination.findById(Integer.parseInt(getId()));
         if(destination != null){
@@ -43,7 +45,7 @@ public class DestinationController extends AppController {
         }
     }
 
-    @POST
+    @Override @POST
     public void update(){
         Destination destination = new Destination();
         destination.fromMap(params1st());
@@ -59,7 +61,7 @@ public class DestinationController extends AppController {
         }
     }
 
-    @DELETE
+    @Override @DELETE
     public void delete(){
 
         Destination destination = Destination.findById(Integer.parseInt(getId()));
@@ -72,6 +74,7 @@ public class DestinationController extends AppController {
         redirect(DestinationController.class);
     }
 
+    @Override
     public void show(){
         //this is to protect from URL hacking
         Destination destination = Destination.findById(Integer.parseInt(getId()));
