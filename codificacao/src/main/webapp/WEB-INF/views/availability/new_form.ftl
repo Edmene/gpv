@@ -2,13 +2,13 @@
 
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
-
+<script src="${context_path}/js/formTurns.js" type="text/javascript"></script>
 
 <@form action="create" method="post">
-    Manha<input id="M" type="checkbox">
-    Tarde<input id="T" type="checkbox">
-    Noite<input id="N" type="checkbox">
-    <table style="margin:30px">
+    Manha<input id="M" type="checkbox" onclick="checkTurns()">
+    Tarde<input id="T" type="checkbox" onclick="checkTurns()">
+    Noite<input id="N" type="checkbox" onclick="checkTurns()">
+    <table style="margin:30px" >
         <tr>
             <td>Dia:</td>
             <td>
