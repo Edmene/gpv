@@ -7,9 +7,9 @@ import app.models.Driver;
 import app.models.Vehicle;
 
 public class AvailabilityController extends GenericAppController {
-    @Override
-    public void index(){
-        view("availabilities", Availability.find("plan_id",
+
+    public void plan(){
+        view("availabilities", Availability.find("plan_id = ?",
                 Integer.parseInt(getId())).toMaps(), "plan", getId());
     }
 

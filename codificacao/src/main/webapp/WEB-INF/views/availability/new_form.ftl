@@ -5,16 +5,53 @@
 
 
 <@form action="create" method="post">
+    Manha<input id="M" type="checkbox">
+    Tarde<input id="T" type="checkbox">
+    Noite<input id="N" type="checkbox">
     <table style="margin:30px">
         <tr>
-            <td>Nome de Usuario:</td>
-            <td><input type="text" name="user_name" value="${(flasher.params.user_name)!}"> *
-                            <span class="error">${(flasher.errors.user_name)!}</span>
+            <td>Dia:</td>
+            <td>
+                <select name="day">
+                    <#list days as day>
+                        <option value="${day}">${day}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Turno:</td>
+            <td>
+                <select name="shift">
+                    <#list shifts as shift>
+                        <option value="${shift}">${shift}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Motorista:</td>
+            <td>
+                <select name="driver">
+                    <#list drivers as driver>
+                        <option value="${driver.id}">${driver.name + " " + driver.surname}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Veiculo:</td>
+            <td>
+                <select name="vehicle">
+                    <#list vehicles as vehicle>
+                        <option value="${vehicle.id}">${vehicle.license_plate}</option>
+                    </#list>
+                </select>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo usuario"></td>
+            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Proximo Passo"></td>
 
         </tr>
     </table>
