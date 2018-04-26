@@ -4,10 +4,7 @@
 <h2>Adicionando nova disponibilidade</h2>
 <script src="${context_path}/js/formTurns.js" type="text/javascript"></script>
 
-<@form action="create" method="post">
-    Manha<input id="M" type="checkbox" onclick="checkTurns()">
-    Tarde<input id="T" type="checkbox" onclick="checkTurns()">
-    Noite<input id="N" type="checkbox" onclick="checkTurns()">
+<@form action="add_stop" method="post">
     <table style="margin:30px" >
         <tr>
             <td>Dia:</td>
@@ -50,7 +47,7 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td><input type="hidden" value="${plan}" name="plan"></td>
             <td><@link_to>Cancel</@link_to> | <input type="submit" value="Proximo Passo"></td>
 
         </tr>

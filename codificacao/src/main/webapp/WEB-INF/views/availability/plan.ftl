@@ -11,6 +11,7 @@
     <tr>
         <td>Plano</td>
         <td>Dia</td>
+        <td>Turno</td>
         <td>Editar</td>
         <td>Deletar</td>
     </tr>
@@ -21,6 +22,8 @@
         </td>
         <td>
             ${availability.day}</td>
+        <td>
+            ${availability.shift}</td>
         <--TODO a proper alteration of availability and deletion --/>
         <td>
             <@form  id=availability.user_id action="alter_form" method="put" html_id=availability.user_id >
