@@ -14,6 +14,23 @@ function checkTurns(){
     if(nightCheckbox.checked){
 
     }
+
+    function createFormStruct(shift) {
+        let table = document.createElement("table");
+        let trDay = document.createElement("tr");
+        let trShift = document.createElement("tr");
+        let trDriver = document.createElement("tr");
+        let trVehicle = document.createElement("tr");
+        if(shift === "M"){
+
+        }
+        if(shift === "T"){
+
+        }
+        if(shift === "N"){
+
+        }
+    }
 }
 
 function addTable() {
