@@ -12,7 +12,8 @@ public class AvailabilityController extends GenericAppController {
 
     public void plan(){
         view("availabilities", Availability.find("plan_id = ?",
-                Integer.parseInt(getId())).toMaps(), "plan", getId());
+                Integer.parseInt(getId())).toMaps(), "plan", getId(),
+                "days", Day.values(), "shifts", Shift.values());
     }
 
     @POST
@@ -27,11 +28,16 @@ public class AvailabilityController extends GenericAppController {
 
     @POST
     public void addStops(){
-        String[] availabilities = param("items").split(",");
-        for (String availabilityItem : availabilities) {
+        String[] stops = param("items").split(",");
+        for (String stop : stops) {
             Availability availability = new Availability();
-            availability.set("destination_id", Integer.parseInt(availabilityItem),
-                    "plan_id", Integer.parseInt(param("plan")));
+            availability.set(
+                    "day", Day.valueOf(param("day")).ordinal(),
+                    "shift", Shift.valueOf(param("shift")).ordinal(),
+                    "plan_id", Integer.parseInt(param("plan")),
+                    "driver_id", Integer.parseInt(param("driver")),
+                    "vehicle_id", Integer.parseInt(param("vehicle")),
+                    "stop_id", Integer.parseInt(stop));
             availability.insert();
         }
         redirect(PlanController.class);

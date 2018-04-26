@@ -21,10 +21,9 @@
             <@link_to action="show" id=availability.plan_id>${availability.plan_id}</@link_to>
         </td>
         <td>
-            ${availability.day}</td>
+            ${days[availability.day]}</td>
         <td>
-            ${availability.shift}</td>
-        <--TODO a proper alteration of availability and deletion --/>
+            ${shifts[availability.shift]}</td>
         <td>
             <@form  id=availability.user_id action="alter_form" method="put" html_id=availability.user_id >
                 <button type="submit">alterar</button>
@@ -38,6 +37,7 @@
     </tr>
 </#list>
 </table>
+<--TODO a proper alteration of availability and deletion --/>
 
 
 

@@ -24,7 +24,7 @@ import com.google.inject.Guice;
  * @author Igor Polevoy
  */
 public class AppBootstrap extends Bootstrap {
-    public void init(AppContext context) {        
+    public void init(AppContext context) {
         setInjector(Guice.createInjector(new GreeterModule()));
     }
 }

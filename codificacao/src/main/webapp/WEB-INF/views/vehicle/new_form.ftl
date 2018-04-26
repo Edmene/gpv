@@ -14,7 +14,8 @@
         </tr>
         <tr>
             <td>Capacidade:</td>
-            <td><input type="text" name="capacity" value="${(flasher.params.capacity)!}"> *
+            <td><input type="number" name="capacity"
+                       min="1" max="80" value="${(flasher.params.capacity)!}"> *
                 <span class="error">${(flasher.errors.capacity)!}</span>
             </td>
         </tr>
@@ -26,7 +27,8 @@
         </tr>
         <tr>
             <td>Ano:</td>
-            <td><input type="text" name="year" value="${(flasher.params.year)!}"> *
+            <td><input type="number" name="year"
+                       min="1" max="80" value="${(flasher.params.year)!}"> *
                 <span class="error">${(flasher.errors.year)!}</span>
             </td>
         </tr>
