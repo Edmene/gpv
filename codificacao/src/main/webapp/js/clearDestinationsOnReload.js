@@ -4,6 +4,6 @@ $(document).ready(function () {
 });
 
 function resetForms() {
-    var input = document.getElementById("destination");
+    var input = document.getElementById("item");
     input.value = "";
 }

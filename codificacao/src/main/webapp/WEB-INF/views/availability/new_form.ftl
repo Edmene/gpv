@@ -2,7 +2,6 @@
 
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
-<script src="${context_path}/js/formTurns.js" type="text/javascript"></script>
 
 <@form action="add_stop" method="post">
     <table style="margin:30px" >

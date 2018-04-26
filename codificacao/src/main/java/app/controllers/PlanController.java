@@ -144,7 +144,7 @@ public class PlanController extends GenericAppController {
 
     @POST
     public void addDestinations(){
-        String[] destinations = param("destinations").split(",");
+        String[] destinations = param("items").split(",");
         for (String destination : destinations) {
             DestinationPlan destinationPlan = new DestinationPlan();
             destinationPlan.set("destination_id", Integer.parseInt(destination),
@@ -158,7 +158,7 @@ public class PlanController extends GenericAppController {
     public void rmDestinations(){
         LazyList destinationsPlan = DestinationPlan.find("plan_id = ?",
                 Integer.parseInt(param("plan")));
-        List destinations = Arrays.asList(param("destinations").split(","));
+        List destinations = Arrays.asList(param("items").split(","));
         for(Object destination : destinationsPlan){
             DestinationPlan destinationPlan = (DestinationPlan) destination;
             if(!destinations.contains(destinationPlan.get("destination_id").toString())){

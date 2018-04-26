@@ -1,10 +1,10 @@
-let select = document.getElementById("select_destination")
+let select = document.getElementById("select_item")
 
 function addTable() {
     //a.value;
     let table = document.getElementById("table");
     let row = document.createElement("tr");
-    let input = document.getElementById("destination");
+    let input = document.getElementById("item");
     let lastPosition = input.value.length;
 
     let inputContent = input.value.split(",");
@@ -50,7 +50,7 @@ function addTable() {
 
 function removeLine(lineId){
 
-    let input = document.getElementById("destination");
+    let input = document.getElementById("item");
     let inputContent = input.value.split(",");
 
     function checkValuePresence(value) {

@@ -1,7 +1,7 @@
 
 <@content for="title">Plano: ${plan.id}</@content>
 
-<select id="select_destination">
+<select id="select_item">
     <#list destinations as destination>
         <option value="${destination.id}" label="${destination.name}">${destination.name}</option>
     </#list>
@@ -18,7 +18,7 @@
 </table>
 
 <@form action="addDestinations" method="post" name="addDestinations">
-    <input id="destination" type="hidden" value="" name="destinations">
+    <input id="item" type="hidden" value="" name="items">
     <input type="hidden" value="${plan.id}" name="plan">
     <input type="submit" value="Confirmar destinos">
 </@form>
