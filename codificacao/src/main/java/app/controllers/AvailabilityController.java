@@ -39,7 +39,7 @@ public class AvailabilityController extends GenericAppController {
             for(Object object : availabilities){
                 Availability availability = (Availability) object;
                 if(availability.getInteger("driver_id") == Integer.parseInt(param("driver")) ||
-                    availability.getInteger("vehicle_id") == Integer.parseInt(param("vehicle_id"))){
+                    availability.getInteger("vehicle_id") == Integer.parseInt(param("vehicle"))){
                     flash("message", "Não é permitido alocar um motorista ou " +
                             "veiculo que conflite com uma disponibilidade existente de outro plano");
                     allowAddition = false;
