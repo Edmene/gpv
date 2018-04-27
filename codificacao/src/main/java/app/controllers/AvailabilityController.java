@@ -60,6 +60,7 @@ public class AvailabilityController extends GenericAppController {
                         "stop_id", Integer.parseInt(stop));
                 availability.insert();
             }
+            flash("message", "Disponibiliade cadastrada");
             redirect(PlanController.class);
         }
     }
