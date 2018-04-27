@@ -28,7 +28,7 @@
         <tr>
             <td>Ano:</td>
             <td><input type="number" name="year"
-                       min="1" max="80" value="${(flasher.params.year)!}"> *
+                       min="1900" max="5000" value="${(flasher.params.year)!}"> *
                 <span class="error">${(flasher.errors.year)!}</span>
             </td>
         </tr>

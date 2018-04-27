@@ -12,7 +12,6 @@
         <td>Plano</td>
         <td>Dia</td>
         <td>Turno</td>
-        <td>Editar</td>
         <td>Deletar</td>
     </tr>
 <#list availabilities as availability>
@@ -25,19 +24,19 @@
         <td>
             ${shifts[availability.shift]}</td>
         <td>
-            <@form  id=availability.user_id action="alter_form" method="put" html_id=availability.user_id >
-                <button type="submit">alterar</button>
-            </@form>
-        </td>
-        <td>
-            <@form  id=availability.user_id action="delete" method="delete" html_id=availability.user_id >
+            <@form action="delete" method="delete">
+                <input hidden name="day" value="${availability.day}">
+                <input hidden name="shift" value="${availability.shift}">
+                <input hidden name="plan_id" value="${availability.plan_id}">
+                <input hidden name="driver_id" value="${availability.driver_id}">
+                <input hidden name="vehicle_id" value="${availability.vehicle_id}">
+                <input hidden name="stop_id" value="${availability.stop_id}">
                 <button type="submit">Excluir</button>
             </@form>
         </td>
     </tr>
 </#list>
 </table>
-<--TODO a proper alteration of availability and deletion --/>
 
 
 

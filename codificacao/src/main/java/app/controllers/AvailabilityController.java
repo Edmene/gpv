@@ -6,6 +6,7 @@ import app.models.Availability;
 import app.models.Driver;
 import app.models.Stop;
 import app.models.Vehicle;
+import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
 public class AvailabilityController extends GenericAppController {
@@ -50,5 +51,21 @@ public class AvailabilityController extends GenericAppController {
                 "plan", getId(),
                 "days", Day.values(),
                 "shifts", Shift.values());
+    }
+
+    @Override @DELETE
+    public void delete() {
+        Availability availability = new Availability();
+        availability.set(
+                "day", Integer.parseInt(param("day")),
+                "shift", Integer.parseInt(param("shift")),
+                "plan_id", Integer.parseInt(param("plan_id")),
+                "driver_id", Integer.parseInt(param("driver_id")),
+                "vehicle_id", Integer.parseInt(param("vehicle_id")),
+                "stop_id", Integer.parseInt(param("stop_id"))
+        );
+        availability.delete();
+        flash("message", "A disponibilidae do plano foi deletada");
+        redirect(PlanController.class);
     }
 }
