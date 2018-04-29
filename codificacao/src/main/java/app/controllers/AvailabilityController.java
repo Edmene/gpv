@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.enums.Day;
+import app.enums.Direction;
 import app.enums.Shift;
 import app.models.Availability;
 import app.models.Driver;
@@ -15,7 +16,8 @@ public class AvailabilityController extends GenericAppController {
     public void plan(){
         view("availabilities", Availability.find("plan_id = ?",
                 Integer.parseInt(getId())).toMaps(), "plan", getId(),
-                "days", Day.values(), "shifts", Shift.values());
+                "days", Day.values(), "shifts", Shift.values(),
+                "directions", Direction.values());
     }
 
     @POST
@@ -25,15 +27,17 @@ public class AvailabilityController extends GenericAppController {
                 "vehicle", param("vehicle"),
                 "driver", param("driver"),
                 "shift", param("shift"),
-                "day", param("day"));
+                "day", param("day"),
+                "direction", param("direction"));
     }
 
     @POST
     public void addStops(){
         LazyList availabilities = Availability.find(
-                "day = ? AND shift = ?",
+                "day = ? AND shift = ? AND direction = ?",
                 Day.valueOf(param("day")).ordinal(),
-                Shift.valueOf(param("shift")).ordinal());
+                Shift.valueOf(param("shift")).ordinal(),
+                Direction.valueOf(param("direction")).ordinal());
         Boolean allowAddition = true;
         if(availabilities.size() != 0){
             for(Object object : availabilities){
@@ -54,6 +58,7 @@ public class AvailabilityController extends GenericAppController {
                 availability.set(
                         "day", Day.valueOf(param("day")).ordinal(),
                         "shift", Shift.valueOf(param("shift")).ordinal(),
+                        "direction", Direction.valueOf(param("direction")).ordinal(),
                         "plan_id", Integer.parseInt(param("plan")),
                         "driver_id", Integer.parseInt(param("driver")),
                         "vehicle_id", Integer.parseInt(param("vehicle")),
@@ -71,7 +76,8 @@ public class AvailabilityController extends GenericAppController {
                 "vehicles", Vehicle.findAll().toMaps(),
                 "plan", getId(),
                 "days", Day.values(),
-                "shifts", Shift.values());
+                "shifts", Shift.values(),
+                "directions", Direction.values());
     }
 
     @Override @DELETE
@@ -80,6 +86,7 @@ public class AvailabilityController extends GenericAppController {
         availability.set(
                 "day", Integer.parseInt(param("day")),
                 "shift", Integer.parseInt(param("shift")),
+                "direction", Integer.parseInt(param("direction")),
                 "plan_id", Integer.parseInt(param("plan_id")),
                 "driver_id", Integer.parseInt(param("driver_id")),
                 "vehicle_id", Integer.parseInt(param("vehicle_id")),

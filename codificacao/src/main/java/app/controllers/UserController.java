@@ -16,12 +16,13 @@ limitations under the License.
 
 package app.controllers;
 
+import app.controllers.authorization.PasswordHashing;
 import app.models.User;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-    public class UserController extends GenericAppController {
+public class UserController extends GenericAppController {
 
     @Override
     public void index(){
@@ -50,9 +51,13 @@ import org.javalite.activeweb.annotations.PUT;
     }
 
     @Override @POST
-    public void create(){
+    public void create() throws Exception {
         User user = new User();
         user.fromMap(params1st());
+
+        PasswordHashing passwordHashing = new PasswordHashing();
+        user.set("extra", passwordHashing.getSalt());
+        user.set("password", passwordHashing.hashPassword(param("password").trim()));
         if(!user.save()){
             flash("message", "Something went wrong, please  fill out all fields");
             flash("errors", user.errors());

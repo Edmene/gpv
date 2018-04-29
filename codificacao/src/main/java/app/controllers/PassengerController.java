@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.authorization.PasswordHashing;
 import app.models.Passenger;
 import app.models.User;
 import org.javalite.activejdbc.LazyList;
@@ -34,6 +35,9 @@ public class PassengerController extends GenericAppController {
     public void create() throws Exception{
         User user = new User();
         user.fromMap(params1st());
+        PasswordHashing passwordHashing = new PasswordHashing();
+        user.set("extra", passwordHashing.getSalt());
+        user.set("password", passwordHashing.hashPassword(param("password").trim()));
         user.set("name", param("user_name"));
         if(!user.save()){
             flash("message", "Something went wrong, please  fill out all fields");

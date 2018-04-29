@@ -12,6 +12,7 @@
         <td>Plano</td>
         <td>Dia</td>
         <td>Turno</td>
+        <td>Sentido</td>
         <td>Deletar</td>
     </tr>
 <#list availabilities as availability>
@@ -24,9 +25,12 @@
         <td>
             ${shifts[availability.shift]}</td>
         <td>
+            ${directions[availability.shift]}</td>
+        <td>
             <@form action="delete" method="delete">
                 <input hidden name="day" value="${availability.day}">
                 <input hidden name="shift" value="${availability.shift}">
+                <input hidden name="direction" value="${availability.direction}">
                 <input hidden name="plan_id" value="${availability.plan_id}">
                 <input hidden name="driver_id" value="${availability.driver_id}">
                 <input hidden name="vehicle_id" value="${availability.vehicle_id}">

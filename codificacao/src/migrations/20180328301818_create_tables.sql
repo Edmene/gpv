@@ -84,11 +84,12 @@ CREATE TABLE stops(
 CREATE TABLE availabilities(
   day INT NOT NULL,
   shift INT NOT NULL,
+  direction INT NOT NULL,
   plan_id INT NOT NULL REFERENCES plans,
   driver_id INT NOT NULL REFERENCES drivers,
   vehicle_id INT NOT NULL REFERENCES vehicles,
   stop_id INT NOT NULL REFERENCES stops,
-  PRIMARY KEY (day, shift, plan_id, driver_id, vehicle_id, stop_id)
+  PRIMARY KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
 );
 
 CREATE TABLE reservations(
@@ -99,12 +100,13 @@ CREATE TABLE reservations(
   passenger_id INT NOT NULL REFERENCES passengers,
   day INT NOT NULL,
   shift INT NOT NULL,
+  direction INT NOT NULL,
   plan_id INT NOT NULL,
   driver_id INT NOT NULL,
   vehicle_id INT NOT NULL,
   stop_id INT NOT NULL,
-  CONSTRAINT availabilities_fk FOREIGN KEY (day, shift, plan_id, driver_id, vehicle_id, stop_id)
-  REFERENCES availabilities(day, shift, plan_id, driver_id, vehicle_id, stop_id)
+  CONSTRAINT availabilities_fk FOREIGN KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
+  REFERENCES availabilities(day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
 );
 
 CREATE TABLE destination_plans (

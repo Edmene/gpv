@@ -1,5 +1,11 @@
 <@content for="title">Simple Web App</@content>
 
+<#if (session.user) ??>
+<p>Logged in as: ${session.user}</p>
+<#else>
+<p>Not logged</p>
+</#if>
+
 <h2>Simple ActiveWeb application</h2>
 
 <ul>
@@ -14,6 +20,7 @@
     <li><@link_to controller="passenger">Cadastro de cliente</@link_to></li>
     <li><@link_to controller="plan">Planos</@link_to></li>
     <li><@link_to controller="stop">Paradas</@link_to></li>
+    <li><@link_to controller="login">Login</@link_to></li>
     <li><a href="user.xml" >Books XML Service example<a></li>
     <li><a href="user.json" >Books JSON Service example<a></li>
     <li><@link_to controller="greeting">Dependency injection example</@link_to></li>

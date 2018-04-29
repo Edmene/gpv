@@ -26,6 +26,16 @@
             </td>
         </tr>
         <tr>
+            <td>Sentido:</td>
+            <td>
+                <select name="direction">
+                    <#list directions as direction>
+                        <option value="${direction}">${direction}</option>
+                    </#list>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td>Motorista:</td>
             <td>
                 <select name="driver">

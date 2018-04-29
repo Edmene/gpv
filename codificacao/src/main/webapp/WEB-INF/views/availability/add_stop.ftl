@@ -22,6 +22,7 @@
     <input type="hidden" value="${plan}" name="plan">
     <input type="hidden" value="${day}" name="day">
     <input type="hidden" value="${shift}" name="shift">
+    <input type="hidden" value="${direction}" name="direction">
     <input type="hidden" value="${driver}" name="driver">
     <input type="hidden" value="${vehicle}" name="vehicle">
     <input type="submit" value="Confirmar paradas">
