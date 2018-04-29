@@ -19,11 +19,12 @@ public class LoginController extends GenericAppController {
         else {
             Base.open("org.postgresql.Driver", "jdbc:postgresql://172.17.0.2:5432/gpv", "postgres", "postgres");
             LazyList<Model> users = User.find("name = ?", param("user"));
-            User user = (User) users.get(0);
             Boolean isInDatabase = false;
 
-            if (user.isValid()) {
-                if (PasswordHashing.checkPasswordHash(param("password").trim(), user)) {
+            if (users.size() > 0) {
+                User user = (User) users.get(0);
+                //flash("message", PasswordHashing.checkPasswordHash(param("password").trim(), user).salt.toString());
+                if (PasswordHashing.checkPasswordHash(param("password").trim(), user).equals) {
                     session("user", param("user"));
                     session().put("acessLevel", user.get("type"));
                     isInDatabase = true;

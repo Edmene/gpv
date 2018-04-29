@@ -64,7 +64,11 @@ public class UserController extends GenericAppController {
             flash("params", params1st());
             redirect(UserController.class, "new_form");
         }else{
-            flash("message", "Novo usuario foi adicionado: " + user.get("name"));
+            //flash("message", "Novo usuario foi adicionado: " + user.get("name"));
+            User user0;
+            user0 = (User) User.find("name = ?", param("name")).get(0);
+            flash("message", "Novo usuario foi adicionado: " + user.get("password").toString() +
+            " " + PasswordHashing.checkPasswordHash(param("password"), user0).salt);
             redirect(UserController.class);
         }
     }
