@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.controllers.authorization.PasswordHashing;
 import app.models.User;
-import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
 import org.javalite.activeweb.annotations.POST;
@@ -30,7 +29,7 @@ public class LoginController extends GenericAppController {
                 redirect();
             }
             else {
-                Base.open("org.postgresql.Driver", "jdbc:postgresql://172.17.0.2:5432/gpv", "postgres", "postgres");
+
                 LazyList<Model> users = User.find("name = ?", param("user"));
                 Boolean isInDatabase = false;
 
@@ -49,7 +48,6 @@ public class LoginController extends GenericAppController {
                     redirect();
                 }
 
-                Base.close();
             }
         }
     }
