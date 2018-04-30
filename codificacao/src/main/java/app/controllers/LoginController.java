@@ -20,10 +20,8 @@ public class LoginController extends GenericAppController {
     @POST
     public void login() throws Exception {
 
-        boolean isLogged = false;
         if(session().containsKey("acessLevel")){
             flash("message", "Voce ja esta logado");
-            isLogged = true;
             redirect(HomeController.class);
         }
         else {
@@ -39,6 +37,7 @@ public class LoginController extends GenericAppController {
                 if (users.size() > 0) {
                     User user = (User) users.get(0);
                     if (PasswordHashing.checkPasswordHash(param("password").trim(), user)) {
+                        session("id", user.getInteger("id"));
                         session("user", param("user"));
                         session().put("acessLevel", user.get("type"));
                         isInDatabase = true;
@@ -56,6 +55,7 @@ public class LoginController extends GenericAppController {
     }
 
     public void logout(){
+        session("id", null);
         session("user", null);
         session("acessLevel", null);
         redirect(HomeController.class);

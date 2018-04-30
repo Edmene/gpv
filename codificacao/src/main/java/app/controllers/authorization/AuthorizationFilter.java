@@ -1,6 +1,6 @@
 package app.controllers.authorization;
 
-//import app.controllers.LoginController;
+import app.controllers.LoginController;
 import org.javalite.activeweb.controller_filters.HttpSupportFilter;
 
 /**
@@ -14,8 +14,8 @@ public class AuthorizationFilter extends HttpSupportFilter {
             return;// allow to fall to controller
         }
 
-        if(!sessionHas("user") && controllerProtected()){
-            //redirect(LoginController.class);
+        if(session().get("user") == null && controllerProtected()){
+            redirect(LoginController.class);
         }
     }
 
