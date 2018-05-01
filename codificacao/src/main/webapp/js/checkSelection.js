@@ -1,6 +1,6 @@
 function checkSelectedOptions() {
     if(document.getElementById("confirm-checkbox").checked){
-        document.getElementById("btn-confirmation").enable;
+        //document.getElementById("btn-confirmation").enable;
     }
     let days = ["Domingo", "Segunda", "Terca", "Quarta",
         "Quinta", "Sexta", "Sabado"];
@@ -10,7 +10,7 @@ function checkSelectedOptions() {
     for(let i=0; i<days.length; i++){
         for(let o=0; o<shifts.length; o++){
             for(let l=0; l<directions.length; l++){
-                let divWithCheckbox = document.getElementById(days[i]+shifts[o]+directions[l]);
+                let divWithCheckbox = document.getElementById((days[i]+shifts[o]+directions[l]).toString());
                 let options = divWithCheckbox.getElementsByTagName("input");
                 let selectedOption = null;
                 for(let option of options){
@@ -18,7 +18,7 @@ function checkSelectedOptions() {
                         selectedOption = option;
                     }
                 }
-                if(selectedOption !== undefined || selectedOption !== null){
+                if(selectedOption !== undefined && selectedOption !== null){
                     let options = selectedOption.value.split(",");
                     let selection = new Selection;
                     selection.day = i;

@@ -33,6 +33,6 @@
         <input type="hidden" name="plan" value="${plan}">
         <input type="hidden" name="destination" value="${destination}">
         <input type="checkbox" id="confirm-checkbox" onclick="checkSelectedOptions()">
-        <button id="btn-confirmation" disabled>Confirmar Selecao</button>
+        <button id="btn-confirmation" disabled="disabled">Confirmar Selecao</button>
     </@form>
 </section>
