@@ -20,13 +20,14 @@ function checkSelectedOptions() {
                 }
                 if(selectedOption !== undefined && selectedOption !== null){
                     let options = selectedOption.value.split(",");
-                    let selection = new Selection;
-                    selection.day = i;
-                    selection.shift = o;
-                    selection.direction = l;
-                    selection.driver = options[0];
-                    selection.vehicle = options[1];
-                    selection.stop = options[2];
+                    let selection = {
+                        day:i,
+                        shift:o,
+                        direction:l,
+                        driver:options[0],
+                        vehicle:options[1],
+                        stop:options[2]
+                    };
                     selections.append(selection)
                 }
             }
