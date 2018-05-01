@@ -32,6 +32,8 @@ function checkSelectedOptions() {
                 }
             }
         }
+        let json = document.getElementById("json");
+        json.value = JSON.stringify(selections);
     }
     else {
         document.getElementById("btn-confirmation").disabled = "disabled";
