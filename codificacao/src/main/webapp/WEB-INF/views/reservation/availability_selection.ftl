@@ -1,12 +1,14 @@
+<script src="${context_path}/js/checkSelection.js" type="text/javascript"></script>
+
 <section id="plans">
     <#assign a = 0>
     <#list days as day>
         <div class="dayOfWeek-cell" id="${day}">
             <#list shifts as shift>
-                <div class="shift-cell" id="${shift}">
+                <div class="shift-cell" id="${day}${shift}">
                     ${day} - ${shift}
                     <#list directions as direction>
-                        <div class="direction-cell" id="${direction}">
+                        <div class="direction-cell" id="${day}${shift}${direction}">
                             ${direction}
                             <#if availabilitiesSubSets[a]??>
                                 <#list availabilitiesSubSets[a] as subSet>
@@ -27,4 +29,10 @@
             </#list>
         </div>
     </#list>
+    <@form>
+        <input type="hidden" name="plan" value="${plan}">
+        <input type="hidden" name="destination" value="${destination}">
+        <input type="checkbox" id="confirm-checkbox" onclick="checkSelectedOptions()">
+        <button id="btn-confirmation" disabled>Confirmar Selecao</button>
+    </@form>
 </section>
