@@ -28,7 +28,7 @@ function checkSelectedOptions() {
                         vehicle:options[1],
                         stop:options[2]
                     };
-                    selections.append(selection)
+                    selections.push(selection)
                 }
             }
         }
