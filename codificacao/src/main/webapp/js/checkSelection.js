@@ -14,7 +14,7 @@ function checkSelectedOptions() {
                 let options = divWithCheckbox.getElementsByTagName("input");
                 let selectedOption = null;
                 for(let option of options){
-                    if(options.checked){
+                    if(option.checked){
                         selectedOption = option;
                     }
                 }
