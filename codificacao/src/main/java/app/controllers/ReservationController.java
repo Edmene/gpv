@@ -59,4 +59,9 @@ public class ReservationController extends GenericAppController {
                 "availabilitiesSubSets", lazyLists);
         //aqui eu cadastro ou armazeno no minimo o destination_plan.
     }
+
+    @POST
+    public void availabilityConfirmation(){
+
+    }
 }

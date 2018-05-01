@@ -29,7 +29,7 @@
             </#list>
         </div>
     </#list>
-    <@form>
+    <@form action="availability_confirmation" method="post">
         <input type="hidden" name="plan" value="${plan}">
         <input type="hidden" name="destination" value="${destination}">
         <input type="hidden" id="json" name="json" value="">
