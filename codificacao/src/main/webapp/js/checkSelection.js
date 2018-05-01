@@ -11,7 +11,13 @@ function checkSelectedOptions() {
         for(let o=0; o<shifts.length; o++){
             for(let l=0; l<directions.length; l++){
                 let divWithCheckbox = document.getElementById(days[i]+shifts[o]+directions[l]);
-                let selectedOption = divWithCheckbox.getElementById(directions[l]);
+                let options = divWithCheckbox.getElementsByTagName("input");
+                let selectedOption = null;
+                for(let option of options){
+                    if(options.checked){
+                        selectedOption = option;
+                    }
+                }
                 if(selectedOption !== undefined || selectedOption !== null){
                     let options = selectedOption.value.split(",");
                     let selection = new Selection;
