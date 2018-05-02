@@ -23,9 +23,9 @@ function checkSelectedOptions() {
                             day: i,
                             shift: o,
                             direction: l,
-                            driver: options[0],
-                            vehicle: options[1],
-                            stop: options[2]
+                            driverId: options[0],
+                            vehicleId: options[1],
+                            stopId: options[2]
                         };
                         selections.push(selection)
                     }

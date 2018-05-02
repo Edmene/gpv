@@ -5,6 +5,10 @@ import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
 import app.models.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
 
@@ -62,6 +66,16 @@ public class ReservationController extends GenericAppController {
 
     @POST
     public void availabilityConfirmation(){
+        JsonArray jsonArray = new JsonObject().getAsJsonArray(param("json"));
+        ArrayList<Reservation> arrayList = new ArrayList<>();
+        Gson g = new Gson();
+        for(JsonElement element : jsonArray){
+            Reservation reservation = g.fromJson(element.getAsJsonObject(), Reservation.class);
+            reservation.set("plan_id", Integer.parseInt(param("planId")),
+                    "passenger_id", session().get("id"),
+                    "status", true);
+            arrayList.add(reservation);
+        }
 
     }
 }
