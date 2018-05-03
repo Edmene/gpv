@@ -6,6 +6,7 @@ import app.enums.Direction;
 import app.enums.Shift;
 import app.json.ReservationJson;
 import app.models.*;
+import app.utils.DateOfDayFinder;
 import com.google.gson.*;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
@@ -64,19 +65,31 @@ public class ReservationController extends GenericAppController {
 
     @POST
     public void availabilityConfirmation(){
-        ArrayList<Reservation> arrayList = new ArrayList<>();
+        ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
         Gson g = new Gson();
         JsonParser jsonParser = new JsonParser();
         JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
         for(JsonElement element : jsonArray){
             ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
-            Reservation reservation = new Reservation();
-            reservationJson.setAttributesOfReservation(reservation);
-            reservation.set("plan_id", Integer.parseInt(param("planId")),
-                    "passenger_id", session().get("id"),
-                    "status", true,
-                    "reservation_type", param("reservation_type"));
-            arrayList.add(reservation);
+            reservationJsonList.add(reservationJson);
         }
+        view("days", Day.values(),
+                "json", param("json"),
+                "reservation_type", param("reservation_type"),
+                "destination", param("destination"),
+                "plan", param("plan"),
+                "listOfDates", new DateOfDayFinder().datesArrayList(reservationJsonList)
+                );
     }
+
+    @POST
+    public void addReservations(){
+        Reservation reservation = new Reservation();
+        //reservationJson.setAttributesOfReservation(reservation);
+        reservation.set("plan_id", Integer.parseInt(param("plan")),
+                "passenger_id", session().get("id"),
+                "status", true,
+                "reservation_type", param("reservation_type"));
+    }
+
 }

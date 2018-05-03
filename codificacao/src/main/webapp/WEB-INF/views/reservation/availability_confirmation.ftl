@@ -1,0 +1,20 @@
+<section id="plans">
+    <@form action="addReservations" method="post">
+        <#assign a = 0>
+        <#list days as day>
+            <#if listOfDays?contains(day)>
+                <div class="dayOfWeek-cell" id="${day}">
+                    ${day}
+                    <#list listOfDates[a] as date>
+                        ${date} <input type="radio" name="${day}" value="${date}">
+                    </#list>
+                </div>
+            </#if>
+            <#assign a++>
+        </#list>
+        <input type="hidden" name="json" value="${json}">
+        <input type="hidden" name="plan" value="${plan}">
+        <input type="hidden" name="destination" value="${destination}">
+        <input type="hidden" name="reservation_type" value="${reservation_type}">
+    </@form>
+</section>
