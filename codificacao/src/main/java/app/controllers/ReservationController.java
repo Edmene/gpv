@@ -4,11 +4,9 @@ import app.controllers.authorization.Protected;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
+import app.json.ReservationJson;
 import app.models.*;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
 
@@ -58,7 +56,7 @@ public class ReservationController extends GenericAppController {
         view("days", Day.values(),
                 "shifts", Shift.values(),
                 "destination", Integer.parseInt(param("destination")),
-                "plan", Integer.parseInt(param("plan")),
+                "plan", Plan.findById(Integer.parseInt(param("plan"))),
                 "directions", Direction.values(),
                 "availabilitiesSubSets", lazyLists);
         //aqui eu cadastro ou armazeno no minimo o destination_plan.
@@ -66,16 +64,19 @@ public class ReservationController extends GenericAppController {
 
     @POST
     public void availabilityConfirmation(){
-        JsonArray jsonArray = new JsonObject().getAsJsonArray(param("json"));
         ArrayList<Reservation> arrayList = new ArrayList<>();
         Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
         for(JsonElement element : jsonArray){
-            Reservation reservation = g.fromJson(element.getAsJsonObject(), Reservation.class);
+            ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
+            Reservation reservation = new Reservation();
+            reservationJson.setAttributesOfReservation(reservation);
             reservation.set("plan_id", Integer.parseInt(param("planId")),
                     "passenger_id", session().get("id"),
-                    "status", true);
+                    "status", true,
+                    "reservation_type", param("reservation_type"));
             arrayList.add(reservation);
         }
-
     }
 }

@@ -15,7 +15,7 @@
                                     <#if subSet.direction??>
                                         <#if direction?index == subSet.direction>
                                             ${subSet.address.name} - ${subSet.stop.time}
-                                            <input type="radio" name="${direction}"
+                                            <input type="radio" name="${day}${shift}${direction}"
                                                    value="${subSet.driver_id},${subSet.vehicle_id},${subSet.stop_id}">
                                         </#if>
                                     </#if>
@@ -30,7 +30,19 @@
         </div>
     </#list>
     <@form action="availability_confirmation" method="post">
-        <input type="hidden" name="planId" value="${plan}">
+        <select name="reservation_type">
+            <#if plan.availability_condition == "A">
+                <option value="M">Mensal</option>
+                <option value="P">Passagem</option>
+                <#else>
+                <#if plan.availability_condition == "M">
+                    <option value="M">Mensal</option>
+                    <#else>
+                        <option value="P">Passagem</option>
+                </#if>
+            </#if>
+        </select>
+        <input type="hidden" name="planId" value="${plan.id}">
         <input type="hidden" name="destinationId" value="${destination}">
         <input type="hidden" id="json" name="json" value="">
         <input type="checkbox" id="confirm-checkbox" onclick="checkSelectedOptions()">

@@ -107,7 +107,7 @@ CREATE TABLE reservations(
   stop_id INT NOT NULL,
   CONSTRAINT availabilities_fk FOREIGN KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
   REFERENCES availabilities(day, shift, direction, plan_id, driver_id, vehicle_id, stop_id),
-  PRIMARY KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
+  PRIMARY KEY (passenger_id, day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
 );
 
 CREATE TABLE destination_plans (
