@@ -1,6 +1,7 @@
 package app.enums;
 
 public enum Day {
-    Domingo, Segunda, Terca, Quarta,
-    Quinta, Sexta, Sabado
+    Segunda, Terca, Quarta,
+    Quinta, Sexta, Sabado,
+    Domingo
 }

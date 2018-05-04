@@ -1,8 +1,7 @@
 function checkSelectedOptions() {
     if(document.getElementById("confirm-checkbox").checked) {
-        document.getElementById("btn-confirmation").disabled = "";
-        let days = ["Domingo", "Segunda", "Terca", "Quarta",
-            "Quinta", "Sexta", "Sabado"];
+        let days = ["Segunda", "Terca", "Quarta",
+            "Quinta", "Sexta", "Sabado", "Domingo"];
         let shifts = ["Manha", "Tarde", "Noite"];
         let directions = ["Ida", "Volta"];
         let selections = [];
@@ -32,8 +31,15 @@ function checkSelectedOptions() {
                 }
             }
         }
-        let json = document.getElementById("json");
-        json.value = JSON.stringify(selections);
+        if(selections.length === 0){
+            document.getElementById("confirm-checkbox").checked = false;
+            alert("Para prosseguir pelo menos uma opcao deve ser selecionada.")
+        }
+        else {
+            let json = document.getElementById("json");
+            json.value = JSON.stringify(selections);
+            document.getElementById("btn-confirmation").disabled = "";
+        }
     }
     else {
         document.getElementById("btn-confirmation").disabled = "disabled";
