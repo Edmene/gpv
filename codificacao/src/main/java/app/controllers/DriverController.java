@@ -43,9 +43,6 @@ public class DriverController extends GenericAppController {
     public void delete(){
 
         Driver m = Driver.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver m = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = m.getString("name");
         m.delete();
         flash("message", "User: '" + name + "' was deleted");

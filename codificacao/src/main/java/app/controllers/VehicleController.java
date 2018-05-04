@@ -48,9 +48,6 @@ public class VehicleController extends GenericAppController {
     public void delete(){
 
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver vehicle = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String placa = vehicle.getString("license_plate");
         vehicle.delete();
         flash("message", "Veiculo: '" + placa + "' was deleted");

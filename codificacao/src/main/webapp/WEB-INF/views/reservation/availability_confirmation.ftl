@@ -2,7 +2,7 @@
     <@form action="addReservations" method="post">
         <#assign a = 0>
         <#list days as day>
-            <#if listOfDays?contains(day)>
+            <#if listOfDates[a]??>
                 <div class="dayOfWeek-cell" id="${day}">
                     ${day}
                     <#list listOfDates[a] as date>

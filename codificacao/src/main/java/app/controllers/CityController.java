@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.models.City;
 import app.models.State;
-import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -73,9 +72,6 @@ public class CityController extends GenericAppController {
     public void delete(){
 
         City city = City.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver city = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = city.getString("name");
         city.delete();
         flash("message", "Cidade: '" + name + "' was deleted");

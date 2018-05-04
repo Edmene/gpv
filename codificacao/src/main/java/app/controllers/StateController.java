@@ -57,9 +57,6 @@ public class StateController extends GenericAppController {
     public void delete(){
 
         State state = State.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver state = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = state.getString("name");
         state.delete();
         flash("message", "Estado: '" + name + "' was deleted");

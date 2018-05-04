@@ -3,8 +3,8 @@ package app.json;
 import app.models.Reservation;
 
 public class ReservationJson {
-    Integer day,shift,direction;
-    String driverId,vehicleId,stopId;
+    public Integer day,shift,direction;
+    public String driverId,vehicleId,stopId;
 
     public ReservationJson(Integer day, Integer shift, Integer direction, String driverId,
                        String vehicleId, String stopId){

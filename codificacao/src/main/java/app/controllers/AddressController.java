@@ -72,9 +72,6 @@ public class AddressController extends GenericAppController {
     public void delete(){
 
         Address address = Address.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver address = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = address.getString("name");
         address.delete();
         flash("message", "Endereco: '" + name + "' was deleted");
