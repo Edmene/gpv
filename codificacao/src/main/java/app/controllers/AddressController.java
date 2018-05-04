@@ -6,11 +6,18 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
+import java.util.List;
+import java.util.Map;
+
 public class AddressController extends GenericAppController {
 
     @Override
     public void index(){
-        view("addresses", Address.findAll().toMaps());
+        List<Map<String, Object>> addressList = Address.findAll().toMaps();
+        for (Map<String, Object> address : addressList){
+            address.put("city", City.findById(address.get("city_id")).toMap());
+        }
+        view("addresses", addressList);
     }
 
     @Override @POST

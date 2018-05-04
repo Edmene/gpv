@@ -6,11 +6,18 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
+import java.util.List;
+import java.util.Map;
+
 public class DestinationController extends GenericAppController {
 
     @Override
     public void index(){
-        view("destinations", Destination.findAll().toMaps());
+        List<Map<String, Object>> destinationList = Destination.findAll().toMaps();
+        for (Map<String, Object> destination : destinationList){
+            destination.put("address", Address.findById(destination.get("address_id")).toMap());
+        }
+        view("destinations", destinationList);
     }
 
     @Override @POST
@@ -65,9 +72,6 @@ public class DestinationController extends GenericAppController {
     public void delete(){
 
         Destination destination = Destination.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver destination = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
         String name = destination.getString("name");
         destination.delete();
         flash("message", "Destino: '" + name + "' was deleted");

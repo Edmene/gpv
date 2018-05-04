@@ -24,7 +24,7 @@
             <#if address.extra??>${address.extra}<#else>sem complemento</#if>
         </td>
         <td>
-            ${address.city_id}</td>
+            ${address.city.name}</td>
         <td>
             <@form  id=address.id action="alter_form" method="put" html_id=address.id >
                 <button type="submit">alterar</button>

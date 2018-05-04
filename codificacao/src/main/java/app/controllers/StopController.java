@@ -7,12 +7,18 @@ import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
 import java.sql.Time;
+import java.util.List;
+import java.util.Map;
 
 public class StopController extends GenericAppController{
 
     @Override
     public void index(){
-        view("stops", Stop.findAll().toMaps());
+        List<Map<String, Object>> stopList = Stop.findAll().toMaps();
+        for (Map<String, Object> stop : stopList){
+            stop.put("address", Address.findById(stop.get("address_id")).toMap());
+        }
+        view("stops", stopList);
     }
 
     @Override @POST
@@ -69,10 +75,6 @@ public class StopController extends GenericAppController{
     public void delete(){
 
         Stop stop = Stop.findById(Integer.parseInt(getId()));
-        //Integer id = Integer.valueOf(getId());
-        //Driver stop = (Driver) Driver.findBySQL("SELECT * FROM DRIVERS WHERE id = ?",id).get(0);
-
-        String name = stop.getString("name");
         stop.delete();
         flash("message", "Parada foi deletada");
         redirect(StopController.class);

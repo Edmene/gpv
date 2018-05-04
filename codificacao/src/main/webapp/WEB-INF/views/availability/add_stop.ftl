@@ -3,7 +3,7 @@
 
 <select id="select_item">
     <#list stops as stop>
-        <option value="${stop.id}" label="${stop.address_id}">${stop.address_id}</option>
+        <option value="${stop.id}" label="${stop.address_id}">${stop.time}|${stop.address.name} ${stop.address.extra}</option>
     </#list>
 </select>
 

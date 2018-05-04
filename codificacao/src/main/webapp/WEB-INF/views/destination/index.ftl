@@ -19,8 +19,7 @@
         <td>
             <@link_to action="show" id=destination.id>${destination.name}</@link_to>
         </td>
-        <td>
-            ${destination.address_id}</td>
+        <td>${destination.address.name} ${destination.address.extra}</td>
         <td>
             <@form  id=destination.id action="alter_form" method="put" html_id=destination.id >
                 <button type="submit">alterar</button>

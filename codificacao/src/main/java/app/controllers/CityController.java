@@ -2,15 +2,23 @@ package app.controllers;
 
 import app.models.City;
 import app.models.State;
+import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
+
+import java.util.List;
+import java.util.Map;
 
 public class CityController extends GenericAppController {
 
     @Override
     public void index(){
-        view("cities", City.findAll().toMaps());
+        List<Map<String, Object>> citiesList = City.findAll().toMaps();
+        for (Map<String, Object> city : citiesList){
+            city.put("state", State.findById(city.get("state_id")).toMap());
+        }
+        view("cities", citiesList);
     }
 
     @Override @POST

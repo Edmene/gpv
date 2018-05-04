@@ -3,13 +3,13 @@ package app.controllers;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
-import app.models.Availability;
-import app.models.Driver;
-import app.models.Stop;
-import app.models.Vehicle;
+import app.models.*;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
+
+import java.util.List;
+import java.util.Map;
 
 public class AvailabilityController extends GenericAppController {
 
@@ -22,7 +22,11 @@ public class AvailabilityController extends GenericAppController {
 
     @POST
     public void addStop(){
-        view("stops", Stop.findAll(),
+        List<Map<String, Object>> stopList = Stop.findAll().toMaps();
+        for (Map<String, Object> stop : stopList){
+            stop.put("address", Address.findById(stop.get("address_id")).toMap());
+        }
+        view("stops", stopList,
                 "plan", param("plan"),
                 "vehicle", param("vehicle"),
                 "driver", param("driver"),

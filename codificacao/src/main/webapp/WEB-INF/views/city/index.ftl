@@ -20,7 +20,7 @@
             <@link_to action="show" id=city.id>${city.name}</@link_to>
         </td>
         <td>
-            ${city.state_id}</td>
+            ${city.state.name}</td>
         <td>
             <@form  id=city.id action="alter_form" method="put" html_id=city.id >
                 <button type="submit">alterar</button>

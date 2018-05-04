@@ -20,7 +20,7 @@
             <@link_to action="show" id=stop.id>${stop.time}</@link_to>
         </td>
         <td>
-            ${stop.address_id}</td>
+            ${stop.address.name} ${stop.address.extra}</td>
         <td>
             <@form  id=stop.id action="alter_form" method="put" html_id=stop.id >
                 <button type="submit">alterar</button>
