@@ -16,6 +16,15 @@ public class ReservationJson {
         this.stopId = stopId;
     }
 
+    public ReservationJson(Reservation reservation){
+        this.day = reservation.getInteger("day");
+        this.shift = reservation.getInteger("shift");
+        this.direction = reservation.getInteger("direction");
+        this.driverId = reservation.get("driver_id").toString();
+        this.vehicleId = reservation.get("vehicle_id").toString();
+        this.stopId = reservation.get("stop_id").toString();
+    }
+
     public void setAttributesOfReservation(Reservation reservation){
         reservation.set("day", this.day,
                 "shift", this.shift,
