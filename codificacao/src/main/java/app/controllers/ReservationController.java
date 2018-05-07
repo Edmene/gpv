@@ -150,7 +150,8 @@ public class ReservationController extends GenericAppController {
             }
         }
 
-
+        flash("message", "Reservas registradas com sucesso");
+        redirect(HomeController.class);
 
     }
 
