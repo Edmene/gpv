@@ -7,10 +7,13 @@ import app.enums.Shift;
 import app.json.ReservationJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
+import app.utils.TotalValueOfPlanSelection;
 import com.google.gson.*;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Protected
@@ -60,7 +63,6 @@ public class ReservationController extends GenericAppController {
                 "plan", Plan.findById(Integer.parseInt(param("plan"))),
                 "directions", Direction.values(),
                 "availabilitiesSubSets", lazyLists);
-        //aqui eu cadastro ou armazeno no minimo o destination_plan.
     }
 
     @POST
@@ -73,23 +75,83 @@ public class ReservationController extends GenericAppController {
             ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
             reservationJsonList.add(reservationJson);
         }
+
+        Plan plan = Plan.findById(Integer.parseInt(param("plan")));
+        ArrayList<ArrayList<String>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
+        TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
+        Boolean type = false;
+
+        if(param("reservation_type").contains("P")){
+            type = true;
+        }
+
         view("days", Day.values(),
                 "json", param("json"),
                 "reservation_type", param("reservation_type"),
                 "destination", param("destination"),
                 "plan", param("plan"),
-                "listOfDates", new DateOfDayFinder().datesArrayList(reservationJsonList)
+                "listOfDates", listOfDates,
+                "totalValue", totalValueOfPlanSelection.calculateTotalValue(type, plan)
                 );
     }
 
     @POST
     public void addReservations(){
-        Reservation reservation = new Reservation();
-        //reservationJson.setAttributesOfReservation(reservation);
-        reservation.set("plan_id", Integer.parseInt(param("plan")),
-                "passenger_id", session().get("id"),
-                "status", true,
-                "reservation_type", param("reservation_type"));
+
+        ArrayList<Reservation> reservationList = new ArrayList<>();
+        Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
+        for (JsonElement element : jsonArray) {
+            Reservation reservation = new Reservation();
+            ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
+            reservationJson.setAttributesOfReservation(reservation);
+            if(param("reservation_type").contains("P")) {
+                for (Day day : Day.values()) {
+                    if (!param(day.name()).isEmpty() && reservationJson.day == day.ordinal()) {
+                        LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(param(day.name())));
+                        reservation.setDate("date", date);
+                    }
+                }
+            }
+            reservation.set("plan_id", Integer.parseInt(param("plan")),
+                    "passenger_id", session().get("id"),
+                    "status", true,
+                    "reservation_type", param("reservation_type"));
+            reservationList.add(reservation);
+        }
+
+        Boolean allowReservations = true;
+        for(Reservation reservation : reservationList){
+            Integer numResults = Reservation.find("date = ? AND " +
+                            "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND" +
+                            "plan_id = ? AND driver_id = ? AND vehicle_id = ? AND stop_id = ?",
+                    reservation.getDate("date"),
+                    reservation.getInteger("passenger_id"),
+                    reservation.getInteger("day"),
+                    reservation.getInteger("shift"),
+                    reservation.getInteger("direction"),
+                    reservation.getInteger("plan_id"),
+                    reservation.getInteger("driver_id"),
+                    reservation.getInteger("vehicle_id"),
+                    reservation.getInteger("stop_id")).size();
+            if(numResults != 0){
+                allowReservations = false;
+            }
+        }
+
+        if(!allowReservations){
+            throw new RuntimeException("One or more reservations already present in database please" +
+                    "restart the process.");
+        }
+        else {
+            for(Reservation reservation : reservationList){
+                reservation.insert();
+            }
+        }
+
+
+
     }
 
 }

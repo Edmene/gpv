@@ -9,8 +9,8 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class PassengerController extends GenericAppController {
 
@@ -50,7 +50,8 @@ public class PassengerController extends GenericAppController {
             Passenger passenger = new Passenger();
             passenger.fromMap(params1st());
             passenger.set("user_id", u.get(0).getId());
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(param("birth_date"));
+
+            LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
             passenger.setDate("birth_date", date);
             //u.get(0).add(passenger);
 
@@ -82,7 +83,7 @@ public class PassengerController extends GenericAppController {
     public void alterForm(){
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
         User user = User.findById(Integer.parseInt(getId()));
-        Date date = passenger.getDate("birth_date");
+        LocalDate date = LocalDate.parse(passenger.get("birth_date").toString());
         if(passenger != null){
             view("passenger", passenger, "user", user, "birth", date.toString());
         }else{
@@ -105,7 +106,7 @@ public class PassengerController extends GenericAppController {
             Passenger passenger = new Passenger();
             passenger.fromMap(params1st());
             passenger.set("user_id", Integer.parseInt(param("id")));
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(param("birth_date"));
+            LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
             passenger.setDate("birth_date", date);
             if (!passenger.save()) {
                 flash("message", "Something went wrong, please  fill out all fields ");

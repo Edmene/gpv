@@ -17,4 +17,7 @@
         <input type="hidden" name="destination" value="${destination}">
         <input type="hidden" name="reservation_type" value="${reservation_type}">
     </@form>
+    <div class="total-value">
+        ${totalValue}
+    </div>
 </section>
