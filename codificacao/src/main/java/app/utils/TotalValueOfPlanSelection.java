@@ -23,7 +23,7 @@ public class TotalValueOfPlanSelection {
         else {
             for(int i=0;i<listOfDates.size();i++){
                 if(!listOfDates.get(i).isEmpty()){
-                    totalValue += plan.getFloat("ticket_price")*listOfDates.get(i).size();
+                    totalValue += plan.getFloat("daily_value")*listOfDates.get(i).size();
                 }
             }
         }
