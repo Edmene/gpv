@@ -25,7 +25,7 @@
         <td>
             ${shifts[availability.shift]}</td>
         <td>
-            ${directions[availability.shift]}</td>
+            ${directions[availability.direction]}</td>
         <td>
             <@form action="delete" method="delete">
                 <input hidden name="day" value="${availability.day}">

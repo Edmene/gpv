@@ -6,7 +6,7 @@
                 <div class="dayOfWeek-cell" id="${day}">
                     ${day}
                     <#list listOfDates[a] as date>
-                        ${date} <input type="radio" name="${day}" value="${date}">
+                        ${date.day} <input type="radio" name="${day}" value="${date.day}">
                     </#list>
                 </div>
             </#if>

@@ -11,18 +11,24 @@ import java.time.temporal.TemporalAccessor;
 import java.util.*;
 
 public class DateOfDayFinder {
-    public ArrayList<ArrayList<String>> datesArrayList(ArrayList<ReservationJson> reservationJsonList) {
+    public ArrayList<ArrayList<Map<String,Object>>> datesArrayList(ArrayList<ReservationJson> reservationJsonList) {
         ArrayList<ArrayList<String>> dayArrayListList = new ArrayList<>();
+
+        ArrayList<ArrayList<Map<String,Object>>> dayArrayListListMap = new ArrayList<>();
         Integer month = YearMonth.now().getMonthValue();
 
 
         for(Day day : Day.values()){
             dayArrayListList.add(new ArrayList<>());
+            dayArrayListListMap.add(new ArrayList<>());
         }
 
         for(ReservationJson reservationJson : reservationJsonList){
-            if(dayArrayListList.get(reservationJson.day).size() == 0) {
-                dayArrayListList.get(reservationJson.day).add("s");
+            if(dayArrayListList.get(reservationJson.day).size() == 0 ||
+                    dayArrayListList.get(reservationJson.day).size() > 0) {
+                dayArrayListList.get(reservationJson.day).add(
+                        String.valueOf(reservationJson.shift+
+                                reservationJson.direction+reservationJson.day));
             }
         }
 
@@ -46,6 +52,8 @@ public class DateOfDayFinder {
             int dayOfWeek = DayOfWeek.from(date).getValue();
 
             if(!dayArrayListList.get(dayOfWeek-1).isEmpty()) {
+                Integer numberOfSelectionsOnDay = dayArrayListList.get(dayOfWeek-1).size();
+                /*
                 if(dayArrayListList.get(dayOfWeek-1).get(0) == "s") {
                     dayArrayListList.get(dayOfWeek-1).remove("s");
                     dayArrayListList.get(dayOfWeek-1).add(testDate);
@@ -53,9 +61,14 @@ public class DateOfDayFinder {
                 else {
                     dayArrayListList.get(dayOfWeek-1).add(testDate);
                 }
+                */
+                TreeMap<String, Object> dayMap = new TreeMap<>();
+                dayMap.put("day", testDate);
+                dayMap.put("nTimes", numberOfSelectionsOnDay);
+                dayArrayListListMap.get(dayOfWeek-1).add(dayMap);
             }
         }
-        return dayArrayListList;
+        return dayArrayListListMap;
 
     }
 }

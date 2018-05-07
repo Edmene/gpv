@@ -77,7 +77,7 @@ public class ReservationController extends GenericAppController {
         }
 
         Plan plan = Plan.findById(Integer.parseInt(param("plan")));
-        ArrayList<ArrayList<String>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
+        ArrayList<ArrayList<Map<String, Object>>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
         TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
         Boolean type = false;
 
