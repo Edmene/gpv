@@ -91,9 +91,13 @@ public class UserController extends GenericAppController {
     }
 
     @Override @POST
-    public void update(){
+    public void update() throws Exception {
         User user = new User();
         user.fromMap(params1st());
+
+        PasswordHashing passwordHashing = new PasswordHashing();
+        user.set("extra", passwordHashing.getSalt());
+        user.set("password", passwordHashing.hashPassword(param("password").trim()));
         user.set("id", Integer.parseInt(param("id")));
         if(!user.save()){
             flash("message", "Something went wrong, please restart the process");

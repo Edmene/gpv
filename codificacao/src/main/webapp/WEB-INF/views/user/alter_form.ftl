@@ -18,7 +18,7 @@
                             <span class="error"></span>
             </td>
             <input type="hidden" name="extra" value="extra">
-            <input type="hidden" name="type" value="A">
+            <input type="hidden" name="type" value="${user.type}">
         </tr>
         <tr>
             <td><input type="hidden" name="id" value="${user.id}"</td>

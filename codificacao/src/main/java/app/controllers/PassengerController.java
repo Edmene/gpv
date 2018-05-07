@@ -96,6 +96,9 @@ public class PassengerController extends GenericAppController {
     public void update() throws Exception{
         User user = new User();
         user.fromMap(params1st());
+        PasswordHashing passwordHashing = new PasswordHashing();
+        user.set("extra", passwordHashing.getSalt());
+        user.set("password", passwordHashing.hashPassword(param("password").trim()));
         user.set("name", param("user_name"));
         user.set("id", Integer.parseInt(param("id")));
         if(!user.save()){
