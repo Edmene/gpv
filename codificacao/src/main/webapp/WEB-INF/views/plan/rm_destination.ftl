@@ -9,7 +9,7 @@
     </tr>
     <#list destinationsPlan as destination>
         <tr id="${destination.destination_id}">
-            <td>${destination.destination_id}</td>
+            <td>${destination.destination.name}</td>
             <td>
                 <button onclick="removeLine(${destination.destination_id})">Remover</button>
             </td>

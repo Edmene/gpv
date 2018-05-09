@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class StopController extends GenericAppController{
 
+    //Partir do estado para cidade e depois permitir o cadastro.
+
     @Override
     public void index(){
         List<Map<String, Object>> stopList = Stop.findAll().toMaps();

@@ -86,7 +86,7 @@ public class ReservationController extends GenericAppController {
         }
 
         view("days", Day.values(),
-                "json", param("json"),
+                "json", jsonArray,
                 "reservation_type", param("reservation_type"),
                 "destination", param("destination"),
                 "plan", param("plan"),
@@ -123,8 +123,8 @@ public class ReservationController extends GenericAppController {
 
         Boolean allowReservations = true;
         for(Reservation reservation : reservationList){
-            Integer numResults = Reservation.find("date = ? AND " +
-                            "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND" +
+            Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
+                            "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
                             "plan_id = ? AND driver_id = ? AND vehicle_id = ? AND stop_id = ?",
                     reservation.getDate("date"),
                     reservation.getInteger("passenger_id"),
@@ -148,6 +148,11 @@ public class ReservationController extends GenericAppController {
             for(Reservation reservation : reservationList){
                 reservation.insert();
             }
+            PassengerPlans passengerPlans = new PassengerPlans();
+            passengerPlans.set("passenger_id", session().get("id"),
+                    "destination_id", Integer.parseInt(param("destination")),
+                    "plan_id", Integer.parseInt(param("plan")));
+            passengerPlans.insert();
         }
 
         flash("message", "Reservas registradas com sucesso");

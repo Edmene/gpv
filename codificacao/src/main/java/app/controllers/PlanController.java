@@ -10,6 +10,7 @@ import org.javalite.activeweb.annotations.PUT;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PlanController extends GenericAppController {
 
@@ -131,9 +132,10 @@ public class PlanController extends GenericAppController {
 
     @PUT
     public void rmDestination(){
-        LazyList destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()));
+        List<Map<String, Object>> destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()))
+                .include(Destination.class).toMaps();
         if(destinationsPlan != null){
-            view("destinationsPlan", destinationsPlan.toMaps());
+            view("destinationsPlan", destinationsPlan);
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");

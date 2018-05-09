@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class AddressController extends GenericAppController {
 
+    //Partir do estado para cidade e depois permitir o cadastro.
+
     @Override
     public void index(){
         List<Map<String, Object>> addressList = Address.findAll().toMaps();
