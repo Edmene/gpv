@@ -38,21 +38,10 @@ public class ReservationController extends GenericAppController {
         LinkedList<List<Map<String, Object>>> lazyLists = new LinkedList<>();
         for(int day = 0;day < Day.values().length; day++){
             for (int shift = 0; shift < Shift.values().length; shift++){
-                List<Map<String, Object>> mapList = Availability.find("plan_id = ?" +
+                List<Map<String, Object>> mapListFinal = AvailabilityStopAddress.find("plan_id = ?" +
                                 "AND shift = ? AND day = ?",
                         Integer.parseInt(param("plan")),
-                        shift, day).include(Stop.class).toMaps();
-                List<Map<String, Object>> mapListFinal = new ArrayList<>();
-                for(Map<String, Object> map : mapList){
-                    if(map.containsKey("stop")) {
-                        TreeMap stop = (TreeMap) map.get("stop");
-                        map.put("address", Address.find("id = ?",(stop.get("address_id"))).get(0).toMap());
-                        mapListFinal.add(map);
-                    }
-                    else {
-                        mapListFinal.add(map);
-                    }
-                }
+                        shift, day).toMaps();
                 lazyLists.add(mapListFinal);
             }
         }

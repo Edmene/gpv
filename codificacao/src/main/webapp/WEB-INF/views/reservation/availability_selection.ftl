@@ -14,7 +14,7 @@
                                 <#list availabilitiesSubSets[a] as subSet>
                                     <#if subSet.direction??>
                                         <#if direction?index == subSet.direction>
-                                            ${subSet.address.name} - ${subSet.stop.time}
+                                            ${subSet.address_name} - ${subSet.time}
                                             <input type="radio" name="${day}${shift}${direction}"
                                                    value="${subSet.driver_id},${subSet.vehicle_id},${subSet.stop_id}">
                                         </#if>
