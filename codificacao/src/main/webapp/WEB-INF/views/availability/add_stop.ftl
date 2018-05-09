@@ -1,9 +1,24 @@
 
 <@content for="title">Adicionando paradas</@content>
-
+<#assign shiftValues=[12,18,04] shift_ordinal=0/>
+<#if shift?contains("Tarde")><#assign shift_ordinal = 1/>
+<#elseif shift?contains("Noite")><#assign shift_ordinal = 2/></#if>
 <select id="select_item">
     <#list stops as stop>
-        <option value="${stop.id}" label="${stop.address_id}">${stop.time}|${stop.address.name} ${stop.address.extra}</option>
+        <#if shift_ordinal == 0>
+            <#if stop.time?string["HH"]?number < shiftValues[shift_ordinal]>
+                <option value="${stop.id}" label="${stop.address_id}">${stop.time?string["HH:mm"]}|${stop.address.name} ${stop.address.extra}</option>
+            </#if>
+            <#elseif shift_ordinal == 1>
+                <#if stop.time?string["HH"]?number < shiftValues[shift_ordinal] && shiftValues[shift_ordinal-1] < stop.time?string["HH"]?number >
+                    <option value="${stop.id}" label="${stop.address_id}">${stop.time?string["HH:mm"]}|${stop.address.name} ${stop.address.extra}</option>
+                </#if>
+            <#elseif shift_ordinal == 2>
+                <#if shiftValues[1] < stop.time?string["HH"]?number && shift_ordinal == 2>
+                    <option value="${stop.id}" label="${stop.address_id}">${stop.time?string["HH:mm"]}|${stop.address.name} ${stop.address.extra}</option>
+                </#if>
+        </#if>
+
     </#list>
 </select>
 

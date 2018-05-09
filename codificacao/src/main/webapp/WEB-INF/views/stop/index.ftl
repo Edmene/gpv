@@ -17,7 +17,7 @@
 <#list stops as stop>
     <tr>
         <td>
-            <@link_to action="show" id=stop.id>${stop.time}</@link_to>
+            <@link_to action="show" id=stop.id>${stop.time?string["HH:mm"]}</@link_to>
         </td>
         <td>
             ${stop.address.name} ${stop.address.extra}</td>
