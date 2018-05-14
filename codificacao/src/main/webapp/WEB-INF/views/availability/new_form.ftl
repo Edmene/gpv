@@ -3,13 +3,42 @@
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
 
-<section id="availability-selection">
+<section id="availability-selection" class="availability">
     <#list days as day>
         <div class="day-div" id="${day}">
-            <#list shifts as shift>
-                <input type="checkbox" value="${shift}" name="${shift}${day}" onclick="allowSelection('${shift}-${day}')">
-            </#list>
-            <div class="check-box"></div>
+            <div class="day-shifts-div" id="${day}">
+                <div class="shift-div">
+                    <#list shifts as shift>
+                        <div class="individual-check">
+                            <div class="individual-shift-check">
+                                <p>${shift}</p>
+                                <input type="checkbox" value="${shift}" name="${shift}${day}" onclick="allowSelection('${shift}-${day}')">
+                            </div>
+                            <div class="check-box">
+                                <div class="individual-check">
+                                    <p>Ida</p>
+                                    <input type="checkbox">
+                                </div>
+                                <div class="individual-check">
+                                    <p>Volta</p>
+                                    <input type="checkbox">
+                                </div>
+                            </div>
+                        </div>
+                    </#list>
+                </div>
+                <select name="driver">
+                        <#list drivers as driver>
+                            <option value="${driver.id}">${driver.name + " " + driver.surname}</option>
+                        </#list>
+                </select>
+                <select name="vehicle">
+                        <#list vehicles as vehicle>
+                            <option value="${vehicle.id}">${vehicle.license_plate}</option>
+                        </#list>
+                </select>
+            </div>
+            <div class="stops-box" hidden="hidden"></div>
         </div>
     </#list>
 </section>

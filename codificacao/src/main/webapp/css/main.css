@@ -73,3 +73,50 @@ table tr td{
     background-color:#dcdcdc;
     padding:10px;
 }
+
+.availability{
+    display: flex;
+    flex-flow: column;
+}
+
+.day-shifts-div{
+    display: inherit;
+    flex-flow: row;
+    justify-content: space-evenly;
+}
+
+.day-div{
+    display: inherit;
+    flex-flow: column;
+    margin: 3px;
+    min-width: 380px;
+    background-color: #005cbf;
+}
+
+.shift-div{
+    display: inherit;
+    flex-flow: column;
+}
+
+.check-box{
+    display: inherit;
+    flex-flow: column;
+    background-color: #9fcdff;
+}
+
+.individual-shift-check{
+    display: inherit;
+    flex-flow: column;
+    background-color: #5a6268;
+    width: 50%;
+    padding-right: 5px;
+}
+
+.individual-check{
+    display: inherit;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1px;
+}
+
+
