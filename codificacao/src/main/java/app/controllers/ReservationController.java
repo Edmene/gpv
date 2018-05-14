@@ -27,6 +27,10 @@ public class ReservationController extends GenericAppController {
         LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
                 Integer.parseInt(getId())).include(Plan.class);
         List<Map<String, Object>> destinationPlanMap = destinationPlanLazyList.toMaps();
+        for(Map<String, Object> destinationMap : destinationPlanMap){
+            destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
+                    .get(0).getInteger("num_passengers"));
+        }
 
         view("destinationPlanMapList", destinationPlanMap,
                 "destination", getId());
@@ -110,42 +114,39 @@ public class ReservationController extends GenericAppController {
             reservationList.add(reservation);
         }
 
-        Boolean allowReservations = true;
-        for(Reservation reservation : reservationList){
-            Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
-                            "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
-                            "plan_id = ? AND driver_id = ? AND vehicle_id = ? AND stop_id = ?",
-                    reservation.getDate("date"),
-                    reservation.getInteger("passenger_id"),
-                    reservation.getInteger("day"),
-                    reservation.getInteger("shift"),
-                    reservation.getInteger("direction"),
-                    reservation.getInteger("plan_id"),
-                    reservation.getInteger("driver_id"),
-                    reservation.getInteger("vehicle_id"),
-                    reservation.getInteger("stop_id")).size();
-            if(numResults != 0){
-                allowReservations = false;
+        Boolean hasRepeatedReservations = true;
+        if(Plan.findById(Integer.parseInt(param("plan_id"))).getShort("available_reservations") >
+                CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
+                .get(0).getInteger("num_passengers")) {
+            for (Reservation reservation : reservationList) {
+                Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
+                                "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
+                                "plan_id = ? AND driver_id = ? AND vehicle_id = ? AND stop_id = ?",
+                        reservation.getDate("date"),
+                        reservation.getInteger("passenger_id"),
+                        reservation.getInteger("day"),
+                        reservation.getInteger("shift"),
+                        reservation.getInteger("direction"),
+                        reservation.getInteger("plan_id"),
+                        reservation.getInteger("driver_id"),
+                        reservation.getInteger("vehicle_id"),
+                        reservation.getInteger("stop_id")).size();
+                if (numResults != 0) {
+                    hasRepeatedReservations = false;
+                }
+                else {
+                    reservation.insert();
+                }
             }
-        }
 
-        if(!allowReservations){
-            throw new RuntimeException("One or more reservations already present in database please" +
-                    "restart the process.");
-        }
-        else {
-            for(Reservation reservation : reservationList){
-                reservation.insert();
+            if (!hasRepeatedReservations) {
+                flash("message","Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
             }
-            PassengerPlans passengerPlans = new PassengerPlans();
-            passengerPlans.set("passenger_id", session().get("id"),
-                    "destination_id", Integer.parseInt(param("destination")),
-                    "plan_id", Integer.parseInt(param("plan")));
-            passengerPlans.insert();
+            else {
+                flash("message", "Reservas registradas com sucesso");
+            }
+            redirect(HomeController.class);
         }
-
-        flash("message", "Reservas registradas com sucesso");
-        redirect(HomeController.class);
 
     }
 
