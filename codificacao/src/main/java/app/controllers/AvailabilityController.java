@@ -8,8 +8,13 @@ import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
+import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AvailabilityController extends GenericAppController {
 
@@ -82,11 +87,55 @@ public class AvailabilityController extends GenericAppController {
 
     @Override
     public void newForm(){
+        ArrayList<TreeMap<String,Object>> shifts = new ArrayList<>();
+        String shiftValues[]= {"12","18","04"};
+        for(int i=0;i<Shift.values().length;i++){
+            TreeMap<String, Object> shift = new TreeMap<>();
+            shift.put("name",Shift.values()[i]);
+            boolean hasStops =false;
+            if(i == 0){
+                if(Stop.find("time < ? AND time >= ?",
+                        LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+                    hasStops=true;
+                }
+            }
+            else {
+                if (i == 1){
+                    if(Stop.find("time < ? AND time >= ?",
+                            LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[i-1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+                        hasStops = true;
+                    }
+                }
+                if (i == 2){
+                    if(Stop.find("time >= ?",
+                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+                        hasStops = true;
+                    }
+                    else {
+                        if(Stop.find("time >= ? AND time < ?",
+                                LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                                LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+                            hasStops = true;
+                        }
+                    }
+
+                }
+            }
+            if(hasStops){
+                shift.put("hasStops", true);
+            }
+            else {
+                shift.put("hasStops", false);
+            }
+            shifts.add(shift);
+        }
         view("drivers", Driver.findAll().toMaps(),
                 "vehicles", Vehicle.findAll().toMaps(),
                 "plan", getId(),
                 "days", Day.values(),
-                "shifts", Shift.values(),
+                "shifts", shifts,
                 "directions", Direction.values());
     }
 

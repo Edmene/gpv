@@ -11,8 +11,8 @@
                     <#list shifts as shift>
                         <div class="individual-check">
                             <div class="individual-shift-check">
-                                <p>${shift}</p>
-                                <input type="checkbox" value="${shift}" name="${shift}${day}" onclick="allowSelection('${shift}-${day}')">
+                                <p>${shift.name}</p>
+                                <input type="checkbox" value="${shift.name}" name="${shift.name}${day}" onclick="allowSelection('${shift.name}-${day}')">
                             </div>
                             <div class="check-box">
                                 <div class="individual-check">
@@ -61,7 +61,7 @@
             <td>
                 <select name="shift">
                     <#list shifts as shift>
-                        <option value="${shift}">${shift}</option>
+                        <option value="${shift.name}">${shift.name}</option>
                     </#list>
                 </select>
             </td>
