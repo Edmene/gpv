@@ -20,6 +20,12 @@ public class AvailabilityController extends GenericAppController {
                 "directions", Direction.values());
     }
 
+    public void getPossibleStops(){
+        if(xhr()){
+
+        }
+    }
+
     @POST
     public void addStop(){
         List<Map<String, Object>> stopList = Stop.findAll().toMaps();

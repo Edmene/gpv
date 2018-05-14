@@ -3,6 +3,18 @@
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
 
+<section id="availability-selection">
+    <#list days as day>
+        <div class="day-div" id="${day}">
+            <#list shifts as shift>
+                <input type="checkbox" value="${shift}" name="${shift}${day}" onclick="allowSelection('${shift}-${day}')">
+            </#list>
+            <div class="check-box"></div>
+        </div>
+    </#list>
+</section>
+
+
 <@form action="add_stop" method="post">
     <table style="margin:30px" >
         <tr>
