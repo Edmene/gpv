@@ -108,8 +108,9 @@ table tr td{
     display: inherit;
     flex-flow: column;
     background-color: #5a6268;
-    width: 50%;
+    width: 100%;
     padding-right: 5px;
+    padding-bottom: 20%;
 }
 
 .individual-check{

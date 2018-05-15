@@ -1,18 +1,22 @@
 <@content for="title">Adicionar nova disponibilidade</@content>
+<script src="${context_path}/js/destinationTable.js" type="text/javascript"></script>
 
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
 
 <section id="availability-selection" class="availability">
     <#list days as day>
-        <div class="day-div" id="${day}">
-            <div class="day-shifts-div" id="${day}">
+        <div class="day-div">
+            <div class="day-shifts-div">
                 <div class="shift-div">
                     <#list shifts as shift>
                         <div class="individual-check">
-                            <div class="individual-shift-check">
+                            <div class="individual-shift-check" id="${day}${shift.name}">
                                 <p>${shift.name}</p>
-                                <input type="checkbox" value="${shift.name}" name="${shift.name}${day}" onclick="allowSelection('${shift.name}-${day}')">
+                                <input type="checkbox"
+                                       <#if shift.hasStops == true>
+                                       <#else>disabled="disabled"</#if>
+                                       value="${shift.name}" name="${shift.name}${day}" onclick="allowSelection('${shift.name}-${day}')">
                             </div>
                             <div class="check-box">
                                 <div class="individual-check">
