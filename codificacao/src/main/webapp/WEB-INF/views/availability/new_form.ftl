@@ -7,6 +7,7 @@
 <section id="availability-selection" class="availability">
     <#list days as day>
         <div class="day-div">
+            <span class="day-name">${day}</span>
             <div class="day-shifts-div">
                 <div class="shift-div">
                     <#list shifts as shift>
@@ -31,8 +32,14 @@
                             <option value="${vehicle.id}">${vehicle.license_plate}</option>
                         </#list>
                 </select>
+                <button onclick="showStops(${day})">Mostrar Paradas</button>
             </div>
-            <div class="stops-box" hidden="hidden"></div>
+            <div class="stops-box" id="stopsOf${day}">
+                <div class="individual-check">
+                    <p>Paradas Disponiveis</p>
+                    <select name="stops${day}" id="stops${day}"></select>
+                </div>
+            </div>
         </div>
     </#list>
 </section>

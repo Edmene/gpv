@@ -120,4 +120,16 @@ table tr td{
     margin: 1px;
 }
 
+.stops-box{
+    display: none;
+    visibility: hidden;
+    flex-direction: row;
+    margin: 1px;
+    justify-content: center;
+}
+
+.day-name{
+    text-align: center;
+    background-color: #1e7e34;
+}
 
