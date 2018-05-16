@@ -54,10 +54,9 @@ function showStops(dayId){
         //let path = window.location.pathname;
 
         req.open("GET", "http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops");
+        req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         req.send();
         req.response;
-
-        console.log(req.response);
 
     }
     else {

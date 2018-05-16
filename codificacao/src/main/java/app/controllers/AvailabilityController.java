@@ -27,7 +27,7 @@ public class AvailabilityController extends GenericAppController {
 
     public void stops(){
         if(xhr()){
-            respond("passou").contentType("text/xml").status(200);
+            respond("passouXHR").contentType("text/xml").status(200);
         }
     }
 
