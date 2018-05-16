@@ -32,7 +32,7 @@
                             <option value="${vehicle.id}">${vehicle.license_plate}</option>
                         </#list>
                 </select>
-                <button onclick="showStops(${day})">Mostrar Paradas</button>
+                <button onclick="showStops('${day}')" id="button-${day}">Mostrar Paradas</button>
             </div>
             <div class="stops-box" id="stopsOf${day}">
                 <div class="individual-check">

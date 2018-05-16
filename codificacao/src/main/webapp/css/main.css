@@ -128,6 +128,14 @@ table tr td{
     justify-content: center;
 }
 
+.stops-box-show{
+    display: inherit;
+    visibility: visible;
+    flex-direction: row;
+    margin: 1px;
+    justify-content: center;
+}
+
 .day-name{
     text-align: center;
     background-color: #1e7e34;

@@ -25,9 +25,9 @@ public class AvailabilityController extends GenericAppController {
                 "directions", Direction.values());
     }
 
-    public void getPossibleStops(){
+    public void stops(){
         if(xhr()){
-
+            respond("passou").contentType("text/xml").status(200);
         }
     }
 
