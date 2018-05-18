@@ -41,6 +41,10 @@ function allowSelection(elementId) {
     }
 }
 
+function discoverShifts(dayShift) {
+    return document.getElementById(dayShift + "checkbox") !== null;
+}
+
 function showStops(dayId){
     let divOfStops = document.getElementById("stopsOf"+dayId);
     let buttonDay = document.getElementById("button-"+dayId);
@@ -50,34 +54,15 @@ function showStops(dayId){
         buttonDay.innerText = "Esconder Paradas"
         divOfStops.className = "stops-box-show";
 
-        //let req = new XMLHttpRequest();
-        //let path = window.location.pathname;
-
-        /*
-        req.open("GET", "http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops");
-        req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        req.send();
-        */
-        //let responseValues = JSON.parse(req.responseText);
-        /*
-        let jsonRequest = jQuery.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops");
-        let json;
-        json = jsonRequest.responseJSON;
-
-        console.log(jsonRequest.responseJSON);
-
-        //let select = document.getElementById("stops"+dayId);
-        for (let element in json){
-            alert(json[element].time);
-            //select.appendChild(document.createElement("option").value=element.time)
-        }
-        */
-
         let select = document.getElementById("stops"+dayId);
 
-        $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", function(data) {
-            console.log(data);
-            var items = [];
+        let jsonSent = {
+            morning: discoverShifts(dayId+"Manha"),
+            afternoon: discoverShifts(dayId+"Tarde"),
+            night: discoverShifts(dayId+"Noite")
+        };
+
+        $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", JSON.stringify(jsonSent), function(data) {
             $.each(data, function( key, val ) {
                 //items.push( "<li id='" + key + "'>" + val + "</li>" );
                 //alert(key+" "+val[key]);
@@ -90,18 +75,12 @@ function showStops(dayId){
                         option.innerText += val.addresses[0].name.toString();
                     }
                     if(key.toString() === "time"){
-                        option.innerText += val;
+                        let date = new Date(val);
+                        option.innerText += + date.getHours() + ":" + date.getMinutes() + " ";
                     }
-                    //console.log(val);
                 })
                 select.appendChild(option);
             });
-            /*
-            $( "<ul/>", {
-                "class": "my-new-list",
-                html: items.join( "" )
-            }).appendTo( "body" );
-            */
         });
     }
     else {

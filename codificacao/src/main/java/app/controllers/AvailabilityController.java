@@ -3,11 +3,16 @@ package app.controllers;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
+import app.json.ShiftsEnableJson;
 import app.models.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +32,36 @@ public class AvailabilityController extends GenericAppController {
 
     public void stops(){
         if(xhr()){
-            respond(Stop.findAll().include(Address.class).toJson(false)).contentType("application/json").status(200);
+            String shiftValues[]= {"12","18","04"};
+
+            Map<String, String> map = params1st();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+            ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
+                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
+
+            String response = "";
+            //Check if exists stops in the morning.
+            LazyList<Stop> lazyList = Stop.find("");
+            if(shiftsEnableJson.morning) {
+                lazyList = Stop.find("time < ? AND time >= ?",
+                        LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class);
+            }
+            if(shiftsEnableJson.afternoon){
+                lazyList.addAll(Stop.find("time < ? AND time >= ?",
+                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
+            }
+            if(shiftsEnableJson.night){
+                lazyList.addAll(Stop.find("time >= ?",
+                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
+                lazyList.addAll(Stop.find("time >= ? AND time < ?",
+                            LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
+            }
+            respond(lazyList.toJson(false)).contentType("application/json").status(200);
         }
     }
 
