@@ -1,3 +1,21 @@
+$(document).ready(function () {
+    resetForms();
+});
+
+function resetForms() {
+    let input = document.getElementsByTagName("input");
+    days = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"];
+    shifts = ["Manha", "Tarde", "Noite"];
+    for (let a in days){
+        for(let b in shifts){
+            let inputToReset = input.getElementsByName(days[a]+shifts[b])
+            inputToReset.checked = false;
+        }
+    }
+
+
+}
+
 function allowSelection(elementId) {
     let dayShiftDiv = document.getElementById(elementId);
 
@@ -78,7 +96,7 @@ function showStops(dayId){
                         let date = new Date(val);
                         option.innerText += + date.getHours() + ":" + date.getMinutes() + " ";
                     }
-                })
+                });
                 select.appendChild(option);
             });
         });
