@@ -123,7 +123,7 @@ table tr td{
 .stops-box{
     display: none;
     visibility: hidden;
-    flex-direction: row;
+    flex-direction: column;
     margin: 1px;
     justify-content: center;
 }
@@ -131,7 +131,7 @@ table tr td{
 .stops-box-show{
     display: inherit;
     visibility: visible;
-    flex-direction: row;
+    flex-direction: column;
     margin: 1px;
     justify-content: center;
 }
