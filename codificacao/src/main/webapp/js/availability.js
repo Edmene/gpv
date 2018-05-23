@@ -13,7 +13,6 @@ function resetForms() {
         }
     }
 
-
 }
 
 function allowSelection(elementId) {
