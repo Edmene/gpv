@@ -1,5 +1,6 @@
 <@content for="title">Adicionar nova disponibilidade</@content>
 <script src="${context_path}/js/availability.js" type="text/javascript"></script>
+<script src="${context_path}/js/destinationTable.js" type="text/javascript"></script>
 
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
@@ -37,11 +38,15 @@
             <div class="stops-box" id="stopsOf${day}">
                 <div class="individual-check">
                     <p>Paradas Disponiveis</p>
-                    <select name="stops${day}" id="stops${day}"></select>
+                    <select name="stops${day}" id="stops${day}"></select><button id="select_add" onclick="addItem()">Adicionar parada</button>
                 </div>
             </div>
         </div>
     </#list>
+    <div class="day-shifts-div" id="confirmation-row">
+        <label>Confirmar</label>
+        <input type="checkbox" id="confirmation-check">
+    </div>
 </section>
 
 

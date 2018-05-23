@@ -42,8 +42,9 @@ public class AvailabilityController extends GenericAppController {
                     String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
 
             String response = "";
-            //Check if exists stops in the morning.
+            //Forces a selection of stops in order to initialize the list.
             LazyList<Stop> lazyList = Stop.find("");
+            lazyList.removeAll(lazyList);
             if(shiftsEnableJson.morning) {
                 lazyList = Stop.find("time < ? AND time >= ?",
                         LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),

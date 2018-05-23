@@ -4,12 +4,9 @@ $(document).ready(function () {
 
 function resetForms() {
     let input = document.getElementsByTagName("input");
-    days = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"];
-    shifts = ["Manha", "Tarde", "Noite"];
-    for (let a in days){
-        for(let b in shifts){
-            let inputToReset = input.getElementsByName(days[a]+shifts[b])
-            inputToReset.checked = false;
+    for (let a in input){
+        if(input[a].type === "checkbox"){
+            input[a].checked = false;
         }
     }
 
@@ -79,34 +76,43 @@ function showStops(dayId){
             night: discoverShifts(dayId+"Noite")
         };
 
-        $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", JSON.stringify(jsonSent), function(data) {
-            $.each(data, function( key, val ) {
-                //items.push( "<li id='" + key + "'>" + val + "</li>" );
-                //alert(key+" "+val[key]);
-                let option = document.createElement("option");
-                $.each(val, function (key, val) {
-                    if(key.toString() === "id"){
-                        option.value = val;
-                    }
-                    if(key.toString() === "parents"){
-                        option.innerText += val.addresses[0].name.toString();
-                    }
-                    if(key.toString() === "time"){
-                        let date = new Date(val);
-                        option.innerText += + date.getHours() + ":" + date.getMinutes() + " ";
-                    }
+            $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", JSON.stringify(jsonSent), function (data) {
+                $.each(data, function (key, val) {
+                    //items.push( "<li id='" + key + "'>" + val + "</li>" );
+                    //alert(key+" "+val[key]);
+                    let option = document.createElement("option");
+                    $.each(val, function (key, val) {
+                        if (key.toString() === "id") {
+                            option.value = val;
+                        }
+                        if (key.toString() === "parents") {
+                            option.innerText += val.addresses[0].name.toString();
+                        }
+                        if (key.toString() === "time") {
+                            let date = new Date(val);
+                            option.innerText += +date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
+                        }
+                    });
+                    select.appendChild(option);
                 });
-                select.appendChild(option);
             });
-        });
     }
     else {
         divOfStops.style.display = "none";
         divOfStops.style.visibility = "hidden";
         buttonDay.innerText = "Mostrar Paradas";
         divOfStops.className = "stops-box";
+
+        let select = document.getElementById("stops"+dayId);
+        for (let i = select.childElementCount-1; i >= 0; i--){
+            select.removeChild(select.children[i]);
+        }
     }
 
+
+}
+
+function formJSON(){
 
 }
 

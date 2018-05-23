@@ -141,3 +141,7 @@ table tr td{
     background-color: #1e7e34;
 }
 
+#confirmation-row{
+    justify-content: flex-end;
+}
+
