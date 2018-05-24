@@ -54,6 +54,8 @@ function allowSelection(elementId) {
     else {
         let checkboxDiv = document.getElementById(elementId+"checkbox");
         checkboxDiv.parentElement.removeChild(checkboxDiv);
+
+        updateStops(elementId);
     }
 }
 

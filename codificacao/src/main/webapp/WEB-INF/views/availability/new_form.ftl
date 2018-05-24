@@ -17,7 +17,7 @@
                                 <input type="checkbox"
                                        <#if shift.hasStops == true>
                                        <#else>disabled="disabled"</#if>
-                                       value="${shift.name}" name="${shift.name}${day}" onclick="allowSelection('${day}-${shift.name}')">
+                                       value="${shift.name}" name="${shift.name}${day}" onchange="allowSelection('${day}-${shift.name}')">
                             </div>
                         </div>
                     </#list>
