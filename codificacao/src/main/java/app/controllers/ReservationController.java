@@ -27,11 +27,14 @@ public class ReservationController extends GenericAppController {
         LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
                 Integer.parseInt(getId())).include(Plan.class);
         List<Map<String, Object>> destinationPlanMap = destinationPlanLazyList.toMaps();
-        for(Map<String, Object> destinationMap : destinationPlanMap){
-            destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
-                    .get(0).getInteger("num_passengers"));
+        if(CountPassenger.findAll().size() > 0){
+            for(Map<String, Object> destinationMap : destinationPlanMap) {
+                if (CountPassenger.find("plan_id = ?", destinationMap.get("plan_id")).size() > 0){
+                    destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
+                            .get(0).getInteger("num_passengers"));
+                }
+            }
         }
-
         view("destinationPlanMapList", destinationPlanMap,
                 "destination", getId());
     }
@@ -114,10 +117,31 @@ public class ReservationController extends GenericAppController {
             reservationList.add(reservation);
         }
 
-        Boolean hasRepeatedReservations = true;
-        if(Plan.findById(Integer.parseInt(param("plan_id"))).getShort("available_reservations") >
-                CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
-                .get(0).getInteger("num_passengers")) {
+        boolean hasRepeatedReservations = true;
+
+        if(CountPassenger.findAll().size() > 0){
+            hasRepeatedReservations = sendReservationsQuery(reservationList);
+        }
+        else{
+            if((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations")  >
+                    CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
+                    .get(0).getInteger("num_passengers")){
+                hasRepeatedReservations = sendReservationsQuery(reservationList);
+            }
+        }
+
+            if (!hasRepeatedReservations) {
+                flash("message","Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
+            }
+            else {
+                flash("message", "Reservas registradas com sucesso");
+            }
+            redirect(HomeController.class);
+
+        }
+
+        private boolean sendReservationsQuery(ArrayList<Reservation> reservationList){
+            boolean hasRepeatedReservations = true;
             for (Reservation reservation : reservationList) {
                 Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
                                 "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
@@ -138,16 +162,7 @@ public class ReservationController extends GenericAppController {
                     reservation.insert();
                 }
             }
-
-            if (!hasRepeatedReservations) {
-                flash("message","Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
-            }
-            else {
-                flash("message", "Reservas registradas com sucesso");
-            }
-            redirect(HomeController.class);
+            return hasRepeatedReservations;
         }
-
-    }
 
 }

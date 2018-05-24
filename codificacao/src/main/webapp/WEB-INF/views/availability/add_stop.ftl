@@ -18,6 +18,7 @@
                     <option value="${stop.id}" label="${stop.address_id}">${stop.time?string["HH:mm"]}|${stop.address.name} ${stop.address.extra}</option>
                 </#if>
         </#if>
+        <option value="${stop.id}" label="${stop.address_id}">${stop.time?string["HH:mm"]}|${stop.address.name} ${stop.address.extra}</option>
 
     </#list>
 </select>
