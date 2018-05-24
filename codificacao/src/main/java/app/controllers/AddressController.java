@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.models.Address;
 import app.models.City;
+import app.models.State;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -13,13 +14,30 @@ public class AddressController extends GenericAppController {
 
     //Partir do estado para cidade e depois permitir o cadastro.
 
+
     @Override
     public void index(){
+        view("states", State.findAll());
+    }
+
+    public void cities(){
+        List<Map<String, Object>> citiesList = City.find("state_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("cities", citiesList);
+    }
+
+    public void addresses(){
+
+        List<Map<String, Object>> addressList = Address.find("city_id = ?",
+                Integer.parseInt(getId())).toMaps();
+
+        /*
         List<Map<String, Object>> addressList = Address.findAll().toMaps();
         for (Map<String, Object> address : addressList){
             address.put("city", City.findById(address.get("city_id")).toMap());
         }
-        view("addresses", addressList);
+        */
+        view("addresses", addressList, "city", City.findById(Integer.parseInt(getId())));
     }
 
     @Override @POST
@@ -34,13 +52,13 @@ public class AddressController extends GenericAppController {
             redirect(AddressController.class, "new_form");
         }else{
             flash("message", "Novo endereco cadastrado: " + address.get("name"));
-            redirect(AddressController.class);
+            redirect(AddressController.class, "addresses", address.get("city_id"));
         }
     }
 
     @Override
     public void newForm(){
-        view("cities", City.findAll().toMaps());
+        view("city", getId());
     }
 
     @Override @PUT
@@ -62,11 +80,11 @@ public class AddressController extends GenericAppController {
         address.set("id", Integer.parseInt(param("id")));
         if(!address.save()){
             flash("message", "Something went wrong, please restart the process");
-            redirect(AddressController.class);
+            redirect(AddressController.class, "addresses", address.get("city_id"));
         }
         else{
             flash("message", "Endereco alterado " + address.get("name"));
-            redirect(AddressController.class);
+            redirect(AddressController.class, "addresses", address.get("city_id"));
         }
     }
 

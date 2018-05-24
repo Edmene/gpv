@@ -12,21 +12,7 @@
                 <span class="error">${(flasher.errors.name)!}</span>
             </td>
         </tr>
-        <tr>
-            <td>Estado:</td>
-            <td>
-                <select name="state_id">
-                <#list states as state>
-                    <#if city.state_id == state.id>
-                    <option value="${state.id}" selected="selected">${state.acronym}</option>
-                    <#else>
-                    <option value="${state.id}">${state.acronym}</option>
-                    </#if>
-                </#list>
-                </select> *<span class="error">${(flasher.errors.state_id)!}</span>
-
-            </td>
-        </tr>
+        <input type="hidden" name="state_id" value="${city.state_id}">
         <tr>
             <td><input type="hidden" name="id" value="${city.id}"</td>
             <td><@link_to>Cancel</@link_to> | <input type="submit" value="Alterar cidade"></td>

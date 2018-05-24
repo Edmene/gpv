@@ -13,11 +13,13 @@ public class CityController extends GenericAppController {
 
     @Override
     public void index(){
-        List<Map<String, Object>> citiesList = City.findAll().toMaps();
-        for (Map<String, Object> city : citiesList){
-            city.put("state", State.findById(city.get("state_id")).toMap());
-        }
-        view("cities", citiesList);
+        view("states", State.findAll());
+    }
+
+    public void cities(){
+        List<Map<String, Object>> citiesList = City.find("state_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("cities", citiesList, "state", State.findById(Integer.parseInt(getId())));
     }
 
     @Override @POST
@@ -32,13 +34,13 @@ public class CityController extends GenericAppController {
             redirect(CityController.class, "new_form");
         }else{
             flash("message", "New book was added: " + city.get("name"));
-            redirect(CityController.class);
+            redirect(CityController.class, "cities", city.get("state_id"));
         }
     }
 
     @Override
     public void newForm(){
-        view("states", State.findAll().toMaps());
+        view("state", getId());
     }
 
     @Override @PUT
@@ -60,11 +62,11 @@ public class CityController extends GenericAppController {
         city.set("id", Integer.parseInt(param("id")));
         if(!city.save()){
             flash("message", "Something went wrong, please restart the process");
-            redirect(CityController.class);
+            redirect(CityController.class, "cities", city.get("state_id"));
         }
         else{
             flash("message", "Cidade alterada " + city.get("name"));
-            redirect(CityController.class);
+            redirect(CityController.class, "cities", city.get("state_id"));
         }
     }
 

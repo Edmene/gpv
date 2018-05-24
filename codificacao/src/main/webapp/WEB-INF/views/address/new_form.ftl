@@ -18,17 +18,7 @@
                 <span class="error">${(flasher.errors.extra)!}</span>
             </td>
         </tr>
-        <tr>
-            <td>Cidade:</td>
-            <td>
-                <select name="city_id">
-                <#list cities as city>
-                    <option value="${city.id}">${city.name}</option>
-                </#list>
-                </select> *<span class="error">${(flasher.errors.city_id)!}</span>
-
-            </td>
-        </tr>
+        <input type="hidden" name="city_id" value="${city}">
         <tr>
             <td></td>
             <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo endereco"></td>

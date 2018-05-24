@@ -4,7 +4,7 @@
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
 
-<section id="availability-selection" class="availability">
+<div id="availability-selection" class="availability">
     <#list days as day>
         <div class="day-div">
             <span class="day-name">${day}</span>
@@ -52,7 +52,7 @@
         <label>Confirmar</label>
         <input type="checkbox" id="confirmation-check">
     </div>
-</section>
+</div>
 
 
 <@form action="add_stop" method="post">
