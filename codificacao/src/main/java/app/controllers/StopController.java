@@ -1,6 +1,8 @@
 package app.controllers;
 
 import app.models.Address;
+import app.models.City;
+import app.models.State;
 import app.models.Stop;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -16,11 +18,29 @@ public class StopController extends GenericAppController{
 
     @Override
     public void index(){
-        List<Map<String, Object>> stopList = Stop.findAll().toMaps();
+        view("states", State.findAll());
+    }
+
+    public void cities(){
+        List<Map<String, Object>> citiesList = City.find("state_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("cities", citiesList);
+    }
+
+    public void addresses(){
+
+        List<Map<String, Object>> addressList = Address.find("city_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("addresses", addressList, "city", City.findById(Integer.parseInt(getId())));
+    }
+
+    public void stops(){
+        List<Map<String, Object>> stopList = Stop.find("address_id = ?",
+                Integer.parseInt(getId())).toMaps();
         for (Map<String, Object> stop : stopList){
             stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
-        view("stops", stopList);
+        view("stops", stopList, "address", getId());
     }
 
     @Override @POST
@@ -36,13 +56,13 @@ public class StopController extends GenericAppController{
             redirect(StopController.class, "new_form");
         }else{
             flash("message", "Nova parada cadastrada");
-            redirect(StopController.class);
+            redirect(StopController.class, "stops", stop.get("address_id"));
         }
     }
 
     @Override
     public void newForm(){
-        view("addresses", Address.findAll().toMaps());
+        view("address", getId());
     }
 
     @Override @PUT
@@ -65,11 +85,11 @@ public class StopController extends GenericAppController{
         stop.setTime("time",Time.valueOf(param("time")+":00"));
         if(!stop.save()){
             flash("message", "Something went wrong, please restart the process");
-            redirect(StopController.class);
+            redirect(StopController.class, "stops", stop.get("address_id"));
         }
         else{
             flash("message", "Parada alterada");
-            redirect(StopController.class);
+            redirect(StopController.class, "stops", stop.get("address_id"));
         }
     }
 

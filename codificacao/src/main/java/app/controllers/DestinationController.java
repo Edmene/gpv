@@ -1,7 +1,6 @@
 package app.controllers;
 
-import app.models.Address;
-import app.models.Destination;
+import app.models.*;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -15,11 +14,29 @@ public class DestinationController extends GenericAppController {
 
     @Override
     public void index(){
-        List<Map<String, Object>> destinationList = Destination.findAll().toMaps();
-        for (Map<String, Object> destination : destinationList){
-            destination.put("address", Address.findById(destination.get("address_id")).toMap());
+        view("states", State.findAll());
+    }
+
+    public void cities(){
+        List<Map<String, Object>> citiesList = City.find("state_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("cities", citiesList);
+    }
+
+    public void addresses(){
+
+        List<Map<String, Object>> addressList = Address.find("city_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        view("addresses", addressList, "city", City.findById(Integer.parseInt(getId())));
+    }
+
+    public void destinations(){
+        List<Map<String, Object>> destinationList = Destination.find("address_id = ?",
+                Integer.parseInt(getId())).toMaps();
+        for (Map<String, Object> stop : destinationList){
+            stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
-        view("destinations", destinationList);
+        view("destinations", destinationList, "address", getId());
     }
 
     @Override @POST
@@ -34,13 +51,13 @@ public class DestinationController extends GenericAppController {
             redirect(DestinationController.class, "new_form");
         }else{
             flash("message", "Novo destino cadastrado: " + destination.get("name"));
-            redirect(DestinationController.class);
+            redirect(DestinationController.class, "destinations", destination.get("address_id"));
         }
     }
 
     @Override
     public void newForm(){
-        view("addresses", Address.findAll().toMaps());
+        view("address", getId());
     }
 
     @Override @PUT
@@ -62,11 +79,11 @@ public class DestinationController extends GenericAppController {
         destination.set("id", Integer.parseInt(param("id")));
         if(!destination.save()){
             flash("message", "Something went wrong, please restart the process");
-            redirect(DestinationController.class);
+            redirect(DestinationController.class, "destinations", destination.get("address_id"));
         }
         else{
             flash("message", "Destino alterado " + destination.get("name"));
-            redirect(DestinationController.class);
+            redirect(DestinationController.class, "destinations", destination.get("address_id"));
         }
     }
 

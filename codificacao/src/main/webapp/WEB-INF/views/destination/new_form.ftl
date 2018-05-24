@@ -12,17 +12,7 @@
                 <span class="error">${(flasher.errors.name)!}</span>
             </td>
         </tr>
-        <tr>
-            <td>Endereco:</td>
-            <td>
-                <select name="address_id">
-                <#list addresses as address>
-                    <option value="${address.id}">${address.name}</option>
-                </#list>
-                </select> *<span class="error">${(flasher.errors.address_id)!}</span>
-
-            </td>
-        </tr>
+        <input type="hidden" name="address_id" value="${address}">
         <tr>
             <td></td>
             <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar nova cidade"></td>

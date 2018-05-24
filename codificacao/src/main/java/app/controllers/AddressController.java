@@ -30,13 +30,6 @@ public class AddressController extends GenericAppController {
 
         List<Map<String, Object>> addressList = Address.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
-
-        /*
-        List<Map<String, Object>> addressList = Address.findAll().toMaps();
-        for (Map<String, Object> address : addressList){
-            address.put("city", City.findById(address.get("city_id")).toMap());
-        }
-        */
         view("addresses", addressList, "city", City.findById(Integer.parseInt(getId())));
     }
 

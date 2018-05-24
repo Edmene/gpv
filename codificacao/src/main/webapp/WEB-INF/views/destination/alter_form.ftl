@@ -12,21 +12,7 @@
                 <span class="error">${(flasher.errors.name)!}</span>
             </td>
         </tr>
-        <tr>
-            <td>Endereco:</td>
-            <td>
-                <select name="address_id">
-                <#list addresses as address>
-                    <#if destination.address_id == address.id>
-                    <option value="${address.id}" selected="selected">${address.name}</option>
-                    <#else>
-                    <option value="${address.id}">${address.name}</option>
-                    </#if>
-                </#list>
-                </select> *<span class="error">${(flasher.errors.address_id)!}</span>
-
-            </td>
-        </tr>
+        <input type="hidden" name="address_id" value="${destination.address_id}">
         <tr>
             <td><input type="hidden" name="id" value="${destination.id}"</td>
             <td><@link_to>Cancel</@link_to> | <input type="submit" value="Alterar destino"></td>
