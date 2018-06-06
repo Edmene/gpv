@@ -7,16 +7,12 @@
 }
 
 html, body{
-	background:white;
+	background:#dad7cd;
 }
 
 a{
 	text-decoration:none;
 	outline:none;
-}
-
-a:hover{
-	text-decoration:underline;
 }
 
 p{
@@ -141,3 +137,48 @@ table tr td{
     justify-content: flex-end;
 }
 
+.main-center{
+    display: flex;
+    justify-content: center;
+}
+
+.main-row{
+    display: inherit;
+    flex-flow: column;
+    text-align: center;
+    justify-content: center;
+}
+
+.centered-menu{
+    display: inherit;
+    flex-flow: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.bt-a{
+    display: block;
+    text-decoration: none;
+    background-color: #2e5266;
+    color: #ffff;
+    margin: 2px;
+    padding: 1px;
+    border: 3px solid #484538;
+    border-radius: 0.2%;
+    width: 20%;
+    justify-self: flex-end;
+}
+
+.bt-a:hover{
+    background-color: #13293d;
+}
+
+.bt-a:focus{
+    background-color: #13293d;
+}
+
+#56a3a6
+#484538
+#2e5266
+#dad7cd
+#13293d

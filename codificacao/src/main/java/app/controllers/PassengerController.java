@@ -57,14 +57,14 @@ public class PassengerController extends GenericAppController {
 
             if (!passenger.insert()) {
                 user.setId(u.get(0).getId()).delete();
-                flash("message", "Something went wrong, please  fill out all fields " + passenger);
+                flash("message", "Algum erro aconteceu no cadastro");
                 flash("errors", passenger.errors());
                 flash("params", params1st());
-                redirect(PassengerController.class, "new_form");
+                redirect(HomeController.class, "new_form");
             } else {
 
                 flash("message", "Novo passageiro cadastrado: " + passenger.get("name"));
-                redirect(PassengerController.class);
+                redirect(HomeController.class);
             }
         }
     }

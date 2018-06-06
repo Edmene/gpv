@@ -1,4 +1,4 @@
-<@content for="title">Simple Web App</@content>
+<@content for="title">Inicio</@content>
 
 <span class="error_message"><@flash name="message"/></span>
 
@@ -8,7 +8,18 @@
 <p>Not logged</p>
 </#if>
 
-<h2>Simple ActiveWeb application</h2>
+
+<main class="main-center">
+    <section class="main-row">
+        <h1>Bem Vindo ao Sistema de Gerenciamento de Planos de Viagens</h1>
+        <p>Para acessar a aplicação realize login</p>
+        <menu class="centered-menu">
+            <@link_to controller="login" class="bt-a">Login</@link_to>
+            <@link_to controller="passenger" action="new_form" class="bt-a">Novo usuário</@link_to>
+        </menu>
+    </section>
+</main>
+
 
 <ul>
     <li><@link_to controller="user">Usuarios CRUD example</@link_to></li>
