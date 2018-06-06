@@ -8,7 +8,7 @@
     <table style="margin:30px">
         <tr>
             <td>Nome de Usuario:</td>
-            <td><input type="text" required name="user_name" onkeyup="testUser(this)" <#if flasher??>
+            <td><input type="text" required name="user_name" onchange="testUser(this)" <#if flasher??>
                        value="${(flasher.params.user_name)!}"</#if>>
                             <span class="error">${(flasher.errors.user_name)!}</span>
             </td>

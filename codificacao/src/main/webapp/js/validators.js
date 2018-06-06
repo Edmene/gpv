@@ -6,7 +6,7 @@ function testUser(userNameInput) {
         }
         else{
             if(userNameInput.value !== "") {
-                document.getElementsByClassName("error_message").item(0).innerHTML = "nome: " + userNameInput.value + " indisponivel"
+                document.getElementsByClassName("error_message").item(0).innerHTML = "Nome de usuario: " + userNameInput.value + " indisponivel"
                 userNameInput.value = "";
             }
         }
