@@ -1,8 +1,10 @@
 package app.controllers;
 
 import app.controllers.authorization.PasswordHashing;
+import app.json.CheckUserJson;
 import app.models.Passenger;
 import app.models.User;
+import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
 import org.javalite.activeweb.annotations.DELETE;
@@ -11,8 +13,26 @@ import org.javalite.activeweb.annotations.PUT;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class PassengerController extends GenericAppController {
+
+    public void check(){
+        if(xhr()){
+            Map<String, String> map = params1st();
+            if(map.keySet().size() > 0) {
+                String userName = String.valueOf(map.keySet().toArray()[0]);
+                CheckUserJson userJson = new CheckUserJson(User.find("name = ?", userName).size() == 0);
+                Gson gson = new Gson();
+                respond(gson.toJson(userJson)).contentType("application/json").status(200);
+            }
+            else {
+                CheckUserJson userJson = new CheckUserJson(false);
+                Gson gson = new Gson();
+                respond(gson.toJson(userJson)).contentType("application/json").status(200);
+            }
+        }
+    }
 
     @Override
     public void index(){
@@ -33,39 +53,44 @@ public class PassengerController extends GenericAppController {
 
     @Override @POST
     public void create() throws Exception{
-        User user = new User();
-        user.fromMap(params1st());
-        PasswordHashing passwordHashing = new PasswordHashing();
-        user.set("extra", passwordHashing.getSalt());
-        user.set("password", passwordHashing.hashPassword(param("password").trim()));
-        user.set("name", param("user_name"));
-        if(!user.save()){
-            flash("message", "Something went wrong, please  fill out all fields");
-            flash("errors", user.errors());
-            flash("params", params1st());
-            redirect(PassengerController.class, "new_form");
+        if(User.find("name = ?", param("user_name")).size() == 0) {
+            User user = new User();
+            user.fromMap(params1st());
+            PasswordHashing passwordHashing = new PasswordHashing();
+            user.set("extra", passwordHashing.getSalt());
+            user.set("password", passwordHashing.hashPassword(param("password").trim()));
+            user.set("name", param("user_name"));
+            if (!user.save()) {
+                flash("message", "Something went wrong, please  fill out all fields");
+                flash("errors", user.errors());
+                flash("params", params1st());
+                redirect(PassengerController.class, "new_form");
+            } else {
+                LazyList<Model> u = User.find("name = ?", param("user_name"));
+                Passenger passenger = new Passenger();
+                passenger.fromMap(params1st());
+                passenger.set("user_id", u.get(0).getId());
+
+                LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
+                passenger.setDate("birth_date", date);
+                //u.get(0).add(passenger);
+
+                if (!passenger.insert()) {
+                    user.setId(u.get(0).getId()).delete();
+                    flash("message", "Algum erro aconteceu no cadastro");
+                    flash("errors", passenger.errors());
+                    flash("params", params1st());
+                    redirect(HomeController.class, "new_form");
+                } else {
+
+                    flash("message", "Novo passageiro cadastrado: " + passenger.get("name"));
+                    redirect(HomeController.class);
+                }
+            }
         }
         else {
-            LazyList<Model> u = User.find("name = ?", param("user_name"));
-            Passenger passenger = new Passenger();
-            passenger.fromMap(params1st());
-            passenger.set("user_id", u.get(0).getId());
-
-            LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
-            passenger.setDate("birth_date", date);
-            //u.get(0).add(passenger);
-
-            if (!passenger.insert()) {
-                user.setId(u.get(0).getId()).delete();
-                flash("message", "Algum erro aconteceu no cadastro");
-                flash("errors", passenger.errors());
-                flash("params", params1st());
-                redirect(HomeController.class, "new_form");
-            } else {
-
-                flash("message", "Novo passageiro cadastrado: " + passenger.get("name"));
-                redirect(HomeController.class);
-            }
+            flash("message", "Nome de usuario nao disponivel");
+            redirect(HomeController.class);
         }
     }
 

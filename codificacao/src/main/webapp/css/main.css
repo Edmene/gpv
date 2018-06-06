@@ -22,7 +22,7 @@ p{
 
 
 .header{
-    background-color:#fafad2;
+    background-color:#13293d;
     padding:20px;
 }
 
@@ -43,14 +43,14 @@ p{
 }
 
 .message{
-    background-color:#7fffd4;
+    background-color:#56a3a6;
     
     margin-top:10px;
     margin-bottom:10px;
 }
 
 .footer{
-    background-color:#fafad2;
+    background-color:#13293d;
     padding:20px;
 }
 
@@ -151,7 +151,7 @@ table tr td{
 
 .centered-menu{
     display: inherit;
-    flex-flow: column;
+    flex-flow: row;
     justify-content: center;
     align-content: center;
 }
@@ -159,12 +159,12 @@ table tr td{
 .bt-a{
     display: block;
     text-decoration: none;
-    background-color: #2e5266;
+    background-color: #56a3a6;
     color: #ffff;
     margin: 2px;
     padding: 1px;
     border: 3px solid #484538;
-    border-radius: 0.2%;
+    border-radius: 2px;
     width: 20%;
     justify-self: flex-end;
 }

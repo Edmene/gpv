@@ -8,7 +8,8 @@
     <table style="margin:30px">
         <tr>
             <td>Nome de Usuario:</td>
-            <td><input type="text" name="user_name" value="${(flasher.params.user_name)!}"> *
+            <td><input type="text" required name="user_name" onkeyup="testUser(this)" <#if flasher??>
+                       value="${(flasher.params.user_name)!}"</#if>>
                             <span class="error">${(flasher.errors.user_name)!}</span>
             </td>
         </tr>
@@ -71,10 +72,12 @@
         </tr>
         <tr>
             <td></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo usuario"></td>
+            <td><@link_to>Cancel</@link_to> | <button type="submit" id="confirm-button">Adicionar novo usuario</button></td>
 
         </tr>
     </table>
+
+
 </@form>
 
 

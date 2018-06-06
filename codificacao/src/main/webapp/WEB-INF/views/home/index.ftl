@@ -1,6 +1,6 @@
 <@content for="title">Inicio</@content>
 
-<span class="error_message"><@flash name="message"/></span>
+<span class="message"><@flash name="message"/></span>
 
 <#if (session.user) ??>
 <p>Logged in as: ${session.user}</p>
