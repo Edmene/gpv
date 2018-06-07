@@ -184,9 +184,21 @@ table tr td{
     height: 32px;
 }
 
-#log-img{
+#log-img{}
+
+#log-img-out{
+    transform: rotate(180deg);
+}
+
+.log-div{
+    color: white;
     width: 32px;
     height: 32px;
+    font-size: 75%;
+    text-align: center;
+    display: inherit;
+    flex-flow: column;
+    justify-content: space-between;
 }
 
 #56a3a6
@@ -194,3 +206,4 @@ table tr td{
 #2e5266
 #dad7cd
 #13293d
+#235789
