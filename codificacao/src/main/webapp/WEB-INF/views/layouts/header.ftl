@@ -1,4 +1,4 @@
 <header class="header">
-    <h1><a href="${context_path}">Simple ActiveWeb Project</a></h1>
+    <a href="${context_path}" id="home-link">Simple ActiveWeb Project</a>
 </header>
 
