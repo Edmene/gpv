@@ -24,6 +24,8 @@ p{
 .header{
     background-color:#13293d;
     padding:20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .content{
@@ -159,7 +161,7 @@ table tr td{
 .bt-a{
     display: block;
     text-decoration: none;
-    background-color: #56a3a6;
+    background-color: #235789;
     color: #ffff;
     margin: 2px;
     padding: 1px;
@@ -177,8 +179,14 @@ table tr td{
     background-color: #13293d;
 }
 
-#home-link{
-    color: #ffffff;
+#home-img{
+    width: 32px;
+    height: 32px;
+}
+
+#log-img{
+    width: 32px;
+    height: 32px;
 }
 
 #56a3a6
