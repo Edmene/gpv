@@ -80,17 +80,17 @@ public class PassengerController extends GenericAppController {
                     flash("message", "Algum erro aconteceu no cadastro");
                     flash("errors", passenger.errors());
                     flash("params", params1st());
-                    redirect(HomeController.class, "new_form");
+                    redirect(PassengerController.class, "new_form");
                 } else {
 
-                    flash("message", "Novo passageiro cadastrado: " + passenger.get("name"));
-                    redirect(HomeController.class);
+                    //flash("message", "Novo passageiro cadastrado: " + passenger.get("name"));
+                    redirect(LoginController.class);
                 }
             }
         }
         else {
             flash("message", "Nome de usuario nao disponivel");
-            redirect(HomeController.class);
+            redirect(PassengerController.class);
         }
     }
 
