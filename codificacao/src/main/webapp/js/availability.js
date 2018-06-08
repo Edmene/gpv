@@ -127,6 +127,25 @@ function formJSON(){
 
 }
 
+function updateCities(state) {
+    let stateId = state.value;
+    let citiesSelect = document.getElementById("cities");
+
+    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/city/list", stateId, function (data) {
+        $.each(data, function (key, val) {
+            let option = document.createElement("option");
+            $.each(val, function (key, val) {
+                if (key.toString() === "id") {
+                    option.value = val;
+                }
+                if (key.toString() === "name") {
+                    option.innerText = val;
+                }
+            });
+            citiesSelect.appendChild(option);
+        });
+    });
+}
 
 
 

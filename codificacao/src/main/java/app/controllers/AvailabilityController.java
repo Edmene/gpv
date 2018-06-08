@@ -171,7 +171,8 @@ public class AvailabilityController extends GenericAppController {
                 "plan", getId(),
                 "days", Day.values(),
                 "shifts", shifts,
-                "directions", Direction.values());
+                "directions", Direction.values(),
+                "states", State.findAll().toMaps());
     }
 
     @Override @DELETE

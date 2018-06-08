@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.models.City;
 import app.models.State;
+import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -14,6 +15,17 @@ public class CityController extends GenericAppController {
     @Override
     public void index(){
         view("states", State.findAll());
+    }
+
+    public void list(){
+        if(xhr()){
+            Map<String, String> map = params1st();
+            Integer stateId = Integer.parseInt((String) map.keySet().toArray()[0]);
+            if(stateId != 0) {
+                LazyList<City> citiesList = City.find("state_id = ?", stateId);
+                respond(citiesList.toJson(false));
+            }
+        }
     }
 
     public void cities(){

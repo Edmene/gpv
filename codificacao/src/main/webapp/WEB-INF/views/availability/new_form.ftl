@@ -4,9 +4,22 @@
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adicionando nova disponibilidade</h2>
 
-<div id="availability-selection" class="availability">
+<main id="availability-selection" class="availability">
+    <section id="base-city">
+        <label>Selecao de estado base</label>
+        <select id="states" oninput="updateCities(this)">
+            <option value="0">Selecione uma opcao</option>
+            <#list states as state>
+                <option value="${state.id}" >${state.name}</option>
+            </#list>
+        </select>
+        <label>Selecao de Cidade base</label>
+        <select id="cities">
+
+        </select>
+    </section>
     <#list days as day>
-        <div class="day-div">
+        <section class="day-div">
             <span class="day-name">${day}</span>
             <div class="day-shifts-div">
                 <div class="shift-div">
@@ -46,13 +59,13 @@
                     </tr>
                 </table>
             </div>
-        </div>
+        </section>
     </#list>
     <div class="day-shifts-div" id="confirmation-row">
         <label>Confirmar</label>
         <input type="checkbox" id="confirmation-check">
     </div>
-</div>
+</main>
 
 
 <@form action="add_stop" method="post">
