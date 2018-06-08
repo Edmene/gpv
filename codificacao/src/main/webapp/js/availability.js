@@ -63,6 +63,13 @@ function discoverShifts(dayShift) {
     return document.getElementById(dayShift + "checkbox") !== null;
 }
 
+function getPlanId() {
+    let url = $(location).attr('href');
+    let urlsplit = url.split("/");
+    let id = urlsplit[6];
+    return id;
+}
+
 function updateStops(elementId){
     let dayId = elementId.split("-")[0];
     let select = document.getElementById("stops"+dayId);
@@ -74,7 +81,8 @@ function updateStops(elementId){
     let jsonSent = {
         morning: discoverShifts(dayId+"-Manha"),
         afternoon: discoverShifts(dayId+"-Tarde"),
-        night: discoverShifts(dayId+"-Noite")
+        night: discoverShifts(dayId+"-Noite"),
+        plan: getPlanId()
     };
 
     $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", JSON.stringify(jsonSent), function (data) {

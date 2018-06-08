@@ -122,57 +122,60 @@ public class AvailabilityController extends GenericAppController {
 
     @Override
     public void newForm(){
-        ArrayList<TreeMap<String,Object>> shifts = new ArrayList<>();
-        String shiftValues[]= {"12","18","04"};
-        for(int i=0;i<Shift.values().length;i++){
-            TreeMap<String, Object> shift = new TreeMap<>();
-            shift.put("name",Shift.values()[i]);
-            boolean hasStops =false;
-            if(i == 0){
-                if(Stop.find("time < ? AND time >= ?",
-                        LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                        LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
-                    hasStops=true;
-                }
-            }
-            else {
-                if (i == 1){
-                    if(Stop.find("time < ? AND time >= ?",
-                            LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(shiftValues[i-1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+        if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0) {
+            ArrayList<TreeMap<String, Object>> shifts = new ArrayList<>();
+            String shiftValues[] = {"12", "18", "04"};
+            for (int i = 0; i < Shift.values().length; i++) {
+                TreeMap<String, Object> shift = new TreeMap<>();
+                shift.put("name", Shift.values()[i]);
+                boolean hasStops = false;
+                if (i == 0) {
+                    if (Stop.find("time < ? AND time >= ?",
+                            LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
                         hasStops = true;
                     }
-                }
-                if (i == 2){
-                    if(Stop.find("time >= ?",
-                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
-                        hasStops = true;
-                    }
-                    else {
-                        if(Stop.find("time >= ? AND time < ?",
-                                LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
-                                LocalTime.parse(shiftValues[i]+":00",DateTimeFormatter.ofPattern("HH:mm"))).size() > 0){
+                } else {
+                    if (i == 1) {
+                        if (Stop.find("time < ? AND time >= ?",
+                                LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                                LocalTime.parse(shiftValues[i - 1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
                             hasStops = true;
                         }
                     }
+                    if (i == 2) {
+                        if (Stop.find("time >= ?",
+                                LocalTime.parse(shiftValues[1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                            hasStops = true;
+                        } else {
+                            if (Stop.find("time >= ? AND time < ?",
+                                    LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm")),
+                                    LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                                hasStops = true;
+                            }
+                        }
 
+                    }
                 }
+                if (hasStops) {
+                    shift.put("hasStops", true);
+                } else {
+                    shift.put("hasStops", false);
+                }
+                shifts.add(shift);
             }
-            if(hasStops){
-                shift.put("hasStops", true);
-            }
-            else {
-                shift.put("hasStops", false);
-            }
-            shifts.add(shift);
+            view("drivers", Driver.findAll().toMaps(),
+                    "vehicles", Vehicle.findAll().toMaps(),
+                    "plan", getId(),
+                    "days", Day.values(),
+                    "shifts", shifts,
+                    "directions", Direction.values(),
+                    "states", State.findAll().toMaps());
         }
-        view("drivers", Driver.findAll().toMaps(),
-                "vehicles", Vehicle.findAll().toMaps(),
-                "plan", getId(),
-                "days", Day.values(),
-                "shifts", shifts,
-                "directions", Direction.values(),
-                "states", State.findAll().toMaps());
+        else {
+            flash("message", "Cadastre destinos antes de cadastrar disponibilidades");
+            redirect(AvailabilityController.class, "plan", getId());
+        }
     }
 
     @Override @DELETE
