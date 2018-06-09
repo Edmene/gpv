@@ -15,7 +15,7 @@
         </select>
         <label>Selecao de Cidade base</label>
         <select id="cities">
-
+            <option value="0">Selecione uma cidade</option>
         </select>
     </section>
     <#list days as day>
@@ -50,7 +50,8 @@
             <div class="stops-box" id="stopsOf${day}">
                 <div class="individual-check">
                     <p>Paradas Disponiveis</p>
-                    <select name="stops${day}" id="stops${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <select name="stopsTarget${day}" id="stopsTarget${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <select name="stopsBase${day}" id="stopsBase${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
                 </div>
                 <table id="table">
                     <tr>

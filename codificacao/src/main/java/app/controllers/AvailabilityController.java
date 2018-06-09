@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class AvailabilityController extends GenericAppController {
+    private String shiftValues[]= {"12","18","04"};
 
     public void plan(){
         view("availabilities", Availability.find("plan_id = ?",
@@ -30,9 +31,8 @@ public class AvailabilityController extends GenericAppController {
                 "directions", Direction.values());
     }
 
-    public void stops(){
+    public void stopsOfDestination(){
         if(xhr()){
-            String shiftValues[]= {"12","18","04"};
 
             Map<String, String> map = params1st();
             Gson g = new Gson();
@@ -41,29 +41,81 @@ public class AvailabilityController extends GenericAppController {
             ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
                     String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
 
-            String response = "";
+
+            LazyList<DestinationWithAddress> destinationWithAddresses = DestinationWithAddress.find("plan_id = ?",
+                    shiftsEnableJson.plan);
+
             //Forces a selection of stops in order to initialize the list.
-            LazyList<Stop> lazyList = Stop.find("");
-            lazyList.removeAll(lazyList);
-            if(shiftsEnableJson.morning) {
-                lazyList = Stop.find("time < ? AND time >= ?",
-                        LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
-                        LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class);
-            }
-            if(shiftsEnableJson.afternoon){
-                lazyList.addAll(Stop.find("time < ? AND time >= ?",
-                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                        LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
-            }
-            if(shiftsEnableJson.night){
-                lazyList.addAll(Stop.find("time >= ?",
-                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
-                lazyList.addAll(Stop.find("time >= ? AND time < ?",
+            LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+
+            filteredStopsList.removeAll(filteredStopsList);
+            for(DestinationWithAddress destinationWithAddress : destinationWithAddresses){
+                Integer cityId = destinationWithAddress.getInteger("city_id");
+
+                if(shiftsEnableJson.morning) {
+                    filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId);
+                }
+                if(shiftsEnableJson.afternoon){
+                    filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                }
+                if(shiftsEnableJson.night){
+                    filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                    filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
                             LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm"))).include(Address.class));
+                            LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                }
             }
-            respond(lazyList.toJson(false)).contentType("application/json").status(200);
+
+            //LazyList<Stop> filteredStopsList = Stop.find("");
+            respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
         }
+    }
+
+    public void stopsOfBase(){
+        LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+
+        Map<String, String> map = params1st();
+        Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+        ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
+                String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
+
+        filteredStopsList.removeAll(filteredStopsList);
+
+        if(shiftsEnableJson.morning) {
+            filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity);
+        }
+        if(shiftsEnableJson.afternoon){
+            filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+        }
+        if(shiftsEnableJson.night){
+            filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+            filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
+                    LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+        }
+
+        respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
+
     }
 
     @POST

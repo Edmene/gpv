@@ -65,27 +65,38 @@ function discoverShifts(dayShift) {
 
 function getPlanId() {
     let url = $(location).attr('href');
-    let urlsplit = url.split("/");
-    let id = urlsplit[6];
+    let urlSplit = url.split("/");
+    let id = urlSplit[6];
     return id;
+}
+
+function getBaseCityId() {
+    let select = document.getElementById("cities")
+    return select.options[select.selectedIndex].value;
 }
 
 function updateStops(elementId){
     let dayId = elementId.split("-")[0];
-    let select = document.getElementById("stops"+dayId);
+    let selectStopsOfDestination = document.getElementById("stopsTarget"+dayId);
+    let selectStopsOfBaseCity = document.getElementById("stopsBase"+dayId);
 
-    for (let i = select.childElementCount-1; i >= 0; i--){
-        select.removeChild(select.children[i]);
+    for (let i = selectStopsOfDestination.childElementCount-1; i >= 0; i--){
+        selectStopsOfDestination.removeChild(selectStopsOfDestination.children[i]);
+    }
+
+    for (let i = selectStopsOfBaseCity.childElementCount-1; i >= 0; i--){
+        selectStopsOfBaseCity.removeChild(selectStopsOfBaseCity.children[i]);
     }
 
     let jsonSent = {
         morning: discoverShifts(dayId+"-Manha"),
         afternoon: discoverShifts(dayId+"-Tarde"),
         night: discoverShifts(dayId+"-Noite"),
-        plan: getPlanId()
+        plan: getPlanId(),
+        baseCity: getBaseCityId()
     };
 
-    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops", JSON.stringify(jsonSent), function (data) {
+    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops_of_destination", JSON.stringify(jsonSent), function (data) {
         $.each(data, function (key, val) {
             //items.push( "<li id='" + key + "'>" + val + "</li>" );
             //alert(key+" "+val[key]);
@@ -94,15 +105,36 @@ function updateStops(elementId){
                 if (key.toString() === "id") {
                     option.value = val;
                 }
-                if (key.toString() === "parents") {
-                    option.innerText += val.addresses[0].name.toString();
+                if (key.toString() === "address") {
+                    option.innerText += val;
                 }
                 if (key.toString() === "time") {
                     let date = new Date(val);
-                    option.innerText += +date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
+                    option.innerText += " "+date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
                 }
             });
-            select.appendChild(option);
+            selectStopsOfDestination.appendChild(option);
+        });
+    });
+
+    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops_of_base", JSON.stringify(jsonSent), function (data) {
+        $.each(data, function (key, val) {
+            //items.push( "<li id='" + key + "'>" + val + "</li>" );
+            //alert(key+" "+val[key]);
+            let option = document.createElement("option");
+            $.each(val, function (key, val) {
+                if (key.toString() === "id") {
+                    option.value = val;
+                }
+                if (key.toString() === "address") {
+                    option.innerText += val;
+                }
+                if (key.toString() === "time") {
+                    let date = new Date(val);
+                    option.innerText += " "+date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
+                }
+            });
+            selectStopsOfBaseCity.appendChild(option);
         });
     });
 }
