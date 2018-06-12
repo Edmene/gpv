@@ -1,10 +1,19 @@
 
 <@content for="title">Plano: ${plan.id}</@content>
 
-<select id="select_item">
-    <#list destinations as destination>
-        <option value="${destination.id}" label="${destination.name}">${destination.name}</option>
+<select id="select_state" oninput="selectFlow(this, 0)">
+    <option value="0">Selecione um estado</option>
+    <#list states as state>
+        <option value="${state.id}" label="${state.name}">${state.name}</option>
     </#list>
+</select>
+
+<select id="select_city" oninput="selectFlow(this)">
+    <option value="0">Selecione uma opcao</option>
+</select>
+
+<select id="select_item">
+    <option value="0">Selecione uma opcao</option>
 </select>
 
 <button id="select_add" onclick="addTable()">Adicionar destino</button>

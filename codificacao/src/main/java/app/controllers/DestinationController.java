@@ -1,6 +1,9 @@
 package app.controllers;
 
+import app.json.DestinationFlowJson;
 import app.models.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -37,6 +40,23 @@ public class DestinationController extends GenericAppController {
             stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
         view("destinations", destinationList, "address", getId());
+    }
+
+    public void destination(){
+        if (xhr()) {
+            Map<String, String> map = params1st();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+            DestinationFlowJson destinationFlowJson = g.fromJson(jsonParser.parse(
+                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), DestinationFlowJson.class);
+
+            if (destinationFlowJson.op == 0) {
+                respond(City.find("state_id = ?", destinationFlowJson.id).toJson(false)).contentType("application/json").status(200);
+            } else {
+                respond(DestinationAddress.find("city_id = ?", destinationFlowJson.id).toJson(false)).contentType("application/json").status(200);
+            }
+        }
     }
 
     @Override @POST

@@ -4,6 +4,9 @@ $(document).ready(function () {
 });
 
 function resetForms() {
-    var input = document.getElementById("item");
+    let input = document.getElementById("item");
     input.value = "";
+
+    let selectState = document.getElementById("select_state");
+    selectState.selectedIndex = 0;
 }

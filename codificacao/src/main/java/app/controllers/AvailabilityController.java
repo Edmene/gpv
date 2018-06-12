@@ -6,14 +6,11 @@ import app.enums.Shift;
 import app.json.ShiftsEnableJson;
 import app.models.*;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
-import java.io.IOException;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -42,15 +39,15 @@ public class AvailabilityController extends GenericAppController {
                     String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
 
 
-            LazyList<DestinationWithAddress> destinationWithAddresses = DestinationWithAddress.find("plan_id = ?",
+            LazyList<DestinationPlanCity> destinationPlanCities = DestinationPlanCity.find("plan_id = ?",
                     shiftsEnableJson.plan);
 
             //Forces a selection of stops in order to initialize the list.
             LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
 
             filteredStopsList.removeAll(filteredStopsList);
-            for(DestinationWithAddress destinationWithAddress : destinationWithAddresses){
-                Integer cityId = destinationWithAddress.getInteger("city_id");
+            for(DestinationPlanCity destinationPlanCity : destinationPlanCities){
+                Integer cityId = destinationPlanCity.getInteger("city_id");
 
                 if(shiftsEnableJson.morning) {
                     filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",

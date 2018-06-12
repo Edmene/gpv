@@ -3,6 +3,7 @@ package app.controllers;
 import app.models.Destination;
 import app.models.DestinationPlan;
 import app.models.Plan;
+import app.models.State;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -121,7 +122,7 @@ public class PlanController extends GenericAppController {
     public void addDestination(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
-            view("plan", plan, "destinations", Destination.findAll().toMaps());
+            view("plan", plan, "states", State.findAll().toMaps());
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");

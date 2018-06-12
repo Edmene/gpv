@@ -9,8 +9,13 @@ CREATE VIEW count_passenger AS
 CREATE VIEW stops_info AS
   SELECT s.id, s.time, a.name as address, a.extra, a.city_id FROM stops s JOIN addresses a ON s.address_id = a.id;
 
-CREATE VIEW destination_with_address AS
+CREATE VIEW destination_plan_city AS
   SELECT dp.plan_id, a.city_id FROM destination_plans dp
     JOIN destinations d ON dp.destination_id = d.id
     JOIN addresses a ON d.address_id = a.id
     GROUP BY dp.plan_id, a.city_id;
+
+CREATE VIEW destination_address AS
+  SELECT d.*, a.city_id FROM destinations d
+    JOIN addresses a ON d.address_id = a.id
+
