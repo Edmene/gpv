@@ -197,8 +197,13 @@ table tr td{
     font-size: 75%;
     text-align: center;
     display: inherit;
-    flex-flow: column;
-    justify-content: space-between;
+    flex-flow: row;
+    justify-content: space-around;
+}
+
+.profile-div{
+    display: inherit;
+    flex-flow: column-reverse;
 }
 
 #56a3a6
