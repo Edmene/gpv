@@ -22,7 +22,7 @@
         <td>
             ${user.type}</td>
         <td>
-            <@form  id=user.id action="alter_form" method="put" html_id=user.id >
+            <@form  id=user.id action="alter_form" method="get" html_id=user.id >
                 <button type="submit">alterar</button>
             </@form>
         </td>

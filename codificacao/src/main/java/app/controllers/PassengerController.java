@@ -3,6 +3,7 @@ package app.controllers;
 import app.controllers.authorization.PasswordHashing;
 import app.json.CheckUserJson;
 import app.models.Passenger;
+import app.models.PassengerPlans;
 import app.models.User;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
@@ -98,10 +99,20 @@ public class PassengerController extends GenericAppController {
     public void delete(){
 
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
-        String nome = passenger.getString("name");
+        String name = passenger.getString("name");
         passenger.delete();
-        flash("message", "User: '" + nome + "' was deleted");
-        redirect(PassengerController.class);
+        User.findById(Integer.parseInt(getId())).delete();
+        if(session("user").toString().contentEquals(((name)))){
+            redirect(LoginController.class, "logout");
+        }
+        else {
+            flash("message", "User: '" + name + "' foi deletado");
+            redirect(PassengerController.class);
+        }
+
+
+
+
     }
 
     @Override @PUT
@@ -119,7 +130,8 @@ public class PassengerController extends GenericAppController {
 
     @Override @POST
     public void update() throws Exception{
-        User user = new User();
+        User user = User.findById(Integer.parseInt(param("id")));
+        String oldName = user.getString("name");
         user.fromMap(params1st());
         PasswordHashing passwordHashing = new PasswordHashing();
         user.set("extra", passwordHashing.getSalt());
@@ -142,8 +154,15 @@ public class PassengerController extends GenericAppController {
             }
             else {
                 flash("message", "Passageiro Alterado: " + passenger.get("name"));
-                redirect(PassengerController.class);
+                redirect(UserController.class, "profile", session("id"));
+                if(session("user").toString().contentEquals(((oldName)))){
+                    session("user", (String) passenger.get("name"));
+                }
             }
         }
+    }
+
+    public void listPlan(){
+        view("plans",PassengerPlans.find("passenger_id = ?", Integer.parseInt(getId())));
     }
 }

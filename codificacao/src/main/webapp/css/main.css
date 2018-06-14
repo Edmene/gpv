@@ -24,8 +24,8 @@ p{
 .header{
     background-color:#13293d;
     padding:20px;
-    display: flex;
-    justify-content: space-between;
+    position: sticky;
+    top: 0;
 }
 
 .content{
@@ -187,7 +187,16 @@ table tr td{
 #log-img{}
 
 #log-img-out{
-    transform: rotate(180deg);
+}
+
+#user-img{
+    width: 28px;
+    height: 28px;
+}
+
+.main-nav{
+    display: flex;
+    justify-content: space-between;
 }
 
 .log-div{
@@ -197,13 +206,14 @@ table tr td{
     font-size: 75%;
     text-align: center;
     display: inherit;
-    flex-flow: row;
+    flex-flow: row-reverse;
     justify-content: space-around;
 }
 
 .profile-div{
     display: inherit;
-    flex-flow: column-reverse;
+    flex-flow: column;
+    margin-right: 6px;
 }
 
 #56a3a6

@@ -4,7 +4,7 @@
 <h2>Alterando usuario</h2>
 
 
-<@form action="update" method="post">
+<@form action="update" method="put">
     <table style="margin:30px">
         <tr>
             <td>Nome:</td>

@@ -73,13 +73,18 @@ public class UserController extends GenericAppController {
     public void delete(){
 
         User u = User.findById(Integer.parseInt(getId()));
-        String nome = u.getString("name");
+        String name = u.getString("name");
         u.delete();
-        flash("message", "User: '" + nome + "' foi deletado");
-        redirect(UserController.class);
+        if(session("user").toString().contentEquals(((name)))){
+            redirect(LoginController.class, "logout");
+        }
+        else {
+            flash("message", "User: '" + name + "' foi deletado");
+            redirect(UserController.class);
+        }
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
         User user = User.findById(Integer.parseInt(getId()));
         if(user != null){
@@ -90,22 +95,32 @@ public class UserController extends GenericAppController {
         }
     }
 
-    @Override @POST
+    @Override @PUT
     public void update() throws Exception {
-        User user = new User();
-        user.fromMap(params1st());
+        User user = User.findById(Integer.parseInt(param("id")));
+        String oldName = user.getString("name");
 
+        user.fromMap(params1st());
         PasswordHashing passwordHashing = new PasswordHashing();
         user.set("extra", passwordHashing.getSalt());
         user.set("password", passwordHashing.hashPassword(param("password").trim()));
         user.set("id", Integer.parseInt(param("id")));
+
         if(!user.save()){
             flash("message", "Something went wrong, please restart the process");
             redirect(UserController.class);
         }
         else{
             flash("message", "Usuario alterado " + user.get("name"));
+            if(session("user").toString().contentEquals(((oldName)))){
+                session("user", (String) user.get("name"));
+            }
             redirect(UserController.class);
+
         }
+    }
+
+    public void profile(){
+
     }
 }
