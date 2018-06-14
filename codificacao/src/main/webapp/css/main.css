@@ -22,8 +22,6 @@ p{
 
 
 .header{
-    background-color:#13293d;
-    padding:20px;
     position: sticky;
     top: 0;
 }
@@ -187,23 +185,30 @@ table tr td{
 #log-img{}
 
 #log-img-out{
+    width: 12px;
+    height: 12px;
+    margin-left: 6px;
 }
 
 #user-img{
-    width: 28px;
-    height: 28px;
+    width: 20px;
+    height: 20px;
 }
 
 .main-nav{
+    background-color:#13293d;
+    padding:20px;
+    height: content-box;
     display: flex;
     justify-content: space-between;
 }
 
 .log-div{
+    margin-top: -12px;
     color: white;
     width: 32px;
     height: 32px;
-    font-size: 75%;
+    font-size: 8px;
     text-align: center;
     display: inherit;
     flex-flow: row-reverse;
@@ -213,7 +218,6 @@ table tr td{
 .profile-div{
     display: inherit;
     flex-flow: column;
-    margin-right: 6px;
 }
 
 #56a3a6
