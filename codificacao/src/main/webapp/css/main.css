@@ -115,7 +115,7 @@ table tr td{
 .stops-box{
     display: none;
     visibility: hidden;
-    flex-direction: column;
+    flex-direction: row;
     margin: 1px;
     justify-content: center;
 }
@@ -123,9 +123,9 @@ table tr td{
 .stops-box-show{
     display: inherit;
     visibility: visible;
-    flex-direction: column;
+    flex-direction: row;
     margin: 1px;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .day-name{
@@ -215,6 +215,11 @@ table tr td{
 }
 
 .profile-div{
+    display: inherit;
+    flex-flow: column;
+}
+
+.table-button-container{
     display: inherit;
     flex-flow: column;
 }

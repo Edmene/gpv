@@ -48,17 +48,31 @@
                 <button onclick="showStops('${day}')" id="button-${day}">Mostrar Paradas</button>
             </div>
             <div class="stops-box" id="stopsOf${day}">
-                <div class="individual-check">
-                    <p>Paradas Disponiveis</p>
-                    <select name="stopsTarget${day}" id="stopsTarget${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                <div class="table-button-container">
+                    <strong>Paradas Ida</strong>
                     <select name="stopsBase${day}" id="stopsBase${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <table class="table-base">
+                        <thead>
+                            <tr>
+                                <td>Destino</td>
+                                <td>Remover</td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <table id="table">
-                    <tr>
-                        <td>Destino</td>
-                        <td>Remover</td>
-                    </tr>
-                </table>
+
+                <div class="table-button-container">
+                    <strong>Paradas Volta</strong>
+                    <select name="stopsTarget${day}" id="stopsTarget${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <table class="table-destination">
+                        <thead>
+                        <tr>
+                            <td>Destino</td>
+                            <td>Remover</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </section>
     </#list>
