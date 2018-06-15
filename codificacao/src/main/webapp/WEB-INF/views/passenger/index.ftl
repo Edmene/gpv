@@ -26,18 +26,18 @@
         </td>
         <td>
             ${passenger.surname}</td>
-        <td>
+        <td class="cpf">
             ${passenger.cpf}</td>
         <td>
             ${passenger.rg}</td>
         <td>
             ${passenger.birth_date}</td>
-        <td>
+        <td class="phone">
             ${passenger.telephone}</td>
         <td>
             ${passenger.email}</td>
         <td>
-            <@form  id=passenger.user_id action="alter_form" method="put" html_id=passenger.user_id >
+            <@form  id=passenger.user_id action="alter_form" method="get" html_id=passenger.user_id >
                 <button type="submit">alterar</button>
             </@form>
         </td>

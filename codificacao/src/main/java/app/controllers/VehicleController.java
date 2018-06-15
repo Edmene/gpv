@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.models.Vehicle;
+import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -19,6 +20,7 @@ public class VehicleController extends GenericAppController {
         vehicle.fromMap(params1st());
         vehicle.setShort("capacity", Short.parseShort(param("capacity")));
         vehicle.setShort("year", Short.parseShort(param("year")));
+        vehicle.set("license_plate", TransformMaskeredInput.format(param("license_plate")));
         if(!vehicle.save()){
             flash("message", "Something went wrong, please  fill out all fields");
             flash("errors", vehicle.errors());
@@ -70,6 +72,7 @@ public class VehicleController extends GenericAppController {
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());
         vehicle.set("id", Integer.parseInt(param("id")));
+        vehicle.set("license_plate", TransformMaskeredInput.format(param("license_plate")));
         if(!vehicle.save()){
             flash("message", "Something went wrong, please restart the process");
             redirect(VehicleController.class);

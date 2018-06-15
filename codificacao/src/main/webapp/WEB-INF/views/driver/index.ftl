@@ -25,7 +25,7 @@
             ${driver.surname}</td>
         <td>
             ${driver.rg}</td>
-        <td>
+        <td class="cnh">
             ${driver.cnh}</td>
         <td>
             <@form  id=driver.id action="alter_form" method="put" html_id=driver.id >

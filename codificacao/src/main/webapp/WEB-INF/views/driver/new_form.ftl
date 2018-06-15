@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>CNH:</td>
-            <td><input type="text" name="cnh" value="${(flasher.params.cnh)!}"> *
+            <td><input type="text" class="cnh" name="cnh" value="${(flasher.params.cnh)!}"> *
                 <span class="error">${(flasher.errors.cnh)!}</span>
             </td>
         </tr>

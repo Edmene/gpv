@@ -38,7 +38,7 @@
         <tr>
             <td>CPF</td>
             <td>
-                <input type="text" name="cpf" value="${(flasher.params.cpf)!}"> *
+                <input type="text" class="cpf" name="cpf" value="${(flasher.params.cpf)!}"> *
                 <span class="error">${(flasher.errors.cpf)!}</span>
             </td>
         </tr>
@@ -59,7 +59,7 @@
         <tr>
             <td>Telefone</td>
             <td>
-                <input type="text" name="telephone" value="${(flasher.params.telephone)!}"> *
+                <input type="text" class="phone" name="telephone" value="${(flasher.params.telephone)!}"> *
                 <span class="error">${(flasher.errors.telephone)!}</span>
             </td>
         </tr>

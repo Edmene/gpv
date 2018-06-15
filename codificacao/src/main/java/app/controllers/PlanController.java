@@ -4,6 +4,7 @@ import app.models.Destination;
 import app.models.DestinationPlan;
 import app.models.Plan;
 import app.models.State;
+import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -35,8 +36,8 @@ public class PlanController extends GenericAppController {
     public void create(){
         Plan plan = new Plan();
         plan.fromMap(params1st());
-        String ticketPrice = param("ticket_price");
-        String dailyValue = param("daily_value");
+        String ticketPrice = TransformMaskeredInput.format(param("ticket_price"), ".");
+        String dailyValue = TransformMaskeredInput.format(param("daily_value"), ".");
         if(ticketPrice.trim().length() == 0){
             ticketPrice = "0";
         }
@@ -89,8 +90,8 @@ public class PlanController extends GenericAppController {
         Plan plan = new Plan();
         plan.fromMap(params1st());
         plan.set("id", Integer.parseInt(param("id")));
-        String ticketPrice = param("ticket_price");
-        String dailyValue = param("daily_value");
+        String ticketPrice = TransformMaskeredInput.format(param("ticket_price"),".");
+        String dailyValue = TransformMaskeredInput.format(param("daily_value"), ".");
         if(ticketPrice.trim().length() == 0){
             ticketPrice = "0";
         }

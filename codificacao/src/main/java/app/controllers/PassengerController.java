@@ -5,6 +5,7 @@ import app.json.CheckUserJson;
 import app.models.Passenger;
 import app.models.PassengerPlans;
 import app.models.User;
+import app.utils.TransformMaskeredInput;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
@@ -72,6 +73,9 @@ public class PassengerController extends GenericAppController {
                 passenger.fromMap(params1st());
                 passenger.set("user_id", u.get(0).getId());
 
+                passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
+                passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
+
                 LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
                 passenger.setDate("birth_date", date);
                 //u.get(0).add(passenger);
@@ -115,7 +119,7 @@ public class PassengerController extends GenericAppController {
 
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
         Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
         User user = User.findById(Integer.parseInt(getId()));
@@ -146,6 +150,10 @@ public class PassengerController extends GenericAppController {
             Passenger passenger = new Passenger();
             passenger.fromMap(params1st());
             passenger.set("user_id", Integer.parseInt(param("id")));
+
+            passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
+            passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
+
             LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
             passenger.setDate("birth_date", date);
             if (!passenger.save()) {

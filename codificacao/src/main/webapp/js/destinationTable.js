@@ -14,7 +14,7 @@ function selectFlow(element, op) {
             element.appendChild(defaultOption);
 
 
-            $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/destination/destination", JSON.stringify(jsonSent), function (data) {
+            $.getJSON(getUrlPath("plan")+"destination/destination", JSON.stringify(jsonSent), function (data) {
                 $.each(data, function (key, val) {
                     //items.push( "<li id='" + key + "'>" + val + "</li>" );
                     //alert(key+" "+val[key]);

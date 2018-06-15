@@ -185,33 +185,32 @@ table tr td{
 #log-img{}
 
 #log-img-out{
-    width: 12px;
-    height: 12px;
+    width: 32px;
+    height: 32px;
     margin-left: 6px;
 }
 
 #user-img{
-    width: 20px;
-    height: 20px;
+    width: 32px;
+    height: 32px;
 }
 
 .main-nav{
     background-color:#13293d;
-    padding:20px;
+    padding: 10px 15px 20px;
     height: content-box;
     display: flex;
     justify-content: space-between;
 }
 
 .log-div{
-    margin-top: -12px;
     color: white;
     width: 32px;
     height: 32px;
-    font-size: 8px;
+    font-size: 9px;
     text-align: center;
     display: inherit;
-    flex-flow: row-reverse;
+    flex-flow: row;
     justify-content: space-around;
 }
 

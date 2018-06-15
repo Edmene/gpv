@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>CNH:</td>
-            <td><input type="text" name="cnh" value="${(driver.cnh)!}"> *
+            <td><input type="text" class="cnh" name="cnh" value="${(driver.cnh)!}"> *
                 <span class="error">${(flasher.errors.cnh)!}</span>
             </td>
         </tr>

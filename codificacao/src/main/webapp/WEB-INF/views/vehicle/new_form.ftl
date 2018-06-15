@@ -8,7 +8,7 @@
     <table style="margin:30px">
         <tr>
             <td>Placa:</td>
-            <td><input type="text" name="license_plate" value="${(flasher.params.license_plate)!}"> *
+            <td><input type="text" class="license" name="license_plate" value="${(flasher.params.license_plate)!}"> *
                 <span class="error">${(flasher.errors.license_plate)!}</span>
             </td>
         </tr>

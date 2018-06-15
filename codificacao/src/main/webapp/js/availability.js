@@ -64,11 +64,12 @@ function discoverShifts(dayShift) {
 }
 
 function getPlanId() {
-    let url = $(location).attr('href');
-    let urlSplit = url.split("/");
+    let urlSplit = getSplittedUrl();
     let id = urlSplit[6];
     return id;
 }
+
+
 
 function getBaseCityId() {
     let select = document.getElementById("cities")
@@ -96,7 +97,7 @@ function updateStops(elementId){
         baseCity: getBaseCityId()
     };
 
-    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops_of_destination", JSON.stringify(jsonSent), function (data) {
+    $.getJSON(getUrlPath("availability")+"availability/stops_of_destination", JSON.stringify(jsonSent), function (data) {
         $.each(data, function (key, val) {
             //items.push( "<li id='" + key + "'>" + val + "</li>" );
             //alert(key+" "+val[key]);
@@ -117,7 +118,7 @@ function updateStops(elementId){
         });
     });
 
-    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/availability/stops_of_base", JSON.stringify(jsonSent), function (data) {
+    $.getJSON(getUrlPath("availability")+"availability/stops_of_base", JSON.stringify(jsonSent), function (data) {
         $.each(data, function (key, val) {
             //items.push( "<li id='" + key + "'>" + val + "</li>" );
             //alert(key+" "+val[key]);
@@ -171,7 +172,7 @@ function updateCities(state) {
     let stateId = state.value;
     let citiesSelect = document.getElementById("cities");
 
-    $.getJSON("http://172.17.0.3:8080/gpv-1.0-SNAPSHOT/city/list", stateId, function (data) {
+    $.getJSON(getUrlPath("availability")+"city/list", stateId, function (data) {
         $.each(data, function (key, val) {
             let option = document.createElement("option");
             $.each(val, function (key, val) {
