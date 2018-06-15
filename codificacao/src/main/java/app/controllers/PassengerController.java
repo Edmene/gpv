@@ -75,6 +75,7 @@ public class PassengerController extends GenericAppController {
 
                 passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
                 passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
+                passenger.set("rg", TransformMaskeredInput.format(param("rg")));
 
                 LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
                 passenger.setDate("birth_date", date);
@@ -153,6 +154,7 @@ public class PassengerController extends GenericAppController {
 
             passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
             passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
+            passenger.set("rg", TransformMaskeredInput.format(param("rg")));
 
             LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
             passenger.setDate("birth_date", date);

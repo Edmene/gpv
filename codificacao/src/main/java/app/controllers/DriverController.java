@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.models.Driver;
+import app.utils.TransformMaskeredInput;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
@@ -16,6 +17,7 @@ public class DriverController extends GenericAppController {
     public void create(){
         Driver driver = new Driver();
         driver.fromMap(params1st());
+        driver.set("rg", TransformMaskeredInput.format(param("rg")));
         if(!driver.save()){
             flash("message", "Something went wrong, please  fill out all fields");
             flash("errors", driver.errors());
@@ -65,6 +67,7 @@ public class DriverController extends GenericAppController {
         Driver driver = new Driver();
         driver.fromMap(params1st());
         driver.set("id", Integer.parseInt(param("id")));
+        driver.set("rg", TransformMaskeredInput.format(param("rg")));
         if(!driver.save()){
             flash("message", "Something went wrong, please restart the process");
             redirect(DriverController.class);
