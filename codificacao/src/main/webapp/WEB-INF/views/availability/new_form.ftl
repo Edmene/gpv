@@ -50,7 +50,8 @@
             <div class="stops-box" id="stopsOf${day}">
                 <div class="table-button-container">
                     <strong>Paradas Ida</strong>
-                    <select name="stopsBase${day}" id="stopsBase${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <select name="stopsBase${day}" id="stopsBase${day}"></select>
+                    <button id="Base${day}" onclick="tableInteraction(this)">Adicionar parada</button>
                     <table class="table-base">
                         <thead>
                             <tr>
@@ -63,7 +64,8 @@
 
                 <div class="table-button-container">
                     <strong>Paradas Volta</strong>
-                    <select name="stopsTarget${day}" id="stopsTarget${day}"></select><button id="select_add" onclick="tableInteraction('stops${day}',0)">Adicionar parada</button>
+                    <select name="stopsTarget${day}" id="stopsTarget${day}"></select>
+                    <button id="Target${day}" onclick="tableInteraction(this)">Adicionar parada</button>
                     <table class="table-destination">
                         <thead>
                         <tr>

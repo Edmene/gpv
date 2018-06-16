@@ -72,7 +72,7 @@ function getPlanId() {
 
 
 function getBaseCityId() {
-    let select = document.getElementById("cities")
+    let select = document.getElementById("cities");
     return select.options[select.selectedIndex].value;
 }
 
@@ -99,8 +99,6 @@ function updateStops(elementId){
 
     $.getJSON(getUrlPath("availability")+"availability/stops_of_destination", JSON.stringify(jsonSent), function (data) {
         $.each(data, function (key, val) {
-            //items.push( "<li id='" + key + "'>" + val + "</li>" );
-            //alert(key+" "+val[key]);
             let option = document.createElement("option");
             $.each(val, function (key, val) {
                 if (key.toString() === "id") {
@@ -120,8 +118,6 @@ function updateStops(elementId){
 
     $.getJSON(getUrlPath("availability")+"availability/stops_of_base", JSON.stringify(jsonSent), function (data) {
         $.each(data, function (key, val) {
-            //items.push( "<li id='" + key + "'>" + val + "</li>" );
-            //alert(key+" "+val[key]);
             let option = document.createElement("option");
             $.each(val, function (key, val) {
                 if (key.toString() === "id") {
@@ -132,7 +128,14 @@ function updateStops(elementId){
                 }
                 if (key.toString() === "time") {
                     let date = new Date(val);
-                    option.innerText += " "+date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
+                    let formatedMinutes;
+                    if(date.getUTCMinutes() < 10){
+                        formatedMinutes = date.getUTCMinutes() + "0";
+                    }
+                    else {
+                        formatedMinutes = date.getUTCMinutes();
+                    }
+                    option.innerText += " "+date.getUTCHours() + ":" + formatedMinutes + " ";
                 }
             });
             selectStopsOfBaseCity.appendChild(option);
@@ -188,6 +191,83 @@ function updateCities(state) {
     });
 }
 
+function getTurnOfStop(selectedOption) {
+    const regex = /(\d{2}):(\d{2})/gm;
+    let match = regex.exec(selectedOption);
+    let hour = match[0];
+    //let minutes = match[1];
+
+    let shiftValues = ["12","18","04"];
+    if(hour < shiftValues[0] && hour >= shiftValues[2]){
+        return "M";
+    }
+    if(hour < shiftValues[1] && hour >= shiftValues[0]){
+        return "A";
+    }
+    if(hour >= shiftValues[1]){
+        return "N";
+    }
+    if(hour >= 0 && hour < shiftValues[2]){
+        return "N";
+    }
+
+}
+
+function tableInteraction(element) {
+    let select = document.getElementById("stops"+element.id);
+    let tableClass;
+    if(element.id.includes("Base")){
+        tableClass = "table-base";
+    }
+    else {
+        tableClass = "table-destination";
+    }
+    let tableList = element.parentElement.getElementsByClassName(tableClass);
+
+    let allowAddition = true;
+
+    if(tableList.item(0).rows.length > 1) {
+        for (let i = 1; i < tableList.item(0).rows.length; i++) {
+            if (tableList.item(0).rows.item(i).cells.item(1).innerText === select.value) {
+                allowAddition = false;
+            }
+        }
+    }
+
+    if(allowAddition) {
+        let row = document.createElement("tr");
+        let column = document.createElement("td");
+        column.innerText = select.options[select.selectedIndex].text;
+        row.appendChild(column);
+
+        let idColumn = document.createElement("td");
+        idColumn.innerText = select.value;
+        idColumn.style.display = "none";
+
+        let turnColumn = document.createElement("td");
+        turnColumn.innerText = getTurnOfStop(select.options[select.selectedIndex].text);
+        turnColumn.style.display = "none";
+
+        row.appendChild(idColumn);
+        row.appendChild(turnColumn);
+
+        let columnDelete = document.createElement("td");
+        let deleteButton = document.createElement("button");
+        deleteButton.innerText = "Deletar";
+
+        deleteButton.onclick = function () {
+            removeStopLine(this)
+        };
+        columnDelete.appendChild(deleteButton);
+        row.appendChild(columnDelete);
+        tableList[0].append(row);
+    }
+    //alert();
+}
+
+function removeStopLine(element) {
+    element.parentElement.parentElement.parentElement.removeChild(element.parentElement.parentElement);
+}
 
 
 
