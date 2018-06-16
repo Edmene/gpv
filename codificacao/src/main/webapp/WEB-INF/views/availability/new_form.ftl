@@ -35,17 +35,17 @@
                         </div>
                     </#list>
                 </div>
-                <select name="driver">
+                <select class="driver-select">
                         <#list drivers as driver>
                             <option value="${driver.id}">${driver.name + " " + driver.surname}</option>
                         </#list>
                 </select>
-                <select name="vehicle">
+                <select class="vehicle-select">
                         <#list vehicles as vehicle>
                             <option value="${vehicle.id}">${vehicle.license_plate}</option>
                         </#list>
                 </select>
-                <button onclick="showStops('${day}')" id="button-${day}">Mostrar Paradas</button>
+                <button class="show-stop" onclick="showStops('${day}')" id="button-${day}">Mostrar Paradas</button>
             </div>
             <div class="stops-box" id="stopsOf${day}">
                 <div class="table-button-container">

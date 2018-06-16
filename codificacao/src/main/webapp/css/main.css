@@ -74,8 +74,9 @@ table tr td{
 .day-shifts-div{
     display: inherit;
     flex-flow: row;
-    justify-content: space-evenly;
+    justify-content: center;
 }
+
 
 .day-div{
     display: inherit;
@@ -88,6 +89,22 @@ table tr td{
 .shift-div{
     display: inherit;
     flex-flow: column;
+    margin-right: 10px;
+}
+
+.driver-select{
+    margin-right: 10px;
+    height: 30px;
+}
+
+.vehicle-select{
+    margin-right: 10px;
+    height: 30px;
+}
+
+.show-stop{
+    margin-right: 10px;
+    height: 30px;
 }
 
 .check-box{
@@ -125,7 +142,7 @@ table tr td{
     visibility: visible;
     flex-direction: row;
     margin: 1px;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .day-name{
@@ -220,8 +237,11 @@ table tr td{
 }
 
 .table-button-container{
+    margin-top: 15px;
+    margin-right: 10px;
     display: inherit;
     flex-flow: column;
+    text-align: center;
 }
 
 #56a3a6

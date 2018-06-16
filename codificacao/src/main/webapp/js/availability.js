@@ -109,7 +109,14 @@ function updateStops(elementId){
                 }
                 if (key.toString() === "time") {
                     let date = new Date(val);
-                    option.innerText += " "+date.getUTCHours() + ":" + date.getUTCMinutes() + " ";
+                    let formatedMinutes;
+                    if(date.getUTCMinutes() < 10){
+                        formatedMinutes = date.getUTCMinutes() + "0";
+                    }
+                    else {
+                        formatedMinutes = date.getUTCMinutes();
+                    }
+                    option.innerText += " "+date.getUTCHours() + ":" + formatedMinutes + " ";
                 }
             });
             selectStopsOfDestination.appendChild(option);
