@@ -19,8 +19,8 @@
         </select>
     </section>
     <#list days as day>
-        <section class="day-div">
-            <span class="day-name">${day}</span>
+        <section class="day-div" id="${day}">
+            <strong class="day-name">${day}</strong>
             <div class="day-shifts-div">
                 <div class="shift-div">
                     <#list shifts as shift>

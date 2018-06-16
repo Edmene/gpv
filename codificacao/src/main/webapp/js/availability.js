@@ -175,6 +175,12 @@ function showStops(dayId){
 }
 
 function formJSON(){
+    let days = ["Segunda","Terca","Quarta","Quinta","Sexta","Sabado","Domingo"];
+    let shifts = ["Manha","Tarde","Noite"];
+
+    for(let day in days){
+        let section = document.getElementById(days[day]);
+    }
 
 }
 
