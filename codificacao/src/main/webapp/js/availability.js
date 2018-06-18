@@ -109,14 +109,22 @@ function updateStops(elementId){
                 }
                 if (key.toString() === "time") {
                     let date = new Date(val);
-                    let formatedMinutes;
+                    let formattedMinutes;
+                    let formattedHours;
                     if(date.getUTCMinutes() < 10){
-                        formatedMinutes = date.getUTCMinutes() + "0";
+                        formattedMinutes = date.getUTCMinutes() + "0";
                     }
                     else {
-                        formatedMinutes = date.getUTCMinutes();
+                        formattedMinutes = date.getUTCMinutes();
                     }
-                    option.innerText += " "+date.getUTCHours() + ":" + formatedMinutes + " ";
+
+                    if(date.getUTCHours() < 10){
+                        formattedHours =  "0" + date.getUTCHours();
+                    }
+                    else {
+                        formattedHours = date.getUTCHours();
+                    }
+                    option.innerText += " "+ formattedHours + ":" + formattedMinutes + " ";
                 }
             });
             selectStopsOfDestination.appendChild(option);
@@ -135,14 +143,22 @@ function updateStops(elementId){
                 }
                 if (key.toString() === "time") {
                     let date = new Date(val);
-                    let formatedMinutes;
+                    let formattedMinutes;
+                    let formattedHours;
                     if(date.getUTCMinutes() < 10){
-                        formatedMinutes = date.getUTCMinutes() + "0";
+                        formattedMinutes = date.getUTCMinutes() + "0";
                     }
                     else {
-                        formatedMinutes = date.getUTCMinutes();
+                        formattedMinutes = date.getUTCMinutes();
                     }
-                    option.innerText += " "+date.getUTCHours() + ":" + formatedMinutes + " ";
+
+                    if(date.getUTCHours() < 10){
+                        formattedHours =  "0" + date.getUTCHours();
+                    }
+                    else {
+                        formattedHours = date.getUTCHours();
+                    }
+                    option.innerText += " "+ formattedHours + ":" + formattedMinutes + " ";
                 }
             });
             selectStopsOfBaseCity.appendChild(option);
@@ -180,6 +196,15 @@ function formJSON(){
 
     for(let day in days){
         let section = document.getElementById(days[day]);
+        for(let shift in shifts) {
+            let checkBoxes = document.getElementsByClassName(day + "-" +shift+"checkbox");
+            if(checkBoxes !== undefined){
+                let going = checkBoxes.getElementsByName(day+" - "+shift+"Ida");
+                going.checked;
+                let back = checkBoxes.getElementsByName(day+" - "+shift+"Volta");
+                back.checked;
+            }
+        }
     }
 
 }
