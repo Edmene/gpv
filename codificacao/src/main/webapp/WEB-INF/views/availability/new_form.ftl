@@ -80,7 +80,7 @@
     </#list>
     <div class="day-shifts-div" id="confirmation-row">
         <label>Confirmar</label>
-        <input type="checkbox" id="confirmation-check">
+        <input type="checkbox" id="confirmation-check" onchange="formJSON()">
     </div>
 </main>
 

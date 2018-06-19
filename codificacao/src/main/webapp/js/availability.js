@@ -19,6 +19,7 @@ function allowSelection(elementId) {
 
         let checkboxDiv = document.createElement("div");
         checkboxDiv.className = "check-box";
+        checkboxDiv.id = elementId + "checkbox";
 
         let innerDivGoing = document.createElement("div");
         innerDivGoing.className = "individual-check";
@@ -193,22 +194,74 @@ function formJSON(){
     let days = ["Segunda","Terca","Quarta","Quinta","Sexta","Sabado","Domingo"];
     let shifts = ["Manha","Tarde","Noite"];
 
+    let jsonArray = [];
+
     for(let day in days){
         let section = document.getElementById(days[day]);
+
+        let driver = section.getElementsByClassName("driver-select").item(0);
+        let vehicle = section.getElementsByClassName("vehicle-select").item(0);
+
+        let stopsBase = section.getElementsByClassName("table-base").item(0);
+        let stopsDestination = section.getElementsByClassName("table-destination").item(0);
+
+        let skipEntries = [];
+
         for(let shift in shifts) {
-            let checkBoxes = section.getElementsByClassName("check-box");
-            if(checkBoxes !== undefined){
-                let going = checkBoxes.getElementsByName(day+" - "+shift+"Ida");
-                going.checked;
-                let back = checkBoxes.getElementsByName(day+" - "+shift+"Volta");
-                back.checked;
-                let driver = section.getElementsByClassName("driver-select");
-                let vehicle = section.getElementsByClassName("vehicle-select");
-                driver.item(0).value;
-                vehicle.item(0).value;
+
+            let checkBoxes = section.getElementsByClassName("check-box").item(shift);
+            if(checkBoxes !== null) {
+                if (checkBoxes.length > 0) {
+                    let checkBoxesItems = checkBoxes.getElementsByTagName("input");
+
+                    let going = checkBoxesItems.item(0);
+                    let back = checkBoxesItems.item(1);
+
+
+                    if (going.checked) {
+                        for (let i = 1; i < stopsBase.rows.length; i++) {
+                            if (skipEntries.includes(i)) {
+                                continue;
+                            }
+                            if (shifts[0].charAt(0) === stopsBase.rows.item(i).cells.item(2).innerText) {
+                                skipEntries.push(i);
+                                let availability = {
+                                    day: days[day],
+                                    shift: shifts[shift],
+                                    direction: "Ida",
+                                    vehicle: vehicle.value,
+                                    driver: driver.value,
+                                    stop: stopsBase.rows.item(i).cells.item(1).innerText
+                                };
+                                jsonArray.push(availability);
+                            }
+                        }
+                    }
+
+                    if (back.checked) {
+                        for (let i = 1; i < stopsDestination.rows.length; i++) {
+                            if (skipEntries.includes(i)) {
+                                continue;
+                            }
+                            if (shifts[0].charAt(0) === stopsDestination.rows.item(i).cells.item(2).innerText) {
+                                skipEntries.push(i);
+                                let availability = {
+                                    day: days[day],
+                                    shift: shifts[shift],
+                                    direction: "Volta",
+                                    vehicle: vehicle.value,
+                                    driver: driver.value,
+                                    stop: stopsBase.rows.item(i).cells.item(1).innerText
+                                };
+                                jsonArray.push(availability);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+    console.log(jsonArray);
 
 }
 
@@ -243,7 +296,7 @@ function getTurnOfStop(selectedOption) {
         return "M";
     }
     if(hour < shiftValues[1] && hour >= shiftValues[0]){
-        return "A";
+        return "T";
     }
     if(hour >= shiftValues[1]){
         return "N";
