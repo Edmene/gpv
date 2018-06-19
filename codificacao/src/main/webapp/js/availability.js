@@ -19,7 +19,7 @@ function allowSelection(elementId) {
 
         let checkboxDiv = document.createElement("div");
         checkboxDiv.className = "check-box";
-        checkboxDiv.id = elementId + "checkbox";
+        checkboxDiv.name = elementId + "checkbox";
 
         let innerDivGoing = document.createElement("div");
         innerDivGoing.className = "individual-check";
@@ -197,12 +197,16 @@ function formJSON(){
     for(let day in days){
         let section = document.getElementById(days[day]);
         for(let shift in shifts) {
-            let checkBoxes = document.getElementsByClassName(day + "-" +shift+"checkbox");
+            let checkBoxes = section.getElementsByName(day + "-" +shift+"checkbox");
             if(checkBoxes !== undefined){
                 let going = checkBoxes.getElementsByName(day+" - "+shift+"Ida");
                 going.checked;
                 let back = checkBoxes.getElementsByName(day+" - "+shift+"Volta");
                 back.checked;
+                let driver = section.getElementsByClassName("driver-select");
+                let vehicle = section.getElementsByClassName("vehicle-select");
+                driver.item(0).value;
+                vehicle.item(0).value;
             }
         }
     }
