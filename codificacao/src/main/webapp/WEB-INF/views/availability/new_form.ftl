@@ -26,7 +26,7 @@
                     <#list shifts as shift>
                         <div class="individual-check" id="${day}-${shift.name}">
                             <div class="individual-shift-check">
-                                <p>${shift.name}</p>
+                                <label>${shift.name}</label>
                                 <input type="checkbox"
                                        <#if shift.hasStops == true>
                                        <#else>disabled="disabled"</#if>
@@ -81,6 +81,10 @@
     <div class="day-shifts-div" id="confirmation-row">
         <label>Confirmar</label>
         <input type="checkbox" id="confirmation-check" onchange="formJSON()">
+        <@form action="add_stop" method="post">
+            <input type="hidden" name="json" id="json-form-input">
+            <button type="submit">Enviar</button>
+        </@form>
     </div>
 </main>
 

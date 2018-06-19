@@ -3,9 +3,12 @@ package app.controllers;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
+import app.json.AvailabilityJson;
 import app.json.ShiftsEnableJson;
 import app.models.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
@@ -117,101 +120,35 @@ public class AvailabilityController extends GenericAppController {
 
     @POST
     public void addStop(){
-        List<Map<String, Object>> stopList = Stop.findAll().toMaps();
-        for (Map<String, Object> stop : stopList){
-            stop.put("address", Address.findById(stop.get("address_id")).toMap());
-        }
-        view("stops", stopList,
-                "plan", param("plan"),
-                "vehicle", param("vehicle"),
-                "driver", param("driver"),
-                "shift", param("shift"),
-                "day", param("day"),
-                "direction", param("direction"));
-    }
 
-    @POST
-    public void addStops(){
-        LazyList availabilities = Availability.find(
-                "day = ? AND shift = ? AND direction = ?",
-                Day.valueOf(param("day")).ordinal(),
-                Shift.valueOf(param("shift")).ordinal(),
-                Direction.valueOf(param("direction")).ordinal());
-        Boolean allowAddition = true;
-        if(availabilities.size() != 0){
-            for(Object object : availabilities){
-                Availability availability = (Availability) object;
-                if(availability.getInteger("driver_id") == Integer.parseInt(param("driver")) ||
-                    availability.getInteger("vehicle_id") == Integer.parseInt(param("vehicle"))){
-                    flash("message", "Não é permitido alocar um motorista ou " +
-                            "veiculo que conflite com uma disponibilidade existente de outro plano");
-                    allowAddition = false;
-                    redirect(PlanController.class);
-                }
-            }
+        ArrayList<Availability> availabilityList = new ArrayList<>();
+        Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
+        for (JsonElement element : jsonArray) {
+            Availability availability = new Availability();
+            AvailabilityJson reservationJson = g.fromJson(element.getAsJsonObject(), AvailabilityJson.class);
+            reservationJson.setAttributesOfAvailability(availability);
+
+            availabilityList.add(availability);
         }
-        if(allowAddition) {
-            String[] stops = param("items").split(",");
-            for (String stop : stops) {
-                Availability availability = new Availability();
-                availability.set(
-                        "day", Day.valueOf(param("day")).ordinal(),
-                        "shift", Shift.valueOf(param("shift")).ordinal(),
-                        "direction", Direction.valueOf(param("direction")).ordinal(),
-                        "plan_id", Integer.parseInt(param("plan")),
-                        "driver_id", Integer.parseInt(param("driver")),
-                        "vehicle_id", Integer.parseInt(param("vehicle")),
-                        "stop_id", Integer.parseInt(stop));
-                availability.insert();
-            }
-            flash("message", "Disponibiliade cadastrada");
+
+        if(sendAvailabilitiesQuery(availabilityList)){
+            flash("message", "Houveram valores invalidos entre os enviados, logo foram ignorados");
             redirect(PlanController.class);
         }
+
     }
 
     @Override
     public void newForm(){
-        if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0) {
+        if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0 &&
+                Driver.findAll().size() > 0 && Vehicle.findAll().size() > 0) {
             ArrayList<TreeMap<String, Object>> shifts = new ArrayList<>();
             String shiftValues[] = {"12", "18", "04"};
             for (int i = 0; i < Shift.values().length; i++) {
                 TreeMap<String, Object> shift = new TreeMap<>();
                 shift.put("name", Shift.values()[i]);
-                boolean hasStops = false;
-                if (i == 0) {
-                    if (Stop.find("time < ? AND time >= ?",
-                            LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
-                        hasStops = true;
-                    }
-                } else {
-                    if (i == 1) {
-                        if (Stop.find("time < ? AND time >= ?",
-                                LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
-                                LocalTime.parse(shiftValues[i - 1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
-                            hasStops = true;
-                        }
-                    }
-                    if (i == 2) {
-                        if (Stop.find("time >= ?",
-                                LocalTime.parse(shiftValues[1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
-                            hasStops = true;
-                        } else {
-                            if (Stop.find("time >= ? AND time < ?",
-                                    LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm")),
-                                    LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
-                                hasStops = true;
-                            }
-                        }
-
-                    }
-                }
-                if (hasStops) {
-                    shift.put("hasStops", true);
-                } else {
-                    shift.put("hasStops", false);
-                }
-                shifts.add(shift);
             }
             view("drivers", Driver.findAll().toMaps(),
                     "vehicles", Vehicle.findAll().toMaps(),
@@ -242,5 +179,43 @@ public class AvailabilityController extends GenericAppController {
         availability.delete();
         flash("message", "A disponibilidae do plano foi deletada");
         redirect(PlanController.class);
+    }
+
+    private boolean sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
+        boolean hasRepeatedReservations = true;
+
+        for (Availability availability : availabilityList) {
+
+            //Checks for same parameters with others plans
+            LazyList availabilities = Availability.find(
+                    "day = ? AND shift = ? AND direction = ? AND plan_id != ?",
+                    availability.get("day"),
+                    availability.get("shift"),
+                    availability.get("direction"),
+                    availability.get("plan_id"));
+            if(availabilities.size() != 0){
+                hasRepeatedReservations = false;
+            }
+
+            if(hasRepeatedReservations) {
+                //Check if the availability is already registered
+                Integer numResults = Availability.find("day = ? AND shift = ? AND direction = ? AND " +
+                                "driver_id = ? AND vehicle_id = ? AND stop_id = ? AND " +
+                                "plan_id = ?",
+                        availability.get("day"),
+                        availability.get("shift"),
+                        availability.get("direction"),
+                        availability.get("driver_id"),
+                        availability.get("vehicle_id"),
+                        availability.get("stop_id"),
+                        availability.get("plan_id")).size();
+                if (numResults != 0) {
+                    hasRepeatedReservations = false;
+                } else {
+                    availability.insert();
+                }
+            }
+        }
+        return hasRepeatedReservations;
     }
 }

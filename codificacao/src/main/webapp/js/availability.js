@@ -205,33 +205,33 @@ function formJSON(){
         let stopsBase = section.getElementsByClassName("table-base").item(0);
         let stopsDestination = section.getElementsByClassName("table-destination").item(0);
 
-        let skipEntries = [];
+        let skipEntriesGo = [];
+        let skipEntriesBack = [];
 
         for(let shift in shifts) {
 
             let checkBoxes = section.getElementsByClassName("check-box").item(shift);
             if(checkBoxes !== null) {
-                if (checkBoxes.length > 0) {
                     let checkBoxesItems = checkBoxes.getElementsByTagName("input");
 
                     let going = checkBoxesItems.item(0);
                     let back = checkBoxesItems.item(1);
 
-
                     if (going.checked) {
                         for (let i = 1; i < stopsBase.rows.length; i++) {
-                            if (skipEntries.includes(i)) {
+                            if (skipEntriesGo.includes(i)) {
                                 continue;
                             }
-                            if (shifts[0].charAt(0) === stopsBase.rows.item(i).cells.item(2).innerText) {
-                                skipEntries.push(i);
+                            if (shifts[shift].charAt(0) === stopsBase.rows.item(i).cells.item(2).innerText) {
+                                skipEntriesGo.push(i);
                                 let availability = {
                                     day: days[day],
                                     shift: shifts[shift],
                                     direction: "Ida",
                                     vehicle: vehicle.value,
                                     driver: driver.value,
-                                    stop: stopsBase.rows.item(i).cells.item(1).innerText
+                                    stop: stopsBase.rows.item(i).cells.item(1).innerText,
+                                    plan: getPlanId()
                                 };
                                 jsonArray.push(availability);
                             }
@@ -240,28 +240,29 @@ function formJSON(){
 
                     if (back.checked) {
                         for (let i = 1; i < stopsDestination.rows.length; i++) {
-                            if (skipEntries.includes(i)) {
+                            if (skipEntriesBack.includes(i)) {
                                 continue;
                             }
-                            if (shifts[0].charAt(0) === stopsDestination.rows.item(i).cells.item(2).innerText) {
-                                skipEntries.push(i);
+                            if (shifts[shift].charAt(0) === stopsDestination.rows.item(i).cells.item(2).innerText) {
+                                skipEntriesBack.push(i);
                                 let availability = {
                                     day: days[day],
                                     shift: shifts[shift],
                                     direction: "Volta",
                                     vehicle: vehicle.value,
                                     driver: driver.value,
-                                    stop: stopsBase.rows.item(i).cells.item(1).innerText
+                                    stop: stopsBase.rows.item(i).cells.item(1).innerText,
+                                    plan: getPlanId()
                                 };
                                 jsonArray.push(availability);
                             }
                         }
                     }
-                }
             }
         }
     }
-    console.log(jsonArray);
+    let finalInput = document.getElementById("json-form-input");
+    finalInput.value = JSON.stringify(jsonArray);
 
 }
 

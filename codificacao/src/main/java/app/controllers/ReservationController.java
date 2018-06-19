@@ -119,6 +119,7 @@ public class ReservationController extends GenericAppController {
 
         boolean hasRepeatedReservations = true;
 
+        //This command exists in order to avoid a issue if there are no records in the reservation table
         if(CountPassenger.findAll().size() > 0){
             hasRepeatedReservations = sendReservationsQuery(reservationList);
         }
@@ -142,6 +143,12 @@ public class ReservationController extends GenericAppController {
 
         private boolean sendReservationsQuery(ArrayList<Reservation> reservationList){
             boolean hasRepeatedReservations = true;
+            if((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations")  <=
+                    CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
+                            .get(0).getInteger("num_passengers")){
+                hasRepeatedReservations = false;
+                return hasRepeatedReservations;
+            }
             for (Reservation reservation : reservationList) {
                 Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
                                 "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
