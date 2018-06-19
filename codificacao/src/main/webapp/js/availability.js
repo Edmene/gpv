@@ -19,7 +19,6 @@ function allowSelection(elementId) {
 
         let checkboxDiv = document.createElement("div");
         checkboxDiv.className = "check-box";
-        checkboxDiv.name = elementId + "checkbox";
 
         let innerDivGoing = document.createElement("div");
         innerDivGoing.className = "individual-check";
@@ -197,7 +196,7 @@ function formJSON(){
     for(let day in days){
         let section = document.getElementById(days[day]);
         for(let shift in shifts) {
-            let checkBoxes = section.getElementsByName(day + "-" +shift+"checkbox");
+            let checkBoxes = section.getElementsByClassName("check-box");
             if(checkBoxes !== undefined){
                 let going = checkBoxes.getElementsByName(day+" - "+shift+"Ida");
                 going.checked;
