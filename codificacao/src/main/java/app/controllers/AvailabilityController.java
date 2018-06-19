@@ -133,7 +133,7 @@ public class AvailabilityController extends GenericAppController {
             availabilityList.add(availability);
         }
 
-        if(sendAvailabilitiesQuery(availabilityList)){
+        if(!sendAvailabilitiesQuery(availabilityList)){
             flash("message", "Houveram valores invalidos entre os enviados, logo foram ignorados");
             redirect(PlanController.class);
         }
