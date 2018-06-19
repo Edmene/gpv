@@ -149,6 +149,41 @@ public class AvailabilityController extends GenericAppController {
             for (int i = 0; i < Shift.values().length; i++) {
                 TreeMap<String, Object> shift = new TreeMap<>();
                 shift.put("name", Shift.values()[i]);
+                boolean hasStops = false;
+                if (i == 0) {
+                    if (Stop.find("time < ? AND time >= ?",
+                            LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                        hasStops = true;
+                    }
+                } else {
+                    if (i == 1) {
+                        if (Stop.find("time < ? AND time >= ?",
+                                LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                                LocalTime.parse(shiftValues[i - 1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                            hasStops = true;
+                        }
+                    }
+                    if (i == 2) {
+                        if (Stop.find("time >= ?",
+                                LocalTime.parse(shiftValues[1] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                            hasStops = true;
+                        } else {
+                            if (Stop.find("time >= ? AND time < ?",
+                                    LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm")),
+                                    LocalTime.parse(shiftValues[i] + ":00", DateTimeFormatter.ofPattern("HH:mm"))).size() > 0) {
+                                hasStops = true;
+                            }
+                        }
+
+                    }
+                }
+                if (hasStops) {
+                    shift.put("hasStops", true);
+                } else {
+                    shift.put("hasStops", false);
+                }
+                shifts.add(shift);
             }
             view("drivers", Driver.findAll().toMaps(),
                     "vehicles", Vehicle.findAll().toMaps(),
@@ -178,7 +213,7 @@ public class AvailabilityController extends GenericAppController {
         );
         availability.delete();
         flash("message", "A disponibilidae do plano foi deletada");
-        redirect(PlanController.class);
+        redirect(AvailabilityController.class, "plan", param("plan_id"));
     }
 
     private boolean sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
@@ -199,12 +234,11 @@ public class AvailabilityController extends GenericAppController {
 
             if(hasRepeatedReservations) {
                 //Check if the availability is already registered
-                Integer numResults = Availability.find("day = ? AND shift = ? AND direction = ? AND " +
+                Integer numResults = Availability.find("day = ? AND shift = ? AND " +
                                 "driver_id = ? AND vehicle_id = ? AND stop_id = ? AND " +
                                 "plan_id = ?",
                         availability.get("day"),
                         availability.get("shift"),
-                        availability.get("direction"),
                         availability.get("driver_id"),
                         availability.get("vehicle_id"),
                         availability.get("stop_id"),

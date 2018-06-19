@@ -208,56 +208,70 @@ function formJSON(){
         let skipEntriesGo = [];
         let skipEntriesBack = [];
 
-        for(let shift in shifts) {
+        //for(let shift in shifts) {
+        let checkBoxes = section.getElementsByClassName("check-box");
+        if(checkBoxes !== null) {
+            for(let box=0;box<checkBoxes.length;box++) {
+                //console.log("olha o turno:" + box);
+                let checkbox = checkBoxes.item(box);
+                for (let shift in shifts) {
+                    if (checkbox.id.includes(shifts[shift])){
+                        //console.log(checkBoxes);
+                        let checkBoxesItems = checkbox.getElementsByTagName("input");
 
-            let checkBoxes = section.getElementsByClassName("check-box").item(shift);
-            if(checkBoxes !== null) {
-                    let checkBoxesItems = checkBoxes.getElementsByTagName("input");
+                        let going = checkBoxesItems.item(0);
+                        let back = checkBoxesItems.item(1);
 
-                    let going = checkBoxesItems.item(0);
-                    let back = checkBoxesItems.item(1);
+                        //console.log(checkBoxesItems.item(0).checked);
+                        //console.log(checkBoxesItems.item(1).checked);
+                        //console.log(box + " " + day);
 
-                    if (going.checked) {
-                        for (let i = 1; i < stopsBase.rows.length; i++) {
-                            if (skipEntriesGo.includes(i)) {
-                                continue;
+                        if (going.checked) {
+                            //console.log(days[day] + " " + shifts[box] + " " + going.checked);
+                            for (let i = 1; i < stopsBase.rows.length; i++) {
+                                if (skipEntriesGo.includes(i)) {
+                                    continue;
+                                }
+
+                                if (shifts[shift].charAt(0) === stopsBase.rows.item(i).cells.item(2).innerText) {
+                                    skipEntriesGo.push(i);
+                                    let availability = {
+                                        day: days[day],
+                                        shift: shifts[shift],
+                                        direction: "Ida",
+                                        vehicle: vehicle.value,
+                                        driver: driver.value,
+                                        stop: stopsBase.rows.item(i).cells.item(1).innerText,
+                                        plan: getPlanId()
+                                    };
+                                    jsonArray.push(availability);
+                                }
                             }
-                            if (shifts[shift].charAt(0) === stopsBase.rows.item(i).cells.item(2).innerText) {
-                                skipEntriesGo.push(i);
-                                let availability = {
-                                    day: days[day],
-                                    shift: shifts[shift],
-                                    direction: "Ida",
-                                    vehicle: vehicle.value,
-                                    driver: driver.value,
-                                    stop: stopsBase.rows.item(i).cells.item(1).innerText,
-                                    plan: getPlanId()
-                                };
-                                jsonArray.push(availability);
+                        }
+
+                        if (back.checked) {
+                            //console.log(days[day] + " " + shifts[box] + " " + back.checked);
+                            for (let i = 1; i < stopsDestination.rows.length; i++) {
+                                if (skipEntriesBack.includes(i)) {
+                                    continue;
+                                }
+                                if (shifts[shift].charAt(0) === stopsDestination.rows.item(i).cells.item(2).innerText) {
+                                    skipEntriesBack.push(i);
+                                    let availability = {
+                                        day: days[day],
+                                        shift: shifts[shift],
+                                        direction: "Volta",
+                                        vehicle: vehicle.value,
+                                        driver: driver.value,
+                                        stop: stopsDestination.rows.item(i).cells.item(1).innerText,
+                                        plan: getPlanId()
+                                    };
+                                    jsonArray.push(availability);
+                                }
                             }
                         }
                     }
-
-                    if (back.checked) {
-                        for (let i = 1; i < stopsDestination.rows.length; i++) {
-                            if (skipEntriesBack.includes(i)) {
-                                continue;
-                            }
-                            if (shifts[shift].charAt(0) === stopsDestination.rows.item(i).cells.item(2).innerText) {
-                                skipEntriesBack.push(i);
-                                let availability = {
-                                    day: days[day],
-                                    shift: shifts[shift],
-                                    direction: "Volta",
-                                    vehicle: vehicle.value,
-                                    driver: driver.value,
-                                    stop: stopsBase.rows.item(i).cells.item(1).innerText,
-                                    plan: getPlanId()
-                                };
-                                jsonArray.push(availability);
-                            }
-                        }
-                    }
+                }
             }
         }
     }
