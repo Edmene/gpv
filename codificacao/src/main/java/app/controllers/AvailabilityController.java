@@ -132,11 +132,8 @@ public class AvailabilityController extends GenericAppController {
 
             availabilityList.add(availability);
         }
-
-        if(!sendAvailabilitiesQuery(availabilityList)){
-            flash("message", "Houveram valores invalidos entre os enviados, logo foram ignorados");
-            redirect(PlanController.class);
-        }
+        sendAvailabilitiesQuery(availabilityList);
+        redirect(PlanController.class);
 
     }
 
@@ -230,6 +227,7 @@ public class AvailabilityController extends GenericAppController {
                     availability.get("plan_id"));
             if(availabilities.size() != 0){
                 hasRepeatedReservations = false;
+                flash("message", "Houveram planos conflitantes");
             }
 
             if(hasRepeatedReservations) {
@@ -245,6 +243,7 @@ public class AvailabilityController extends GenericAppController {
                         availability.get("plan_id")).size();
                 if (numResults != 0) {
                     hasRepeatedReservations = false;
+                    flash("message", "Entradas repetidas");
                 } else {
                     availability.insert();
                 }
