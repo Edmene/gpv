@@ -2,9 +2,7 @@ package app.controllers;
 
 import app.controllers.authorization.PasswordHashing;
 import app.json.CheckUserJson;
-import app.models.Passenger;
-import app.models.PassengerPlans;
-import app.models.User;
+import app.models.*;
 import app.utils.TransformMaskeredInput;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
@@ -173,6 +171,28 @@ public class PassengerController extends GenericAppController {
     }
 
     public void listPlan(){
-        view("plans",PassengerPlans.find("passenger_id = ?", Integer.parseInt(getId())));
+        view("plans",
+                PassengerDestinationWithInfo.find("passenger_id = ?", Integer.parseInt(getId())).toMaps());
+    }
+
+    @DELETE
+    public void deletePlan(){
+        PassengerPlans passengerPlans = (PassengerPlans) PassengerPlans.find("plan_id = ? AND" +
+                " destination_id = ? AND passenger_id = ?", Integer.parseInt(param("plan_id")),
+                Integer.parseInt(param("destination_id")), Integer.parseInt(param("passenger_id"))).get(0);
+        passengerPlans.set("status", false);
+        passengerPlans.save();
+
+        if(PassengerPlans.find("plan_id = ? AND" +
+                        " passenger_id = ? AND status IS TRUE", Integer.parseInt(param("plan_id")),
+                Integer.parseInt(param("passenger_id"))).size() == 0){
+            LazyList<Reservation> reservations = Reservation.find("plan_id = ? AND passenger_id = ?" +
+                            " AND date IS NULL",
+                    Integer.parseInt(param("plan_id")),
+                    Integer.parseInt(param("passenger_id")));
+            for(Reservation reservation : reservations){
+                reservation.set("status", false);
+            }
+        }
     }
 }

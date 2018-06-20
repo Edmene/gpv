@@ -115,6 +115,17 @@ public class ReservationController extends GenericAppController {
                     "status", true,
                     "reservation_type", param("reservation_type"));
             reservationList.add(reservation);
+
+        }
+
+        if(PassengerPlans.find("plan_id = ? AND passenger_id = ? AND destination_id = ?",
+                Integer.parseInt(param("plan_id")), session().get("id"),
+                Integer.parseInt(param("destination"))).size() == 0) {
+            PassengerPlans passengerPlans = new PassengerPlans();
+            passengerPlans.set("plan_id", Integer.parseInt(param("plan_id")),
+                    "passenger_id", session().get("id"),
+                    "destination_id", Integer.parseInt(param("destination")));
+            passengerPlans.save();
         }
 
         boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
@@ -125,12 +136,6 @@ public class ReservationController extends GenericAppController {
         }
         redirect(HomeController.class);
 
-    }
-
-    //A similar concept already is part of the plan controller
-    public void listPlanOfPassenger(){
-        view("plans", PassengerPlans.find("passenger_id = ?", session().get("id"))
-        .include(Destination.class));
     }
 
     public void reservationList(){

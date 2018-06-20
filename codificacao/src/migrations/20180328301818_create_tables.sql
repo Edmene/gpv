@@ -120,6 +120,7 @@ CREATE TABLE passenger_plans (
   passenger_id INT NOT NULL REFERENCES passengers,
   destination_id INT NOT NULL,
   plan_id INT NOT NULL,
+  status BOOLEAN DEFAULT TRUE,
   CONSTRAINT destination_plans_fk FOREIGN KEY (destination_id, plan_id)
   REFERENCES destination_plans(destination_id, plan_id),
   PRIMARY KEY(passenger_id, destination_id, plan_id)

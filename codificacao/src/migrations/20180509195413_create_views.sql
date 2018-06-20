@@ -35,3 +35,9 @@ CREATE VIEW reservation_info AS
     JOIN vehicles v ON rip.vehicle_id = v.id
     JOIN passengers p ON rip.passenger_id = p.user_id;
 
+CREATE VIEW passenger_destination_with_info AS
+  SELECT pp.*, d.name as destination, a.name as address, a.extra, c.name as city, s.acronym as state FROM passenger_plans pp
+    JOIN destinations d ON pp.destination_id = d.id
+    JOIN addresses a on d.address_id = a.id
+    JOIN cities c on a.city_id = c.id
+    JOIN states s on c.state_id = s.id;
