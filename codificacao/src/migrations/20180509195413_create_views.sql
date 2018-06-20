@@ -17,5 +17,15 @@ CREATE VIEW destination_plan_city AS
 
 CREATE VIEW destination_address AS
   SELECT d.*, a.city_id FROM destinations d
-    JOIN addresses a ON d.address_id = a.id
+    JOIN addresses a ON d.address_id = a.id;
+
+CREATE VIEW reservation_info_passenger AS
+  SELECT * FROM reservations r
+    JOIN stops_info si ON si.id = r.stop_id;
+
+CREATE VIEW reservation_info AS
+  SELECT rip.* d.name as driver FROM reservation_info_passenger rip
+    JOIN driver d ON rip.driver_id = d.id
+    JOIN vehicle v ON rip.vehicle_id = v.id
+    JOIN passenger p ON rip.passenger_id = p.id;
 
