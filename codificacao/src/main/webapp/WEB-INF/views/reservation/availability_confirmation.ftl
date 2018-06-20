@@ -1,7 +1,7 @@
 <section id="plans">
     <@form action="addReservations" method="post">
         <input type="hidden" name="json" value='${json}'>
-        <input type="hidden" name="plan" value="${plan}">
+        <input type="hidden" name="plan_id" value="${plan}">
         <input type="hidden" name="destination" value="${destination}">
         <input type="hidden" name="reservation_type" value="${reservation_type}">
         <#if reservation_type?contains("P")>

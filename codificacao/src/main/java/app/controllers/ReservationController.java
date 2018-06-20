@@ -110,26 +110,14 @@ public class ReservationController extends GenericAppController {
                     }
                 }
             }
-            reservation.set("plan_id", Integer.parseInt(param("plan")),
+            reservation.set("plan_id", Integer.parseInt(param("plan_id")),
                     "passenger_id", session().get("id"),
                     "status", true,
                     "reservation_type", param("reservation_type"));
             reservationList.add(reservation);
         }
 
-        boolean hasRepeatedReservations = true;
-
-        //This command exists in order to avoid a issue if there are no records in the reservation table
-        if (CountPassenger.findAll().size() > 0) {
-            hasRepeatedReservations = sendReservationsQuery(reservationList);
-        } else {
-            if ((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations") >
-                    CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
-                            .get(0).getInteger("num_passengers")) {
-                hasRepeatedReservations = sendReservationsQuery(reservationList);
-            }
-        }
-
+        boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
         if (!hasRepeatedReservations) {
             flash("message", "Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
         } else {
@@ -139,6 +127,7 @@ public class ReservationController extends GenericAppController {
 
     }
 
+    //A similar concept already is part of the plan controller
     public void listPlanOfPassenger(){
         view("plans", PassengerPlans.find("passenger_id = ?", session().get("id"))
         .include(Destination.class));
@@ -164,11 +153,14 @@ public class ReservationController extends GenericAppController {
 
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
         boolean hasRepeatedReservations = true;
-        if ((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations") <=
-                CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
-                        .get(0).getInteger("num_passengers")) {
-            hasRepeatedReservations = false;
-            return hasRepeatedReservations;
+        //This command exists in order to avoid a issue if there are no records in the reservation table
+        if (CountPassenger.findAll().size() != 0) {
+            if ((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations") <=
+                    CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
+                            .get(0).getInteger("num_passengers")) {
+                hasRepeatedReservations = false;
+                return hasRepeatedReservations;
+            }
         }
         for (Reservation reservation : reservationList) {
             Integer numResults = Reservation.find("(date = ? OR date is null) AND " +

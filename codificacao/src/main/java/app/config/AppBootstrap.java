@@ -15,6 +15,7 @@ limitations under the License.
 */
 package app.config;
 
+import app.utils.QuartzScheduler;
 import com.google.inject.Injector;
 import org.javalite.activeweb.AppContext;
 import org.javalite.activeweb.Bootstrap;
@@ -27,6 +28,11 @@ import com.google.inject.Guice;
 public class AppBootstrap extends Bootstrap {
     public void init(AppContext context) {
         //setInjector(Guice.createInjector(new GreeterModule()));
+        try {
+            new QuartzScheduler().schedule();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Injector getInjector() {
