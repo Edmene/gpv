@@ -194,6 +194,7 @@ public class PassengerController extends GenericAppController {
                         Integer.parseInt(param("passenger_id")));
                 for(Reservation reservation : reservations){
                     reservation.set("alteration_date", LocalDate.now().plusDays(15));
+                    reservation.save();
                 }
             }
             flash("message", "Plano inativo");
@@ -203,5 +204,6 @@ public class PassengerController extends GenericAppController {
             passengerPlans.save();
             flash("message", "Plano ativo. Reservas mensais tem de ser reativadas");
         }
+        redirect(PassengerController.class, "list_plan", param("passenger_id"));
     }
 }
