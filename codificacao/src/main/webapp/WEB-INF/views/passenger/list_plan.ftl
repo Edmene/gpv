@@ -1,5 +1,5 @@
 <#list plans as plan>
-    <@form action="delete_plan" method="delete">
+    <@form action="change_plan" method="put">
                 <input hidden name="plan_id" value="${plan.plan_id}">
                 <input hidden name="passenger_id" value="${plan.passenger_id}">
                 <input hidden name="destination_id" value="${plan.destination_id}">

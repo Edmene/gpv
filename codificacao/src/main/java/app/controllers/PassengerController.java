@@ -175,24 +175,33 @@ public class PassengerController extends GenericAppController {
                 PassengerDestinationWithInfo.find("passenger_id = ?", Integer.parseInt(getId())).toMaps());
     }
 
-    @DELETE
-    public void deletePlan(){
+    @PUT
+    public void changePlan(){
         PassengerPlans passengerPlans = (PassengerPlans) PassengerPlans.find("plan_id = ? AND" +
                 " destination_id = ? AND passenger_id = ?", Integer.parseInt(param("plan_id")),
                 Integer.parseInt(param("destination_id")), Integer.parseInt(param("passenger_id"))).get(0);
-        passengerPlans.set("status", false);
-        passengerPlans.save();
 
-        if(PassengerPlans.find("plan_id = ? AND" +
-                        " passenger_id = ? AND status IS TRUE", Integer.parseInt(param("plan_id")),
-                Integer.parseInt(param("passenger_id"))).size() == 0){
-            LazyList<Reservation> reservations = Reservation.find("plan_id = ? AND passenger_id = ?" +
-                            " AND date IS NULL",
-                    Integer.parseInt(param("plan_id")),
-                    Integer.parseInt(param("passenger_id")));
-            for(Reservation reservation : reservations){
-                reservation.set("status", false);
+        if(passengerPlans.getBoolean("status")){
+            passengerPlans.set("status", false);
+            passengerPlans.save();
+
+            if(PassengerPlans.find("plan_id = ? AND" +
+                            " passenger_id = ? AND status IS TRUE", Integer.parseInt(param("plan_id")),
+                    Integer.parseInt(param("passenger_id"))).size() == 0){
+                LazyList<Reservation> reservations = Reservation.find("plan_id = ? AND passenger_id = ?" +
+                                " AND date IS NULL",
+                        Integer.parseInt(param("plan_id")),
+                        Integer.parseInt(param("passenger_id")));
+                for(Reservation reservation : reservations){
+                    reservation.set("alteration_date", LocalDate.now().plusDays(15));
+                }
             }
+            flash("message", "Plano inativo");
+        }
+        else{
+            passengerPlans.set("status", true);
+            passengerPlans.save();
+            flash("message", "Plano ativo. Reservas mensais tem de ser reativadas");
         }
     }
 }
