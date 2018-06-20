@@ -1,3 +1,4 @@
+<span class="message"><@flash name="message"/></span>
 <#list plans as plan>
     <table>
         <thead>
