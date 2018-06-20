@@ -3,15 +3,13 @@ CREATE VIEW availability_stop_address AS
     JOIN stops s on s.id = a.stop_id JOIN addresses address on s.address_id = address.id;
 
 CREATE VIEW count_passenger AS
-  WITH reservation AS (
-      SELECT
-        re.plan_id,
-        re.passenger_id
-      FROM reservations re
-      GROUP BY re.plan_id, re.passenger_id
-  )
-  SELECT COUNT(*) as num_passengers, re.plan_id FROM reservation RE
-  GROUP BY re.plan_id;
+  SELECT COUNT(*) as num_passengers, c.plan_id FROM
+    (SELECT
+       re.plan_id,
+       re.passenger_id
+     FROM reservations re
+     GROUP BY re.plan_id, re.passenger_id) c
+  GROUP BY c.plan_id;
 
 CREATE VIEW stops_info AS
   SELECT s.id, s.time, a.name as address, a.extra, a.city_id FROM stops s JOIN addresses a ON s.address_id = a.id;
