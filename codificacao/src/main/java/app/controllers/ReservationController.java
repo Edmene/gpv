@@ -157,7 +157,7 @@ public class ReservationController extends GenericAppController {
         view("shifts", Shift.values(),
                 "days", Day.values(),
                 "direction", Direction.values(),
-                "reservations", ReservationInfoPassenger.find("plan_id = ?",
+                "reservations", ReservationInfo.find("plan_id = ?",
                         Integer.parseInt(getId())));
     }
 

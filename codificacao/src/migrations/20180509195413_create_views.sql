@@ -24,8 +24,9 @@ CREATE VIEW reservation_info_passenger AS
     JOIN stops_info si ON si.id = r.stop_id;
 
 CREATE VIEW reservation_info AS
-  SELECT rip.* d.name as driver FROM reservation_info_passenger rip
-    JOIN driver d ON rip.driver_id = d.id
-    JOIN vehicle v ON rip.vehicle_id = v.id
-    JOIN passenger p ON rip.passenger_id = p.id;
+  SELECT rip.*, d.name as driver, v.license_plate as vehicle,
+    concat(p.name,' ',p.surname) as passenger FROM reservation_info_passenger rip
+    JOIN drivers d ON rip.driver_id = d.id
+    JOIN vehicles v ON rip.vehicle_id = v.id
+    JOIN passengers p ON rip.passenger_id = p.user_id;
 
