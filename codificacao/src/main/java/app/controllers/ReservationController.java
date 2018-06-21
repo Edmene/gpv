@@ -141,20 +141,11 @@ public class ReservationController extends GenericAppController {
     public void reservationList(){
         view("shifts", Shift.values(),
                 "days", Day.values(),
-                "direction", Direction.values(),
+                "directions", Direction.values(),
                 "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
                         " AND plan_id = ?", session().get("id"),
                         Integer.parseInt(getId())));
     }
-
-    public void planReservationList(){
-        view("shifts", Shift.values(),
-                "days", Day.values(),
-                "direction", Direction.values(),
-                "reservations", ReservationInfo.find("plan_id = ?",
-                        Integer.parseInt(getId())));
-    }
-
 
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
         boolean hasRepeatedReservations = true;
