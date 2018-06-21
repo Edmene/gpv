@@ -6,6 +6,7 @@ import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
 import app.json.ReservationJson;
+import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
 import app.utils.TotalValueOfPlanSelection;
@@ -141,7 +142,44 @@ public class ReservationController extends GenericAppController {
     }
 
     public void list(){
-        view("reservations", ReservationInfoAgg.find("plan_id = ?", Integer.parseInt(getId())).toMaps());
+        view("reservations", ReservationInfoAgg.find("plan_id = ?",
+                Integer.parseInt(getId())).toMaps(),
+                "days", Day.values(),
+                "shifts", Shift.values());
+    }
+
+    public void filteredList(){
+
+        Map<String, String> map = params1st();
+        Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+        ReservationsSearchFiltersJson searchFiltersJson = g.fromJson(jsonParser.parse(
+                String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ReservationsSearchFiltersJson.class);
+
+        String response;
+
+        if(searchFiltersJson.day == 0){
+            if(searchFiltersJson.shift == 0){
+                response = ReservationInfoAgg.find("plan_id = ?", searchFiltersJson.plan_id).toJson(false);
+            }
+            else {
+                response = ReservationInfoAggShift.find("plan_id = ? AND " +
+                        "shift = ?", searchFiltersJson.plan_id, searchFiltersJson.shift).toJson(false);
+            }
+        }
+        else {
+            if(searchFiltersJson.shift == 0){
+                response = ReservationInfoAggDay.find("plan_id = ? AND " +
+                                "day = ?", searchFiltersJson.plan_id, searchFiltersJson.day).toJson(false);
+            }
+            else {
+                response = ReservationInfoAggDayShift.find("plan_id = ? AND " +
+                        "shift = ? AND day = ?", searchFiltersJson.plan_id,
+                        searchFiltersJson.shift, searchFiltersJson.day).toJson(false);
+            }
+        }
+
     }
 
     public void reservationList(){

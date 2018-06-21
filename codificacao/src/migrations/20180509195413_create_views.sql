@@ -41,6 +41,21 @@ CREATE VIEW reservation_info_agg AS
     (SELECT * FROM reservation_info) info
   GROUP BY info.passenger_id, info.passenger, info.plan_id;
 
+CREATE VIEW reservation_info_agg_day AS
+  SELECT info.passenger_id, info.passenger, info.plan_id, info.day FROM
+    (SELECT * FROM reservation_info) info
+  GROUP BY info.passenger_id, info.passenger, info.plan_id, info.day;
+
+CREATE VIEW reservation_info_agg_shift AS
+  SELECT info.passenger_id, info.passenger, info.plan_id, info.shift FROM
+    (SELECT * FROM reservation_info) info
+  GROUP BY info.passenger_id, info.passenger, info.plan_id, info.shift;
+
+CREATE VIEW reservation_info_agg_day_shift AS
+  SELECT info.passenger_id, info.passenger, info.plan_id, info.day, info.shift FROM
+    (SELECT * FROM reservation_info) info
+  GROUP BY info.passenger_id, info.passenger, info.plan_id, info.day, info.shift;
+
 CREATE VIEW passenger_destination_with_info AS
   SELECT pp.*, d.name as destination, a.name as address, a.extra, c.name as city, s.acronym as state FROM passenger_plans pp
     JOIN destinations d ON pp.destination_id = d.id

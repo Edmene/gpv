@@ -65,11 +65,8 @@ function discoverShifts(dayShift) {
 
 function getPlanId() {
     let urlSplit = getSplittedUrl();
-    let id = urlSplit[6];
-    return id;
+    return urlSplit[6];
 }
-
-
 
 function getBaseCityId() {
     let select = document.getElementById("cities");
