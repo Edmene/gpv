@@ -140,23 +140,29 @@ public class ReservationController extends GenericAppController {
 
     }
 
+    public void list(){
+        view("reservations", ReservationInfoAgg.find("plan_id = ?", Integer.parseInt(getId())).toMaps());
+    }
+
     public void reservationList(){
+        Integer passenger_id = Integer.parseInt(param("passenger_id"));
+        Integer plan_id = Integer.parseInt(param("plan_id"));
         LazyList<Reservation> reservationPAList = Reservation.find(
                 "passenger_id = ? AND plan_id = ? AND " +
                         "reservation_type = ? AND status IS TRUE",
-                session().get("id"), Integer.parseInt(getId()), "P");
+                passenger_id, plan_id, "P");
 
         LazyList<Reservation> reservationPIList = Reservation.find(
                 "passenger_id = ? AND plan_id = ? AND " +
                         "reservation_type = ? AND status IS FALSE",
-                session().get("id"), Integer.parseInt(getId()), "P");
+                passenger_id, plan_id, "P");
 
         LazyList<Reservation> reservationMList = Reservation.find(
                 "passenger_id = ? AND plan_id = ? AND " +
                         "reservation_type = ? AND status IS TRUE",
-                session().get("id"), Integer.parseInt(getId()), "M");
+                passenger_id, plan_id, "M");
 
-        Plan plan = Plan.findById(Integer.parseInt(getId()));
+        Plan plan = Plan.findById(plan_id);
 
         ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
         for(Reservation reservationM : reservationMList){
@@ -171,10 +177,10 @@ public class ReservationController extends GenericAppController {
                 "days", Day.values(),
                 "directions", Direction.values(),
                 "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
-                        " AND plan_id = ?", session().get("id"),
-                        Integer.parseInt(getId())),
-                "totalTicketActive", reservationPAList.size()*plan.getFloat("ticket_value"),
-                "totalTicketInactive", reservationPIList.size()*plan.getFloat("ticket_value"),
+                        " AND plan_id = ?", passenger_id,
+                        plan_id),
+                "totalTicketActive", reservationPAList.size()*plan.getFloat("ticket_price"),
+                "totalTicketInactive", reservationPIList.size()*plan.getFloat("ticket_price"),
                 "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
     }
 

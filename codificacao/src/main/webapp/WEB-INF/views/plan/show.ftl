@@ -13,3 +13,4 @@
 <strong>Numero de reservas disponiveis:</strong> ${plan.available_reservations}
 
 <@link_to controller="availability" action="plan" id=plan.id>Disponibilidades de um plano</@link_to>
+<@link_to controller="reservation" action="list" id=plan.id>Passageiros do plano</@link_to>

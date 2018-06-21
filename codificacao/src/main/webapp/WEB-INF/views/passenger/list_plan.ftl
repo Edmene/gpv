@@ -16,7 +16,13 @@
         <tbody>
             <#list plans as plan>
                 <tr>
-                    <td><@link_to controller="reservation" action="reservation_list" id="${plan.plan_id}">${plan.plan_id}</@link_to></td>
+                    <td>
+                        <@form controller="reservation" action="reservation_list" method="get">
+                            <input hidden name="passenger_id" value="${plan.passenger_id}">
+                            <input hidden name="plan_id" value="${plan.plan_id}">
+                            <button type="submit">${plan.plan_id}</button>
+                        </@form>
+                    </td>
                     <td>${plan.destination}</td>
                     <td>${plan.address}</td>
                     <td>${plan.extra}</td>
