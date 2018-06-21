@@ -8,6 +8,7 @@ CREATE VIEW count_passenger AS
        re.plan_id,
        re.passenger_id
      FROM reservations re
+     WHERE re.status IS TRUE
      GROUP BY re.plan_id, re.passenger_id) c
   GROUP BY c.plan_id;
 

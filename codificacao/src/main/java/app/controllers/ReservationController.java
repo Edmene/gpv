@@ -185,17 +185,43 @@ public class ReservationController extends GenericAppController {
         }
         else {
             if(reservation.getDate("date") == null){
-                reservation.set("status", true);
-                flash("message", "Reserva ativada");
+                if(checkPassengerNumberCondition(reservation)){
+                    reservation.set("status", true);
+                    flash("message", "Reserva ativada");
+                }
+                else {
+                    flash("message", "Reserva nao pode ser ativada devido ao numero de reservas estar preenchido");
+                }
             }
             else {
                 if(LocalDate.now().isAfter(reservation.getDate("date").toLocalDate())){
                     flash("message", "Reserva expirada");
                 }
+                else {
+                    if(checkPassengerNumberCondition(reservation)){
+                        reservation.set("status", true);
+                        flash("message", "Reserva ativada");
+                    }
+                    else {
+                        flash("message", "Reserva nao pode ser ativada devido ao numero de reservas estar preenchido");
+                    }
+                }
             }
         }
         reservation.save();
         redirect(ReservationController.class, "reservation_list", param("plan_id"));
+    }
+
+    private boolean checkPassengerNumberCondition(Reservation reservation){
+        if(CountPassenger.find("plan_id = ?",
+                reservation.getInteger("plan_id")).get(0).
+                getInteger("num_passengers") < Plan.findById(
+                reservation.getInteger("plan_id")).getShort("available_reservations")) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
