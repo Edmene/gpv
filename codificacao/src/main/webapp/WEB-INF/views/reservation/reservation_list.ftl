@@ -56,13 +56,15 @@
                 <td>Valores Totais</td>
             </tr>
             <tr>
-                <td>Passagem</td>
+                <td>Passagem Ativas</td>
+                <td>Passagem Inativas</td>
                 <td>Mensal</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>${totalTicket}</td>
+                <td>${totalTicketActive}</td>
+                <td>${totalTicketInactive}</td>
                 <td>${totalMonthly}</td>
             </tr>
         </tbody>
