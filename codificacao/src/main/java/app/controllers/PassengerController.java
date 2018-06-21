@@ -197,12 +197,12 @@ public class PassengerController extends GenericAppController {
                     reservation.save();
                 }
             }
-            flash("message", "Plano inativo");
+            flash("message", "Plano desativado");
         }
         else{
             passengerPlans.set("status", true);
             passengerPlans.save();
-            flash("message", "Plano ativo. Reservas mensais tem de ser reativadas");
+            flash("message", "Plano ativado. Reservas mensais tem de ser reativadas");
         }
         redirect(PassengerController.class, "list_plan", param("passenger_id"));
     }

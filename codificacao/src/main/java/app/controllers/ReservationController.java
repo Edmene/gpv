@@ -11,6 +11,7 @@ import app.utils.TotalValueOfPlanSelection;
 import com.google.gson.*;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -145,6 +146,40 @@ public class ReservationController extends GenericAppController {
                 "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
                         " AND plan_id = ?", session().get("id"),
                         Integer.parseInt(getId())));
+    }
+
+    private Integer toInt(String s){
+        return Integer.parseInt(s);
+    }
+
+    @PUT
+    public void changeReservation(){
+        Reservation reservation = (Reservation) Reservation.find("passenger_id = ? AND " +
+                "day = ? AND shift = ? AND direction = ? AND plan_id = ? AND " +
+                "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
+                    toInt(param("passenger_id")),
+                    toInt(param("day")),
+                    toInt(param("shift")),
+                    toInt(param("direction")),
+                    toInt(param("plan_id")),
+                    toInt(param("driver_id")),
+                    toInt(param("vehicle_id")),
+                    toInt(param("stop_id"))).get(0);
+        if(reservation.getBoolean("status")) {
+            if (reservation.getString("reservation_type") == "M") {
+                if (reservation.getDate("alteration_date") == null) {
+                    reservation.set("alteration_date", LocalDate.now().plusDays(15));
+                }
+            } else {
+                reservation.set("status", false);
+            }
+            flash("message", "Reserva desativado");
+        }
+        else {
+            reservation.set("status", true);
+            flash("message", "Reserva ativado");
+        }
+        reservation.save();
     }
 
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {

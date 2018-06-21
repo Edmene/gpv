@@ -33,8 +33,14 @@
                 </td>
                 <td>
                     <@form action="change_reservation" method="put">
-                        <input hidden name="plan_id" value="${reservation.plan_id}">
                         <input hidden name="passenger_id" value="${reservation.passenger_id}">
+                        <input hidden name="day" value="${reservation.day}">
+                        <input hidden name="shift" value="${reservation.shift}">
+                        <input hidden name="direction" value="${reservation.direction}">
+                        <input hidden name="stop_id" value="${reservation.stop_id}">
+                        <input hidden name="plan_id" value="${reservation.plan_id}">
+                        <input hidden name="driver_id" value="${reservation.driver_id}">
+                        <input hidden name="vehicle_id" value="${reservation.vehicle_id}">
                         <button type="submit">${reservation.status?then("Desativar","Ativar")}</button>
                     </@form>
                 </td>
