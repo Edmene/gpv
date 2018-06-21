@@ -41,7 +41,9 @@
                         <input hidden name="plan_id" value="${reservation.plan_id}">
                         <input hidden name="driver_id" value="${reservation.driver_id}">
                         <input hidden name="vehicle_id" value="${reservation.vehicle_id}">
-                        <button type="submit">${reservation.status?then("Desativar","Ativar")}</button>
+                        <button type="submit"><#if reservation.status>
+                            <#if reservation.alteration_date??>Cancelar Desativacao<#else>Desativar</#if>
+                            <#else>Ativar</#if></button>
                     </@form>
                 </td>
             </tr>

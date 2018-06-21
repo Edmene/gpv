@@ -166,20 +166,36 @@ public class ReservationController extends GenericAppController {
                     toInt(param("vehicle_id")),
                     toInt(param("stop_id"))).get(0);
         if(reservation.getBoolean("status")) {
-            if (reservation.getString("reservation_type") == "M") {
+
+            if (reservation.getString("reservation_type").contains("M")) {
                 if (reservation.getDate("alteration_date") == null) {
                     reservation.set("alteration_date", LocalDate.now().plusDays(15));
+                    flash("message", "Reserva agendada para desativacao");
                 }
-            } else {
-                reservation.set("status", false);
+                else {
+                    reservation.set("alteration_date", null);
+                    flash("message", "Desativacao de reserva cancelada");
+                }
             }
-            flash("message", "Reserva desativado");
+            else {
+                reservation.set("status", false);
+                flash("message", "Reserva desativada");
+            }
+
         }
         else {
-            reservation.set("status", true);
-            flash("message", "Reserva ativado");
+            if(reservation.getDate("date") == null){
+                reservation.set("status", true);
+                flash("message", "Reserva ativada");
+            }
+            else {
+                if(LocalDate.now().isAfter(reservation.getDate("date").toLocalDate())){
+                    flash("message", "Reserva expirada");
+                }
+            }
         }
         reservation.save();
+        redirect(ReservationController.class, "reservation_list", param("plan_id"));
     }
 
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
