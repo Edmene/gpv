@@ -1,6 +1,7 @@
 package app.controllers;
 
 import app.controllers.authorization.Protected;
+import app.enums.CalculationMethod;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
@@ -76,10 +77,10 @@ public class ReservationController extends GenericAppController {
         Plan plan = Plan.findById(Integer.parseInt(param("plan")));
         ArrayList<ArrayList<Map<String, Object>>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
         TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
-        Boolean type = false;
+        CalculationMethod type = CalculationMethod.M;
 
         if (param("reservation_type").contains("P")) {
-            type = true;
+            type = CalculationMethod.T;
         }
 
         view("days", Day.values(),
@@ -140,12 +141,43 @@ public class ReservationController extends GenericAppController {
     }
 
     public void reservationList(){
+        LazyList<Reservation> reservationPList = Reservation.find(
+                "passenger_id = ? AND plan_id = ? AND " +
+                        "reservation_type = ? AND status IS TRUE",
+                session().get("id"), Integer.parseInt(getId()), "P");
+
+        LazyList<Reservation> reservationMList = Reservation.find(
+                "passenger_id = ? AND plan_id = ? AND " +
+                        "reservation_type = ? AND status IS TRUE",
+                session().get("id"), Integer.parseInt(getId()), "M");
+
+        Plan plan = Plan.findById(Integer.parseInt(getId()));
+
+        ArrayList<ReservationJson> reservationJsonListP = new ArrayList<>();
+        for(Reservation reservationP : reservationPList){
+            ReservationJson reservationJson = new ReservationJson(reservationP);
+            reservationJsonListP.add(reservationJson);
+        }
+        ArrayList<ArrayList<Map<String, Object>>> listOfDatesP = new DateOfDayFinder().datesArrayList(reservationJsonListP);
+        TotalValueOfPlanSelection totalValueOfReservationP = new TotalValueOfPlanSelection(listOfDatesP);
+
+        ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
+        for(Reservation reservationM : reservationMList){
+            ReservationJson reservationJson = new ReservationJson(reservationM);
+            reservationJsonListM.add(reservationJson);
+        }
+        ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
+        TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
+
+
         view("shifts", Shift.values(),
                 "days", Day.values(),
                 "directions", Direction.values(),
                 "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
                         " AND plan_id = ?", session().get("id"),
-                        Integer.parseInt(getId())));
+                        Integer.parseInt(getId())),
+                "totalTicket", totalValueOfReservationP.calculateTotalValue(CalculationMethod.T, plan),
+                "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
     }
 
     private Integer toInt(String s){

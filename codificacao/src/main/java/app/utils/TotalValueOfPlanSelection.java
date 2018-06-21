@@ -1,5 +1,6 @@
 package app.utils;
 
+import app.enums.CalculationMethod;
 import app.models.Plan;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class TotalValueOfPlanSelection {
         this.listOfDates = listOfDates;
     }
 
-    public Float calculateTotalValue(Boolean type, Plan plan){
-        if(type){
+    public Float calculateTotalValue(CalculationMethod type, Plan plan){
+        if(type == CalculationMethod.T){
             for(int i=0;i<listOfDates.size();i++){
                 if(!listOfDates.get(i).isEmpty()){
                     totalValue += plan.getFloat("ticket_price")
@@ -23,11 +24,10 @@ public class TotalValueOfPlanSelection {
             }
         }
         else {
-            for(int i=0;i<listOfDates.size();i++){
-                if(!listOfDates.get(i).isEmpty()){
-                    totalValue += plan.getFloat("daily_value")*listOfDates.get(i).size()
-                    * (Integer) listOfDates.get(i).get(0).get("nTimes");
-                }
+            for (int i = 0; i < listOfDates.size(); i++) {
+                if (!listOfDates.get(i).isEmpty()) {
+                    totalValue += plan.getFloat("daily_value") * listOfDates.get(i).size()
+                            * (Integer) listOfDates.get(i).get(0).get("nTimes"); }
             }
         }
         return totalValue;

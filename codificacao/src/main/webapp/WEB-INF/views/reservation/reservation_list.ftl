@@ -50,4 +50,21 @@
             </#list>
         </tbody>
     </table>
+    <table>
+        <thead>
+            <tr>
+                <td>Valores Totais</td>
+            </tr>
+            <tr>
+                <td>Passagem</td>
+                <td>Mensal</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${totalTicket}</td>
+                <td>${totalMonthly}</td>
+            </tr>
+        </tbody>
+    </table>
 
