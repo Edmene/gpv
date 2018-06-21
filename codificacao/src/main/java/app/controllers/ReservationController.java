@@ -47,7 +47,7 @@ public class ReservationController extends GenericAppController {
         for (int day = 0; day < Day.values().length; day++) {
             for (int shift = 0; shift < Shift.values().length; shift++) {
                 List<Map<String, Object>> mapListFinal = AvailabilityStopAddress.find("plan_id = ?" +
-                                "AND shift = ? AND day = ?",
+                                "AND shift = ? AND day = ? AND status IS TRUE",
                         Integer.parseInt(param("plan")),
                         shift, day).toMaps();
                 lazyLists.add(mapListFinal);

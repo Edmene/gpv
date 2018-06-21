@@ -89,6 +89,7 @@ CREATE TABLE availabilities(
   driver_id INT NOT NULL REFERENCES drivers,
   vehicle_id INT NOT NULL REFERENCES vehicles,
   stop_id INT NOT NULL REFERENCES stops,
+  status BOOLEAN DEFAULT TRUE,
   PRIMARY KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
 );
 

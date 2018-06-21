@@ -196,6 +196,10 @@ public class AvailabilityController extends GenericAppController {
         }
     }
 
+    private Integer toInt(String s){
+        return Integer.parseInt(s);
+    }
+
     @Override @DELETE
     public void delete() {
         Availability availability = new Availability();
@@ -208,7 +212,23 @@ public class AvailabilityController extends GenericAppController {
                 "vehicle_id", Integer.parseInt(param("vehicle_id")),
                 "stop_id", Integer.parseInt(param("stop_id"))
         );
-        availability.delete();
+        availability.set("status", false);
+        availability.save();
+        LazyList<Reservation> reservations = Reservation.find("day = ? AND " +
+                        "shift = ? AND direction = ? AND plan_id = ? AND " +
+                        "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
+                toInt(param("day")),
+                toInt(param("shift")),
+                toInt(param("direction")),
+                toInt(param("plan_id")),
+                toInt(param("driver_id")),
+                toInt(param("vehicle_id")),
+                toInt(param("stop_id")));
+        for(Reservation reservation : reservations){
+            reservation.set("status", false);
+            reservation.save();
+        }
+
         flash("message", "A disponibilidae do plano foi deletada");
         redirect(AvailabilityController.class, "plan", param("plan_id"));
     }

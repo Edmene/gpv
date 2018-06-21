@@ -22,6 +22,12 @@ public class DatabaseValuesUpdate implements org.quartz.Job {
             reservation.set("status", false);
             reservation.save();
         }
+        reservations = Reservation.find("reservation_type = ? " +
+                "AND date < ? AND status IS TRUE", "P", LocalDate.now());
+        for (Reservation reservation : reservations){
+            reservation.set("status", false);
+            reservation.save();
+        }
         Base.close();
 
     }

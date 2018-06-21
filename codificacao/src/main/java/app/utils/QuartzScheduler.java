@@ -2,6 +2,7 @@ package app.utils;
 
 import org.quartz.*;
 
+import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -24,9 +25,7 @@ public class QuartzScheduler {
         Trigger trigger = newTrigger()
                 .withIdentity("trigger1", "group1")
                 .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInHours(24)
-                        .repeatForever())
+                .withSchedule(dailyAtHourAndMinute(0, 15))
                 .build();
 
         Scheduler scheduler = new StdSchedulerFactory().getScheduler();
