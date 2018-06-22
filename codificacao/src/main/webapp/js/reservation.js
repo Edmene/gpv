@@ -8,8 +8,10 @@ function updatePassengers(){
     let tableBody = document.getElementsByTagName("tbody");
     tableBody = tableBody.item(0);
 
-    for(let item in tableBody.children) {
-        tableBody.removeChild(tableBody.children[item]);
+    let tableRows = tableBody.getElementsByTagName("tr");
+
+    for(let item in tableRows) {
+        tableBody.removeChild(tableRows[item]);
     }
 
     let selectedDay = document.getElementById("day-filter");
