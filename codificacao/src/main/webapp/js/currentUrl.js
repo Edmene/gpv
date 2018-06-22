@@ -4,10 +4,13 @@ function getSplittedUrl() {
     return urlSplit;
 }
 
-function getUrlPath(lastPath){
+function getUrlPath(lastPath, jumpHttp){
     let url = getSplittedUrl();
     let urlPath = "";
     for (let path in url){
+        if(jumpHttp !== null && jumpHttp !== undefined && path === 0){
+            continue;
+        }
         if(url[path] === lastPath){
             break;
         }

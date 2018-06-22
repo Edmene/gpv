@@ -180,6 +180,8 @@ public class ReservationController extends GenericAppController {
             }
         }
 
+        respond(response).contentType("application/json").status(200);
+
     }
 
     public void reservationList(){
