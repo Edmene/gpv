@@ -1,5 +1,5 @@
 <span class="message"><@flash name="message"/></span>
-    <table>
+    <table class="listing-table">
         <thead>
         <tr>Reservas do plano</tr>
         <tr>
@@ -50,7 +50,7 @@
             </#list>
         </tbody>
     </table>
-    <table>
+    <table class="listing-table">
         <thead>
             <tr>
                 <td>Valores Totais</td>

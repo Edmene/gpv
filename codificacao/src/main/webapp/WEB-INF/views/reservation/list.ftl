@@ -20,7 +20,7 @@
         </select>
         <button onclick="updatePassengers()">Filtrar</button>
     </div>
-    <table id="passengers-table">
+    <table id="passengers-table" class="listing-table">
         <thead>
         <tr>Reservas do plano</tr>
         <tr>

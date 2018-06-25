@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form">Add new book</@link_to>
+<@link_to action="new_form" class="bt-a">Add new book</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Nome</td>
         <td>Tipo</td>

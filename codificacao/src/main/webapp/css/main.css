@@ -15,11 +15,6 @@ a{
 	outline:none;
 }
 
-p{
-	margin:10px 0;
-	line-height:16px;
-}
-
 
 .header{
     position: sticky;
@@ -28,10 +23,15 @@ p{
 
 .content{
     padding:20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    text-align: center;
 }
 
 .error{
     color:red;
+    display: block;
 }
 
 .error_message{
@@ -174,7 +174,8 @@ table tr td{
 }
 
 .bt-a{
-    display: block;
+    display: flex;
+    justify-content: center;
     text-decoration: none;
     background-color: #235789;
     color: #ffff;
@@ -183,7 +184,6 @@ table tr td{
     border: 3px solid #484538;
     border-radius: 2px;
     width: 20%;
-    justify-self: flex-end;
 }
 
 .bt-a:hover{
@@ -242,6 +242,25 @@ table tr td{
     display: inherit;
     flex-flow: column;
     text-align: center;
+}
+
+.listing-table{
+    display: inherit;
+    justify-content: center;
+    text-align: center;
+}
+
+.forms-div{
+    display: inherit;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.forms-buttons{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-content: center;
 }
 
 #56a3a6

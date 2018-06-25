@@ -1,5 +1,5 @@
 <span class="message"><@flash name="message"/></span>
-    <table>
+    <table class="listing-table">
         <thead>
             <tr>Planos com seus destinos</tr>
             <tr>

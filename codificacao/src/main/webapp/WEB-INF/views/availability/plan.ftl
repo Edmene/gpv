@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form" id="${plan}">Adicionar nova disponibilidade</@link_to>
+<@link_to action="new_form" id="${plan}" class="bt-a">Adicionar nova disponibilidade</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Plano</td>
         <td>Dia</td>

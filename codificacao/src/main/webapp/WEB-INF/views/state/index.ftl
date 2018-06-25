@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form">Adicionar novo estado</@link_to>
+<@link_to action="new_form" class="bt-a">Adicionar novo estado</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Nome</td>
         <td>Sigla</td>

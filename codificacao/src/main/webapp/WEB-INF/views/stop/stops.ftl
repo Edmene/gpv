@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form" id="${address}">Adicionar nova parada</@link_to>
+<@link_to action="new_form" id="${address}" class="bt-a">Adicionar nova parada</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Hora</td>
         <td>Endereco</td>

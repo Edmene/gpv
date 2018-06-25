@@ -2,12 +2,6 @@
 
 <span class="message"><@flash name="message"/></span>
 
-<#if (session.user) ??>
-<p>Logged in as: ${session.user}</p>
-<#else>
-<p>Not logged</p>
-</#if>
-
 
 <main class="main-center">
     <section class="main-row">

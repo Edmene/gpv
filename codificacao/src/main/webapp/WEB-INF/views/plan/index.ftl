@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form">Adicionar novo plano</@link_to>
+<@link_to action="new_form" class="bt-a">Adicionar novo plano</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Disponivel por</td>
         <td>Preco de passagem</td>

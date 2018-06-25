@@ -16,18 +16,14 @@ limitations under the License.
 package app.config;
 
 import app.utils.QuartzScheduler;
-import com.google.inject.Injector;
 import org.javalite.activeweb.AppContext;
 import org.javalite.activeweb.Bootstrap;
-import app.services.GreeterModule;
-import com.google.inject.Guice;
 
 /**
  * @author Igor Polevoy
  */
 public class AppBootstrap extends Bootstrap {
     public void init(AppContext context) {
-        //setInjector(Guice.createInjector(new GreeterModule()));
         try {
             new QuartzScheduler().schedule();
         } catch (Exception e) {
@@ -35,7 +31,4 @@ public class AppBootstrap extends Bootstrap {
         }
     }
 
-    public Injector getInjector() {
-        return Guice.createInjector(new GreeterModule());
-    }
 }

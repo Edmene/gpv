@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form" id="${address}">Adicionar novo destino</@link_to>
+<@link_to action="new_form" id="${address}" class="bt-a">Adicionar novo destino</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Nome</td>
         <td>Endereco</td>

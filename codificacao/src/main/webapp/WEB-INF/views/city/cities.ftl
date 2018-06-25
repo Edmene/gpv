@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form" id="${state.id}">Adicionar nova cidade</@link_to>
+<@link_to action="new_form" id="${state.id}" class="bt-a">Adicionar nova cidade</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Nome</td>
         <td>Estado</td>

@@ -5,9 +5,9 @@
 
 
 
-<@link_to action="new_form" id="${city.id}">Adicionar novo endereco</@link_to>
+<@link_to action="new_form" id="${city.id}" class="bt-a">Adicionar novo endereco</@link_to>
 
-<table>
+<table class="listing-table">
     <tr>
         <td>Endereco</td>
         <td>Extra</td>
