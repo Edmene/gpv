@@ -123,10 +123,13 @@ public class AvailabilityController extends GenericAppController {
     @POST
     public void addStop(){
 
+        Map<String, String> map = params1st();
+        String json = String.valueOf(map.keySet().toArray()[0]);
+
         ArrayList<Availability> availabilityList = new ArrayList<>();
         Gson g = new Gson();
         JsonParser jsonParser = new JsonParser();
-        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
+        JsonArray jsonArray = jsonParser.parse(json).getAsJsonArray();
         for (JsonElement element : jsonArray) {
             Availability availability = new Availability();
             AvailabilityJson reservationJson = g.fromJson(element.getAsJsonObject(), AvailabilityJson.class);

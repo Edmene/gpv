@@ -3,7 +3,7 @@
     <div id="user-content">
         <h1 id="user-name">${session.user}</h1>
         <nav id="user-nav">
-            <#if session.acessLevel == "A">
+            <#if session.accessLevel == "A">
                 <@link_to controller="user" action="alter_form" id="${session.id}">Alterar usuario</@link_to>
                 <@link_to controller="user" method="delete" action="delete" id="${session.id}">Deletar usuario</@link_to>
             <#else>

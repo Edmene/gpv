@@ -272,8 +272,12 @@ function formJSON(){
             }
         }
     }
-    let finalInput = document.getElementById("json-form-input");
-    finalInput.value = JSON.stringify(jsonArray);
+    //let finalInput = document.getElementById("json-form-input");
+    //finalInput.value = JSON.stringify(jsonArray);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", getUrlPath("availability")+"availability/addStop", false);
+    xhttp.send(JSON.stringify(jsonArray));
 
 }
 
