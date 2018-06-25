@@ -27,6 +27,7 @@ a{
     flex-flow: column;
     justify-content: center;
     text-align: center;
+    align-items: center;
 }
 
 .error{
@@ -84,7 +85,8 @@ table tr td{
     flex-flow: column;
     margin: 3px;
     min-width: 380px;
-    background-color: #005cbf;
+    background-color: #5d677266;
+    box-shadow: -2px -1px 1px 2px #4d5e66;
 }
 
 .shift-div{
@@ -114,13 +116,11 @@ table tr td{
 .check-box{
     display: inherit;
     flex-flow: column;
-    background-color: #9fcdff;
 }
 
 .individual-shift-check{
     display: inherit;
     flex-flow: column;
-    background-color: #5a6268;
     width: 100%;
     padding-right: 5px;
     padding-bottom: 20%;
@@ -151,11 +151,12 @@ table tr td{
 
 .day-name{
     text-align: center;
-    background-color: #1e7e34;
+    background-color: #13293d;
+    color: white;
 }
 
 #confirmation-row{
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .main-center{
@@ -248,8 +249,6 @@ table tr td{
 }
 
 .listing-table{
-    display: inherit;
-    justify-content: center;
     text-align: center;
 }
 

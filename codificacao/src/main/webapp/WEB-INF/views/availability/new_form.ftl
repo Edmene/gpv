@@ -79,8 +79,10 @@
         </section>
     </#list>
     <div class="day-shifts-div" id="confirmation-row">
-        <label>Confirmar</label>
-        <input type="checkbox" id="confirmation-check" onchange="enableSendButton()">
+        <div>
+            <input type="checkbox" id="confirmation-check" onchange="enableSendButton()">
+            <label>Confirmar</label>
+        </div>
         <button type="submit" onclick="formJSON()" id="send-button" disabled="disabled">Enviar</button>
     </div>
 </main>
