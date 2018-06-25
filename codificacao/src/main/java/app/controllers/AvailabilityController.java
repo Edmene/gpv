@@ -5,20 +5,22 @@ import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
 import app.json.AvailabilityJson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import org.javalite.activeweb.annotations.PUT;
+import org.javalite.common.Util;
 import app.json.ShiftsEnableJson;
 import app.models.*;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -121,10 +123,10 @@ public class AvailabilityController extends GenericAppController {
     }
 
     @POST
-    public void addStop(){
+    public void addStop() throws IOException {
 
-        Map<String, String> map = params1st();
-        String json = String.valueOf(map.keySet().toArray()[0]);
+        String json = Util.read(getRequestInputStream());
+        respond(json).contentType("application/json").status(200);
 
         ArrayList<Availability> availabilityList = new ArrayList<>();
         Gson g = new Gson();
@@ -196,7 +198,7 @@ public class AvailabilityController extends GenericAppController {
                     "states", State.findAll().toMaps());
         }
         else {
-            flash("message", "Cadastre destinos antes de cadastrar disponibilidades");
+            flash("message", "Cadastre destinos, veiculos e motoristas antes de cadastrar disponibilidades");
             redirect(AvailabilityController.class, "plan", getId());
         }
     }
@@ -205,20 +207,22 @@ public class AvailabilityController extends GenericAppController {
         return Integer.parseInt(s);
     }
 
-    @Override @DELETE
-    public void delete() {
-        Availability availability = new Availability();
-        availability.set(
-                "day", Integer.parseInt(param("day")),
-                "shift", Integer.parseInt(param("shift")),
-                "direction", Integer.parseInt(param("direction")),
-                "plan_id", Integer.parseInt(param("plan_id")),
-                "driver_id", Integer.parseInt(param("driver_id")),
-                "vehicle_id", Integer.parseInt(param("vehicle_id")),
-                "stop_id", Integer.parseInt(param("stop_id"))
-        );
-        availability.set("status", false);
-        availability.save();
+    @PUT
+    public void alterStatus() {
+        Availability availability = Availability.findByCompositeKeys(
+                Integer.parseInt(param("day")),
+                Integer.parseInt(param("shift")),
+                Integer.parseInt(param("direction")),
+                Integer.parseInt(param("plan_id")),
+                Integer.parseInt(param("driver_id")),
+                Integer.parseInt(param("vehicle_id")),
+                Integer.parseInt(param("stop_id")));
+        boolean status = false;
+        if(!availability.getBoolean("status")) {
+            status = true;
+        }
+        availability.set("status", status);
+        availability.saveIt();
         LazyList<Reservation> reservations = Reservation.find("day = ? AND " +
                         "shift = ? AND direction = ? AND plan_id = ? AND " +
                         "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
@@ -230,11 +234,16 @@ public class AvailabilityController extends GenericAppController {
                 toInt(param("vehicle_id")),
                 toInt(param("stop_id")));
         for(Reservation reservation : reservations){
-            reservation.set("status", false);
+            reservation.set("status", status);
             reservation.save();
         }
 
-        flash("message", "A disponibilidae do plano foi deletada");
+        if(!status) {
+            flash("message", "A disponibilidae do plano foi desativada");
+        }
+        else {
+            flash("message", "A disponibilidae do plano foi reativada");
+        }
         redirect(AvailabilityController.class, "plan", param("plan_id"));
     }
 

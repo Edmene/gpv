@@ -96,16 +96,19 @@ table tr td{
 .driver-select{
     margin-right: 10px;
     height: 30px;
+    align-self: center;
 }
 
 .vehicle-select{
     margin-right: 10px;
     height: 30px;
+    align-self: center;
 }
 
 .show-stop{
     margin-right: 10px;
     height: 30px;
+    align-self: center;
 }
 
 .check-box{
@@ -262,6 +265,7 @@ table tr td{
     justify-content: center;
     align-content: center;
 }
+
 
 #56a3a6
 #484538

@@ -187,7 +187,22 @@ function showStops(dayId){
 
 }
 
-function formJSON(){
+function enableSendButton() {
+    let sendButton = document.getElementById("send-button");
+    if(document.getElementById("confirmation-check").checked) {
+        if(formJSON(true) > 0) {
+            sendButton.disabled = "";
+        }
+        else {
+            sendButton.disabled = "disabled";
+        }
+    }
+    else {
+        sendButton.disabled = "disabled";
+    }
+}
+
+function formJSON(testSelection){
     let days = ["Segunda","Terca","Quarta","Quinta","Sexta","Sabado","Domingo"];
     let shifts = ["Manha","Tarde","Noite"];
 
@@ -274,10 +289,14 @@ function formJSON(){
     }
     //let finalInput = document.getElementById("json-form-input");
     //finalInput.value = JSON.stringify(jsonArray);
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", getUrlPath("availability")+"availability/addStop", false);
-    xhttp.send(JSON.stringify(jsonArray));
+    if(testSelection !== undefined && testSelection !== null){
+        return jsonArray.length;
+    }
+    else {
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", getUrlPath("availability") + "availability/addStop", true);
+        xhttp.send(JSON.stringify(jsonArray));
+    }
 
 }
 

@@ -30,8 +30,5 @@
     <li><@link_to controller="login">Login</@link_to></li>
     <li><@link_to controller="login" action="logout">Logout</@link_to></li>
     <li><@link_to controller="reservation">Reservation</@link_to></li>
-    <li><a href="user.xml" >Books XML Service example<a></li>
-    <li><a href="user.json" >Books JSON Service example<a></li>
-    <li><@link_to controller="greeting">Dependency injection example</@link_to></li>
 </ul>
 

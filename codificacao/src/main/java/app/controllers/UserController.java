@@ -36,77 +36,81 @@ public class UserController extends GenericAppController {
 
     @Override @POST
     public void create() throws Exception {
-        User user = new User();
-        user.fromMap(params1st());
+        if(!negateAccess(UserType.P)) {
+            User user = new User();
+            user.fromMap(params1st());
 
-        PasswordHashing passwordHashing = new PasswordHashing();
-        user.set("extra", passwordHashing.getSalt());
-        user.set("password", passwordHashing.hashPassword(param("password").trim()));
-        if(!user.save()){
-            flash("message", "Something went wrong, please  fill out all fields");
-            flash("errors", user.errors());
-            flash("params", params1st());
-            redirect(UserController.class, "new_form");
-        }else{
-            flash("message", "Novo usuario foi adicionado: " + user.get("name"));
-            redirect(UserController.class);
+            PasswordHashing passwordHashing = new PasswordHashing();
+            user.set("extra", passwordHashing.getSalt());
+            user.set("password", passwordHashing.hashPassword(param("password").trim()));
+            if(!user.save()){
+                flash("message", "Something went wrong, please  fill out all fields");
+                flash("errors", user.errors());
+                flash("params", params1st());
+                redirect(UserController.class, "new_form");
+            }else{
+                flash("message", "Novo usuario foi adicionado: " + user.get("name"));
+                redirect(UserController.class);
+            }
         }
     }
 
     @Override @DELETE
     public void delete(){
-
-        User u = User.findById(Integer.parseInt(getId()));
-        String name = u.getString("name");
-        u.delete();
-        if(!session().isEmpty()) {
-            if (session("user").toString().contentEquals(name)) {
-                redirect(LoginController.class, "logout");
-            }
-            else {
+        if(!negateAccess(UserType.P)) {
+            User u = User.findById(Integer.parseInt(getId()));
+            String name = u.getString("name");
+            u.delete();
+            if (!session().isEmpty()) {
+                if (session("user").toString().contentEquals(name)) {
+                    redirect(LoginController.class, "logout");
+                } else {
+                    flash("message", "User: '" + name + "' foi deletado");
+                    redirect(UserController.class);
+                }
+            } else {
                 flash("message", "User: '" + name + "' foi deletado");
                 redirect(UserController.class);
             }
-        }
-        else {
-            flash("message", "User: '" + name + "' foi deletado");
-            redirect(UserController.class);
         }
     }
 
     @Override
     public void alterForm(){
-        User user = User.findById(Integer.parseInt(getId()));
-        if(user != null){
-            view("user", user);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
+        if(!negateAccess(UserType.P)) {
+            User user = User.findById(Integer.parseInt(getId()));
+            if (user != null) {
+                view("user", user);
+            } else {
+                view("message", "are you trying to hack the URL?");
+                render("/system/404");
+            }
         }
     }
 
     @Override @PUT
     public void update() throws Exception {
-        User user = User.findById(Integer.parseInt(param("id")));
-        String oldName = user.getString("name");
+        if(!negateAccess(UserType.P)) {
+            User user = User.findById(Integer.parseInt(param("id")));
+            String oldName = user.getString("name");
 
-        user.fromMap(params1st());
-        PasswordHashing passwordHashing = new PasswordHashing();
-        user.set("extra", passwordHashing.getSalt());
-        user.set("password", passwordHashing.hashPassword(param("password").trim()));
-        user.set("id", Integer.parseInt(param("id")));
+            user.fromMap(params1st());
+            PasswordHashing passwordHashing = new PasswordHashing();
+            user.set("extra", passwordHashing.getSalt());
+            user.set("password", passwordHashing.hashPassword(param("password").trim()));
+            user.set("id", Integer.parseInt(param("id")));
 
-        if(!user.save()){
-            flash("message", "Something went wrong, please restart the process");
-            redirect(UserController.class);
-        }
-        else{
-            flash("message", "Usuario alterado " + user.get("name"));
-            if(session("user").toString().contentEquals(((oldName)))){
-                session("user", (String) user.get("name"));
+            if (!user.save()) {
+                flash("message", "Something went wrong, please restart the process");
+                redirect(UserController.class);
+            } else {
+                flash("message", "Usuario alterado " + user.get("name"));
+                if (session("user").toString().contentEquals(((oldName)))) {
+                    session("user", (String) user.get("name"));
+                }
+                redirect(UserController.class);
+
             }
-            redirect(UserController.class);
-
         }
     }
 

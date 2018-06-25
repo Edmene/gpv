@@ -80,74 +80,11 @@
     </#list>
     <div class="day-shifts-div" id="confirmation-row">
         <label>Confirmar</label>
-        <input type="checkbox" id="confirmation-check" onchange="formJSON()">
-        <@form action="add_stop" method="post">
-            <input type="hidden" name="json" id="json-form-input">
-            <button type="submit">Enviar</button>
-        </@form>
+        <input type="checkbox" id="confirmation-check" onchange="enableSendButton()">
+        <button type="submit" onclick="formJSON()" id="send-button" disabled="disabled">Enviar</button>
     </div>
 </main>
 
-
-<@form action="add_stop" method="post">
-    <table style="margin:30px" >
-        <tr>
-            <td>Dia:</td>
-            <td>
-                <select name="day">
-                    <#list days as day>
-                        <option value="${day}">${day}</option>
-                    </#list>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Turno:</td>
-            <td>
-                <select name="shift">
-                    <#list shifts as shift>
-                        <option value="${shift.name}">${shift.name}</option>
-                    </#list>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Sentido:</td>
-            <td>
-                <select name="direction">
-                    <#list directions as direction>
-                        <option value="${direction}">${direction}</option>
-                    </#list>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Motorista:</td>
-            <td>
-                <select name="driver">
-                    <#list drivers as driver>
-                        <option value="${driver.id}">${driver.name + " " + driver.surname}</option>
-                    </#list>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Veiculo:</td>
-            <td>
-                <select name="vehicle">
-                    <#list vehicles as vehicle>
-                        <option value="${vehicle.id}">${vehicle.license_plate}</option>
-                    </#list>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="hidden" value="${plan}" name="plan"></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Proximo Passo"></td>
-
-        </tr>
-    </table>
-</@form>
 
 
 

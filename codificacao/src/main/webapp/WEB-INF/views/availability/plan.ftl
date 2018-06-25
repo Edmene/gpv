@@ -13,7 +13,8 @@
         <td>Dia</td>
         <td>Turno</td>
         <td>Sentido</td>
-        <td>Deletar</td>
+        <td>Status</td>
+        <td>Alterar</td>
     </tr>
 <#list availabilities as availability>
     <tr>
@@ -27,7 +28,9 @@
         <td>
             ${directions[availability.direction]}</td>
         <td>
-            <@form action="delete" method="delete">
+            ${availability.status?then("Ativo", "Desativado")}</td>
+        <td>
+            <@form action="alter_status" method="put">
                 <input hidden name="day" value="${availability.day}">
                 <input hidden name="shift" value="${availability.shift}">
                 <input hidden name="direction" value="${availability.direction}">
@@ -35,7 +38,7 @@
                 <input hidden name="driver_id" value="${availability.driver_id}">
                 <input hidden name="vehicle_id" value="${availability.vehicle_id}">
                 <input hidden name="stop_id" value="${availability.stop_id}">
-                <button type="submit">Excluir</button>
+                <button type="submit">Modificar</button>
             </@form>
         </td>
     </tr>
