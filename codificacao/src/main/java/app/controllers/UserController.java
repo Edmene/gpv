@@ -54,7 +54,7 @@ public class UserController extends GenericAppController {
         User u = User.findById(Integer.parseInt(getId()));
         String name = u.getString("name");
         u.delete();
-        if(session().containsKey("user")) {
+        if(!session().isEmpty()) {
             if (session("user").toString().contentEquals(name)) {
                 redirect(LoginController.class, "logout");
             }
@@ -63,8 +63,10 @@ public class UserController extends GenericAppController {
                 redirect(UserController.class);
             }
         }
-        flash("message", "User: '" + name + "' foi deletado");
-        redirect(UserController.class);
+        else {
+            flash("message", "User: '" + name + "' foi deletado");
+            redirect(UserController.class);
+        }
     }
 
     @Override
