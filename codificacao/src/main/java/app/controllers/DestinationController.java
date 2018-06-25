@@ -118,16 +118,4 @@ public class DestinationController extends GenericAppController {
         flash("message", "Destino: '" + name + "' was deleted");
         redirect(DestinationController.class);
     }
-
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Destination destination = Destination.findById(Integer.parseInt(getId()));
-        if(destination != null){
-            view("destination", destination);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
 }

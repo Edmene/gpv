@@ -18,7 +18,7 @@
 <#list addresses as address>
     <tr>
         <td>
-            <@link_to action="show" id=address.id>${address.name}</@link_to>
+            ${address.name}
         </td>
         <td>
             <#if address.extra??>${address.extra}<#else>sem complemento</#if>

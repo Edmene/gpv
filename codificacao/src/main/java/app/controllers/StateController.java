@@ -65,15 +65,4 @@ public class StateController extends GenericAppController {
         redirect(StateController.class);
     }
 
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        State state = State.findById(Integer.parseInt(getId()));
-        if(state != null){
-            view("state", state);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
 }

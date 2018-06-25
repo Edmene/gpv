@@ -13,13 +13,16 @@
         <td>Dia</td>
         <td>Turno</td>
         <td>Sentido</td>
+        <td>Veiculo</td>
+        <td>Capacidade</td>
+        <td>Motorista</td>
         <td>Status</td>
         <td>Alterar</td>
     </tr>
 <#list availabilities as availability>
     <tr>
         <td>
-            <@link_to action="show" id=availability.plan_id>${availability.plan_id}</@link_to>
+            ${availability.plan_id}
         </td>
         <td>
             ${days[availability.day]}</td>
@@ -27,6 +30,12 @@
             ${shifts[availability.shift]}</td>
         <td>
             ${directions[availability.direction]}</td>
+        <td>
+            ${availability.vehicle}</td>
+        <td>
+            ${availability.vehicle_capacity}</td>
+        <td>
+            ${availability.driver}</td>
         <td>
             ${availability.status?then("Ativo", "Desativado")}</td>
         <td>

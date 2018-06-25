@@ -2,7 +2,7 @@
 <@content for="title">Passageiro: ${passenger.name}</@content>
 
 
-<#if session.acessLevel == "A">
+<#if session.accessLevel == "A">
 <@link_to>Voltar para passageiros</@link_to>
 <#else>
 <@link_to controller="user" action="profile" id="${session.id}">Voltar para perfil</@link_to>

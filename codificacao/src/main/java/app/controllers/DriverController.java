@@ -31,18 +31,6 @@ public class DriverController extends GenericAppController {
         }
     }
 
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Driver m = Driver.findById(Integer.parseInt(getId()));
-        if(m != null){
-            view("driver", m);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
-
     @Override @DELETE
     public void delete(){
 

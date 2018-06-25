@@ -17,7 +17,7 @@
 <#list cities as city>
     <tr>
         <td>
-            <@link_to action="show" id=city.id>${city.name}</@link_to>
+            ${city.name}
         </td>
         <td>
             ${state.name}</td>

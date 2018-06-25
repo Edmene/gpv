@@ -62,3 +62,9 @@ CREATE VIEW passenger_destination_with_info AS
     JOIN addresses a on d.address_id = a.id
     JOIN cities c on a.city_id = c.id
     JOIN states s on c.state_id = s.id;
+
+CREATE VIEW availability_driver_vehicle AS
+  SELECT a.*, d.name as driver, v.license_plate as vehicle,
+              V.capacity as vehicle_capacity FROM availabilities a
+    JOIN drivers d ON a.driver_id = d.id
+    JOIN vehicles v ON a.vehicle_id = v.id;

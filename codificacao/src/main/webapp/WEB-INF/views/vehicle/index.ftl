@@ -18,8 +18,8 @@
     </tr>
 <#list vehicles as vehicle>
     <tr>
-        <td>
-            <@link_to action="show" id=vehicle.id class="license">${vehicle.license_plate}</@link_to>
+        <td class="license">
+            ${vehicle.license_plate}
         </td>
         <td>
             ${vehicle.capacity}</td>

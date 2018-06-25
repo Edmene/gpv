@@ -14,7 +14,6 @@ import app.models.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 
 import java.io.IOException;
@@ -29,8 +28,8 @@ public class AvailabilityController extends GenericAppController {
     private String shiftValues[]= {"12","18","04"};
 
     public void plan(){
-        view("availabilities", Availability.find("plan_id = ?",
-                Integer.parseInt(getId())).toMaps(), "plan", getId(),
+        view("availabilities", AvailabilityDriverVehicle.find("plan_id = ?",
+                Integer.parseInt(getId())).orderBy("day,shift,direction").toMaps(), "plan", getId(),
                 "days", Day.values(), "shifts", Shift.values(),
                 "directions", Direction.values());
     }

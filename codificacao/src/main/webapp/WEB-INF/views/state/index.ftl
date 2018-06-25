@@ -17,7 +17,7 @@
 <#list states as state>
     <tr>
         <td>
-            <@link_to action="show" id=state.id>${state.name}</@link_to>
+            ${state.name}
         </td>
         <td>
             ${state.acronym}</td>

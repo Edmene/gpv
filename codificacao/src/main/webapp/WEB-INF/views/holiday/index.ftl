@@ -18,7 +18,7 @@
 <#list holidays as holiday>
     <tr>
         <td>
-            <@link_to action="show" id=holiday.id>${holiday.name}</@link_to>
+            ${holiday.name}
         </td>
         <td>
             ${holiday.day}</td>

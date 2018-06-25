@@ -19,7 +19,7 @@
 <#list drivers as driver>
     <tr>
         <td>
-            <@link_to action="show" id=driver.id>${driver.name}</@link_to>
+            ${driver.name}
         </td>
         <td>
             ${driver.surname}</td>

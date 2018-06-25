@@ -103,16 +103,4 @@ public class StopController extends GenericAppController{
         flash("message", "Parada foi deletada");
         redirect(StopController.class);
     }
-
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Stop stop = Stop.findById(Integer.parseInt(getId()));
-        if(stop != null){
-            view("stop", stop);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
 }

@@ -93,16 +93,4 @@ public class CityController extends GenericAppController {
         flash("message", "Cidade: '" + name + "' was deleted");
         redirect(CityController.class);
     }
-
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        City city = City.findById(Integer.parseInt(getId()));
-        if(city != null){
-            view("city", city);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
 }

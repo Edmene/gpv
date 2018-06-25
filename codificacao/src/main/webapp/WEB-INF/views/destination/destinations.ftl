@@ -17,7 +17,7 @@
 <#list destinations as destination>
     <tr>
         <td>
-            <@link_to action="show" id=destination.id>${destination.name}</@link_to>
+            ${destination.name}
         </td>
         <td>${destination.address.name} ${destination.address.extra}</td>
         <td>

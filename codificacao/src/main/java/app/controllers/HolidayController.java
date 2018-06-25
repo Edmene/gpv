@@ -31,18 +31,6 @@ public class HolidayController extends GenericAppController {
         }
     }
 
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
-        if(holiday != null){
-            view("holiday", holiday);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
-
     @Override @DELETE
     public void delete(){
 

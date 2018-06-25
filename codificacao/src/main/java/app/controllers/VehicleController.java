@@ -36,18 +36,6 @@ public class VehicleController extends GenericAppController {
         }
     }
 
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
-        if(vehicle != null){
-            view("vehicle", vehicle);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
-
     @Override @DELETE
     public void delete(){
 

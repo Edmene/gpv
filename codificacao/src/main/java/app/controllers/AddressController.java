@@ -92,16 +92,4 @@ public class AddressController extends GenericAppController {
         flash("message", "Endereco: '" + name + "' was deleted");
         redirect(AddressController.class);
     }
-
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        Address address = Address.findById(Integer.parseInt(getId()));
-        if(address != null){
-            view("address", address);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
-    }
 }
