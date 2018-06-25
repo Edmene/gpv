@@ -26,28 +26,7 @@ public class UserController extends GenericAppController {
 
     @Override
     public void index(){
-
-        if("xml".equals(format())){
-            render().noLayout().contentType("text/xml");
-        }
-
-        if("json".equals(format())){
-            render().noLayout().contentType("application/json");
-        }
-
         view("users", User.findAll().toMaps());
-    }
-
-    @Override
-    public void show(){
-        //this is to protect from URL hacking
-        User u = User.findById(Integer.parseInt(getId()));
-        if(u != null){
-            view("user", u);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
     }
 
     @Override @POST
@@ -75,13 +54,17 @@ public class UserController extends GenericAppController {
         User u = User.findById(Integer.parseInt(getId()));
         String name = u.getString("name");
         u.delete();
-        if(session("user").toString().contentEquals(((name)))){
-            redirect(LoginController.class, "logout");
+        if(session().containsKey("user")) {
+            if (session("user").toString().contentEquals(name)) {
+                redirect(LoginController.class, "logout");
+            }
+            else {
+                flash("message", "User: '" + name + "' foi deletado");
+                redirect(UserController.class);
+            }
         }
-        else {
-            flash("message", "User: '" + name + "' foi deletado");
-            redirect(UserController.class);
-        }
+        flash("message", "User: '" + name + "' foi deletado");
+        redirect(UserController.class);
     }
 
     @Override

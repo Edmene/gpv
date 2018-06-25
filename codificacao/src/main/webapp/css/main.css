@@ -32,6 +32,7 @@ a{
 .error{
     color:red;
     display: block;
+    margin-bottom: 6px;
 }
 
 .error_message{
@@ -183,7 +184,6 @@ table tr td{
     padding: 1px;
     border: 3px solid #484538;
     border-radius: 2px;
-    width: 20%;
 }
 
 .bt-a:hover{

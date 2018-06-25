@@ -5,7 +5,7 @@
 
 
 
-<@link_to action="new_form" class="bt-a">Add new book</@link_to>
+<@link_to action="new_form" class="bt-a">Adicionar novo usuário</@link_to>
 
 <table class="listing-table">
     <tr>
@@ -17,7 +17,7 @@
 <#list users as user>
     <tr>
         <td>
-            <@link_to action="show" id=user.id>${user.name}</@link_to>
+            ${user.name}
         </td>
         <td>
             ${user.type}</td>

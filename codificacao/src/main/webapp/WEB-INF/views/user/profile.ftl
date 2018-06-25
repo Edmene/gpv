@@ -1,3 +1,4 @@
+<div class="message"><@flash name="message"/></div>
 <main>
     <div id="user-content">
         <h1 id="user-name">${session.user}</h1>

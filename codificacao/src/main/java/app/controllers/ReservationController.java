@@ -189,7 +189,7 @@ public class ReservationController extends GenericAppController {
         Integer plan_id = Integer.parseInt(param("plan_id"));
         LazyList<Reservation> reservationPAList = Reservation.find(
                 "passenger_id = ? AND plan_id = ? AND " +
-                        "reservation_type = ? AND status IS TRUE",
+                        "reservation_typxzae = ? AND status IS TRUE",
                 passenger_id, plan_id, "P");
 
         LazyList<Reservation> reservationPIList = Reservation.find(
