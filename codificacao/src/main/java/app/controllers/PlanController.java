@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.authorization.Protected;
 import app.models.Destination;
 import app.models.DestinationPlan;
 import app.models.Plan;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@Protected
 public class PlanController extends GenericAppController {
 
     @Override

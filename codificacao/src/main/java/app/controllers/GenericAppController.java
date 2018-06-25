@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.enums.UserType;
 import org.javalite.activeweb.AppController;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
@@ -24,4 +25,17 @@ public abstract class GenericAppController extends AppController {
     public void newForm(){}
 
     public void show(){}
+
+    protected boolean negateAccess(UserType type){
+        if(session("accessLevel").toString().contains(type.name())) {
+            flash("message", "Operação ilegal para o usuário");
+            redirect(HomeController.class);
+            return true;
+        }
+        else {
+            return false;
+        }
+
+
+    }
 }

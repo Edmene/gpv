@@ -1,10 +1,12 @@
 package app.controllers;
 
+import app.controllers.authorization.Protected;
 import app.models.State;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
+@Protected
 public class StateController extends GenericAppController {
 
     @Override

@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.authorization.Protected;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+@Protected
 public class AvailabilityController extends GenericAppController {
     private String shiftValues[]= {"12","18","04"};
 

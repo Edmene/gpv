@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.authorization.Protected;
 import app.models.Vehicle;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
@@ -7,6 +8,7 @@ import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
+@Protected
 public class VehicleController extends GenericAppController {
 
     @Override

@@ -34,6 +34,7 @@ public class AppControllerConfig extends AbstractControllerConfig {
                 AvailabilityController.class, CityController.class, DestinationController.class,
                 HolidayController.class, PassengerController.class,
                 PlanController.class, ReservationController.class, StateController.class,
-                StopController.class, VehicleController.class, LoginController.class);
+                StopController.class, VehicleController.class, LoginController.class,
+                PassengerCreationController.class);
     }
 }

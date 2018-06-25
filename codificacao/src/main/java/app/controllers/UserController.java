@@ -17,16 +17,21 @@ limitations under the License.
 package app.controllers;
 
 import app.controllers.authorization.PasswordHashing;
+import app.controllers.authorization.Protected;
+import app.enums.UserType;
 import app.models.User;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
+@Protected
 public class UserController extends GenericAppController {
 
     @Override
     public void index(){
-        view("users", User.findAll().toMaps());
+        if(!negateAccess(UserType.P)) {
+            view("users", User.findAll().toMaps());
+        }
     }
 
     @Override @POST
@@ -106,6 +111,5 @@ public class UserController extends GenericAppController {
     }
 
     public void profile(){
-
     }
 }
