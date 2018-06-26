@@ -1,3 +1,5 @@
+<@content for="title">Selecionar destino</@content>
+
 <section id="destinations">
         <#list destinations as destination>
             <@link_to action="plan_selection" id=destination.id class="destination_link">

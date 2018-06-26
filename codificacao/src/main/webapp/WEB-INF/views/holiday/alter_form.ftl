@@ -5,31 +5,28 @@
 
 
 <@form action="update" method="post">
-    <table style="margin:30px">
-        <tr>
-            <td>Nome:</td>
-            <td><input type="text" name="name" value="${(holiday.name)!}"> *
-                <span class="error">${(flasher.errors.name)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Dia:</td>
-            <td><input type="number" name="day" value="${(holiday.date)!}"> *
-                <span class="error">${(flasher.errors.day)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Mes:</td>
-            <td><input type="number" name="month" value="${(holiday.date)!}"> *
-                <span class="error">${(flasher.errors.month)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="hidden" name="id" value="${holiday.id}"</td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Alterar feriado"></td>
 
-        </tr>
-    </table>
+    <div class="forms-div">
+        <label>Nome</label>
+        <input type="text" required class="license" name="name" value="${(holiday.name)!}">
+        <span class="error">${(flasher.errors.name)!}</span>
+
+        <label>Dia</label>
+        <input type="number" class="number-input" required name="day" value="${(holiday.day)!}" min="1" max="31"">
+        <span class="error">${(flasher.errors.day)!}</span>
+
+        <label>Mes</label>
+        <input type="number" class="number-input" required name="month" value="${(holiday.month)!}" min="1" max="12"">
+        <span class="error">${(flasher.errors.month)!}</span>
+
+        <input type="hidden" name="id" value="${holiday.id}">
+
+        <div class="forms-buttons">
+            <@link_to class="bt-a">Cancelar</@link_to>
+            <input class="bt-a" type="submit" value="Alterar feriado">
+        </div>
+    </div>
+
 </@form>
 
 

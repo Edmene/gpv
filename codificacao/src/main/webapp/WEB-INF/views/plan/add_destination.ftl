@@ -1,5 +1,5 @@
 
-<@content for="title">Plano: ${plan.id}</@content>
+<@content for="title">Adicionar destinos do plano: ${plan.id}</@content>
 
 <select id="select_state" oninput="selectFlow(this, 0)">
     <option value="0">Selecione um estado</option>

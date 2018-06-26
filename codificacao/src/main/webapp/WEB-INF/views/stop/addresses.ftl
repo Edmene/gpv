@@ -1,4 +1,4 @@
-<@content for="title">Lista de Enderecos</@content>
+<@content for="title">Selecionar Endereco</@content>
 
 
 <div class="message"><@flash name="message"/></div>

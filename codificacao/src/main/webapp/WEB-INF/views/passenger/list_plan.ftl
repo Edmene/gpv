@@ -1,3 +1,4 @@
+<@content for="title">Lista de planos - passageiro ${plans[0].passenger_id}</@content>
 <span class="message"><@flash name="message"/></span>
     <table class="listing-table">
         <thead>

@@ -1,4 +1,4 @@
-<@content for="title">Add new user</@content>
+<@content for="title">Adicionar novo usuario</@content>
 
 <span class="error_message"><@flash name="message"/></span>
 <h2>Adding new user</h2>

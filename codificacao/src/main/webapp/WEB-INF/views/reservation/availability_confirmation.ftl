@@ -1,3 +1,5 @@
+<@content for="title">Confirmar Reserva</@content>
+
 <section id="plans">
     <@form action="addReservations" method="post">
         <input type="hidden" name="json" value='${json}'>

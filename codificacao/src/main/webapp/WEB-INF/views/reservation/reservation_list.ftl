@@ -1,3 +1,5 @@
+<@content for="title">Lista de reservas do plano ${reservations[0].plan_id} - passageiro ${reservations[0].passenger_id}</@content>
+
 <span class="message"><@flash name="message"/></span>
     <table class="listing-table">
         <thead>

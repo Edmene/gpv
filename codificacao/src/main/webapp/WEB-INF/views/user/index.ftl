@@ -1,4 +1,4 @@
-<@content for="title">Usuarios List</@content>
+<@content for="title">Lista deUsuarios</@content>
 
 
 <div class="message"><@flash name="message"/></div>

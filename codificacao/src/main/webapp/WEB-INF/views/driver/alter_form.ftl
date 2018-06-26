@@ -5,37 +5,33 @@
 
 
 <@form action="update" method="post" name="update">
-    <table style="margin:30px">
-        <tr>
-            <td>Nome:</td>
-            <td><input type="text" name="name" value="${(driver.name)!}"> *
-                <span class="error">${(flasher.errors.name)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Sobrenome:</td>
-            <td><input type="text" name="surname" value="${(driver.surname)!}"> *
-                <span class="error">${(flasher.errors.surname)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>RG:</td>
-            <td><input type="text" name="rg" value="${(driver.rg)!}"> *
-                <span class="error">${(flasher.errors.rg)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>CNH:</td>
-            <td><input type="text" class="cnh" name="cnh" value="${(driver.cnh)!}"> *
-                <span class="error">${(flasher.errors.cnh)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="hidden" name="id" value="${driver.id}"</td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Alterar motorista"></td>
 
-        </tr>
-    </table>
+    <div class="forms-div">
+
+        <label>Nome</label>
+        <input type="text" name="name" value="${(driver.name)!}" required>
+        <span class="error">${(flasher.errors.name)!}</span>
+
+        <label>Sobrenome</label>
+        <input type="text" name="surname" value="${(driver.surname)!}" required>
+        <span class="error">${(flasher.errors.surname)!}</span>
+
+        <label>RG</label>
+        <input type="text" name="rg" value="${(driver.rg)!}" required>
+        <span class="error">${(flasher.errors.rg)!}</span>
+
+        <label>CNH</label>
+        <input type="text" class="cnh" name="cnh" value="${(driver.cnh)!}" required>
+        <span class="error">${(flasher.errors.cnh)!}</span>
+
+        <input type="hidden" name="id" value="${driver.id}">
+
+        <div class="forms-buttons">
+            <@link_to class="bt-a">Cancelar</@link_to>
+            <input class="bt-a" type="submit" value="Alterar motorista">
+        </div>
+    </div>
+
 </@form>
 
 

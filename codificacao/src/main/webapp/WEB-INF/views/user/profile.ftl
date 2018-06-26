@@ -1,3 +1,5 @@
+<@content for="title">Perfil</@content>
+
 <div class="message"><@flash name="message"/></div>
 <main>
     <div id="user-content">

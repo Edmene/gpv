@@ -1,5 +1,5 @@
 
-<@content for="title">Plano: ${plan.id}</@content>
+<@content for="title">Informacoes plano: ${plan.id}</@content>
 
 
 

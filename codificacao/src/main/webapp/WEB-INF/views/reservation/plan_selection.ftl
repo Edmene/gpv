@@ -1,3 +1,5 @@
+<@content for="title">Selecionar plano</@content>
+
 <section id="plans">
         <#list destinationPlanMapList as destinationPlanMap>
             <@form action="availability_selection" method="post" class="destination_link">

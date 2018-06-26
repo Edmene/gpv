@@ -1,4 +1,5 @@
 <script src="${context_path}/js/checkSelection.js" type="text/javascript"></script>
+<@content for="title">Selecionar Reservas</@content>
 
 <section id="plans">
     <#assign a = 0>

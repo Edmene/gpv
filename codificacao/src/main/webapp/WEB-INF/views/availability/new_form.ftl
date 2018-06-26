@@ -2,7 +2,7 @@
 <script src="${context_path}/js/availability.js" type="text/javascript"></script>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando nova disponibilidade</h2>
+<h1>Adicionando nova disponibilidade</h1>
 
 <main id="availability-selection" class="availability">
     <section id="base-city">

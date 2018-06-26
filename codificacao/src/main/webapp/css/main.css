@@ -37,18 +37,21 @@ a{
 }
 
 .error_message{
-    background-color:#ffb6c1;
-
+    color: #ff0800;
+    text-shadow: 1px 1px 1px 1px #4d5e66;
+    display: block;
     margin-top:10px;
     margin-bottom:10px;
-    height:0;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.6);
 }
 
 .message{
-    background-color:#56a3a6;
-    
+    display: block;
+    color: #549c82;
+    text-shadow: 1px 1px 1px 1px #4d5e66;
     margin-top:10px;
     margin-bottom:10px;
+    box-shadow: 1px 1px 1px 1px #549c82;
 }
 
 .footer{
@@ -268,6 +271,10 @@ table tr td{
 }
 
 .number-input{
+    width: 100%;
+}
+
+#log-bt{
     width: 100%;
 }
 

@@ -1,4 +1,4 @@
-<@content for="title">Motorista List</@content>
+<@content for="title">Lista de Motoristas</@content>
 
 
 <div class="message"><@flash name="message"/></div>
