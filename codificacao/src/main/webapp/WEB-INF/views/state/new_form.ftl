@@ -5,25 +5,22 @@
 
 
 <@form action="create" method="post">
-    <table style="margin:30px">
-        <tr>
-            <td>Nome:</td>
-            <td><input type="text" name="name" value="${(flasher.params.name)!}"> *
-                            <span class="error">${(flasher.errors.name)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Sigla:</td>
-            <td><input type="text" name="acronym" value="${(flasher.params.acronym)!}"> *
-                            <span class="error">${(flasher.errors.acronym)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Adicionar novo estado"></td>
 
-        </tr>
-    </table>
+    <div class="forms-div">
+        <label>Nome</label>
+        <input type="text" name="name" value="${(flasher.params.name)!}" required>
+        <span class="error">${(flasher.errors.name)!}</span>
+
+        <label>Sigla</label>
+        <input type="text" name="acronym" value="${(flasher.params.acronym)!}" required>
+        <span class="error">${(flasher.errors.acronym)!}</span>
+
+        <div class="forms-buttons">
+            <@link_to class="bt-a">Cancelar</@link_to>
+            <input class="bt-a" type="submit" value="Adicionar novo estado">
+        </div>
+    </div>
+
 </@form>
 
 
