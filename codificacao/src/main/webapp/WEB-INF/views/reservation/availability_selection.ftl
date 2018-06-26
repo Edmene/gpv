@@ -5,27 +5,31 @@
     <#assign a = 0>
     <#list days as day>
         <div class="dayOfWeek-cell" id="${day}">
+            <div class="day-cell-label">${day}</div>
             <#list shifts as shift>
                 <div class="shift-cell" id="${day}${shift}">
-                    ${day} - ${shift}
+                    <div>${shift}</div>
                     <#list directions as direction>
                         <div class="direction-cell" id="${day}${shift}${direction}">
-                            ${direction}
+                            <div>${direction}</div>
                             <#if availabilitiesSubSets[a]??>
+                                <div class="stops-cell">
                                 <#list availabilitiesSubSets[a] as subSet>
                                     <#if subSet.direction??>
                                         <#if direction?index == subSet.direction>
-                                            ${subSet.address_name} - ${subSet.time?string["HH:mm"]}
+                                            <div class="stop-cell">
                                             <input type="radio" name="${day}${shift}${direction}"
                                                    value="${subSet.driver_id},${subSet.vehicle_id},${subSet.stop_id}">
+                                                <label>${subSet.address_name} - ${subSet.time?string["HH:mm"]}</label>
+                                            </div>
                                         </#if>
                                     </#if>
                                 </#list>
+                                </div>
                             </#if>
                         </div>
                     </#list>
                 </div>
-            <br>
                 <#assign a++>
             </#list>
         </div>

@@ -320,6 +320,62 @@ table tr td{
     transform: rotate(180deg);
 }
 
+.plan{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 1px 1px 2px 1px #898989;
+    margin-bottom: 5px;
+}
+
+.dayOfWeek-cell {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    box-shadow: 0 0 1px 1px #304d66;
+    border: 1px solid #444444;
+    justify-content: space-evenly;
+}
+
+.shift-cell {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.direction-cell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    border-bottom: 1px inset black;
+}
+
+.shift-cell{
+    display: flex;
+    flex-direction: column;
+}
+
+.stops-cell{
+    display: flex;
+    flex-direction: column;
+}
+
+.stop-cell{
+    margin-left: 4px;
+    display: flex;
+    flex-direction: row;
+}
+
+.day-cell-label{
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #13293d;
+    flex-grow: 1;
+    color: white;
+}
+
 /*
 .tr-plan-warning{
     box-shadow: 3px 3px 5px 6px #b2b972;
