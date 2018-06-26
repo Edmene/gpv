@@ -15,20 +15,4 @@
 </main>
 
 
-<ul>
-    <li><@link_to controller="user">Usuarios CRUD example</@link_to></li>
-    <li><@link_to controller="driver">Motoristas CRUD example</@link_to></li>
-    <li><@link_to controller="state">Estados</@link_to></li>
-    <li><@link_to controller="city">Cidade</@link_to></li>
-    <li><@link_to controller="address">Endereco</@link_to></li>
-    <li><@link_to controller="holiday">Feriado</@link_to></li>
-    <li><@link_to controller="vehicle">Veiculo</@link_to></li>
-    <li><@link_to controller="destination">Destino</@link_to></li>
-    <li><@link_to controller="passenger">Cadastro de cliente</@link_to></li>
-    <li><@link_to controller="plan">Planos</@link_to></li>
-    <li><@link_to controller="stop">Paradas</@link_to></li>
-    <li><@link_to controller="login">Login</@link_to></li>
-    <li><@link_to controller="login" action="logout">Logout</@link_to></li>
-    <li><@link_to controller="reservation">Reservation</@link_to></li>
-</ul>
 
