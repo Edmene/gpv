@@ -1,7 +1,7 @@
 <@content for="title">Adicionar parada</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando nova parada</h2>
+<h1>Adicionando nova parada</h1>
 
 
 <@form action="create" method="post" name="create">

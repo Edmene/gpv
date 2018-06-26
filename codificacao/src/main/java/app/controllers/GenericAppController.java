@@ -26,7 +26,7 @@ public abstract class GenericAppController extends AppController {
 
     public void show(){}
 
-    protected boolean negateAccess(UserType type){
+    boolean negateAccess(UserType type){
         if(session("accessLevel").toString().contains(type.name())) {
             flash("message", "Operação ilegal para o usuário");
             redirect(HomeController.class);
@@ -35,7 +35,16 @@ public abstract class GenericAppController extends AppController {
         else {
             return false;
         }
+    }
 
-
+    boolean negateAccess(UserType type, Integer userId){
+        if(session("accessLevel").toString().contains(type.name()) && userId != session("id")) {
+            flash("message", "Operação ilegal para o usuário");
+            redirect(HomeController.class);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

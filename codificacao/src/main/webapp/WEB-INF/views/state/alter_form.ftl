@@ -1,7 +1,7 @@
 <@content for="title">Alterar estado</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Alterando estado ${state.name}</h2>
+<h1>Alterando estado ${state.name}</h1>
 
 
 <@form action="update" method="post" name="update">

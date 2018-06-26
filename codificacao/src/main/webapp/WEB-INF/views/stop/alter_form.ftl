@@ -1,7 +1,7 @@
 <@content for="title">Alterar parada</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Alterando parada</h2>
+<h1>Alterando parada</h1>
 
 
 <@form action="update" method="post" name="update">
