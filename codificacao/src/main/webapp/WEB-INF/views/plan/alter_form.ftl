@@ -7,7 +7,7 @@
 <@form action="update" method="post" name="update">
 
     <div class="forms-div">
-        <label>Disponivel por:</label>
+        <label>Disponivel por</label>
         <select name="availability_condition" required>
             <option value="M" <#if plan.availability_condition == "M">selected="selected"</#if>>Mensal</option>
             <option value="A" <#if plan.availability_condition == "A">selected="selected"</#if>>Mensal e passagem</option>

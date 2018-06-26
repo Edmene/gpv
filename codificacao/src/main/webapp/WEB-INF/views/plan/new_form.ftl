@@ -7,7 +7,7 @@
 <@form action="create" method="post" name="create">
 
     <div class="forms-div">
-        <label>Disponivel por:</label>
+        <label>Disponivel por</label>
         <select name="availability_condition" required>
             <option value="M">Mensal</option>
             <option value="A">Mensal e passagem</option>
