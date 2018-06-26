@@ -249,6 +249,7 @@ table tr td{
 }
 
 .listing-table{
+    margin-top: 5px;
     text-align: center;
     box-shadow: 3px 3px 3px 4px #898989;
 }
