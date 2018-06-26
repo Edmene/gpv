@@ -8,14 +8,14 @@ function updatePassengers(){
     let tableBody = document.getElementsByTagName("tbody");
     tableBody = tableBody.item(0);
 
-    let tableRows = tableBody.getElementsByTagName("tr");
-
-    for(let item in tableRows) {
-        tableBody.removeChild(tableRows[item]);
-    }
-
     let selectedDay = document.getElementById("day-filter");
     let selectedShift = document.getElementById("shift-filter");
+
+    let tableRows = tableBody.rows;
+
+    for(let i=tableRows.length-1;i>=0;i--) {
+        tableBody.deleteRow(i);
+    }
 
     let filter = {
         day: selectedDay.value,

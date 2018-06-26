@@ -250,6 +250,7 @@ table tr td{
 
 .listing-table{
     text-align: center;
+    box-shadow: 3px 3px 3px 4px #898989;
 }
 
 .forms-div{
