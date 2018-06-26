@@ -1,43 +1,32 @@
-<@content for="title">Adicionar novo veiculo</@content>
+<@content for="title">Alterar veiculo</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando novo veiculo</h2>
+<h1>Alterando veiculo</h1>
 
 
 <@form action="update" method="post">
-    <table style="margin:30px">
-        <tr>
-            <td>Placa:</td>
-            <td><input type="text" class="license" name="license_plate" value="${(vehicle.license_plate)!}"> *
-                <span class="error">${(flasher.errors.license_plate)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Capacidade:</td>
-            <td><input type="number" name="capacity"
-                       min="1" max="80" value="${(vehicle.capacity)!}"> *
-                <span class="error">${(flasher.errors.capacity)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Modelo:</td>
-            <td><input type="text" name="model" value="${(vehicle.model)!}"> *
-                <span class="error">${(flasher.errors.model)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td>Ano:</td>
-            <td><input type="number" name="year"
-                       min="1" max="80" value="${(vehicle.year)!}"> *
-                <span class="error">${(flasher.errors.year)!}</span>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="hidden" name="id" value="${vehicle.id}"</td>
-            <td><@link_to>Cancel</@link_to> | <input type="submit" value="Add new driver"></td>
+    <div class="forms-div">
+        <label>Placa</label>
+        <input type="text" required class="license" name="license_plate" value="${(vehicle.license_plate)!}">
+        <span class="error">${(flasher.errors.license_plate)!}</span>
 
-        </tr>
-    </table>
+        <label>Capacidade</label>
+        <input type="number" class="number-input" required name="capacity" min="1" max="80" value="${(vehicle.capacity)!}">
+        <span class="error">${(flasher.errors.capacity)!}</span>
+
+        <label>Modelo</label>
+        <input type="text" required name="model" value="${(vehicle.model)!}">
+        <span class="error">${(flasher.errors.model)!}</span>
+
+        <label>Ano</label>
+        <input type="number" class="number-input" required name="year" min="1900" max="5000" value="${(vehicle.year)!}">
+        <span class="error">${(flasher.errors.year)!}</span>
+
+        <div class="forms-buttons">
+            <@link_to class="bt-a">Cancelar</@link_to>
+            <input class="bt-a" type="submit" value="Alterar veiculo">
+        </div>
+    </div>
 </@form>
 
 

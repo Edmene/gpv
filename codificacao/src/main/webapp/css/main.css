@@ -255,7 +255,7 @@ table tr td{
 }
 
 .forms-div{
-    display: inherit;
+    display: flex;
     flex-flow: column;
     justify-content: center;
 }
@@ -265,6 +265,10 @@ table tr td{
     flex-flow: row;
     justify-content: center;
     align-content: center;
+}
+
+.number-input{
+    width: 100%;
 }
 
 /*

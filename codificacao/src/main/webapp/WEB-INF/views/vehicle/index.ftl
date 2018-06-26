@@ -8,14 +8,17 @@
 <@link_to action="new_form" class="bt-a">Adicionar novo veiculo</@link_to>
 
 <table class="listing-table">
-    <tr>
-        <td>Placa</td>
-        <td>Capacidade</td>
-        <td>Ano</td>
-        <td>Modelo</td>
-        <td>Edit</td>
-        <td>Deletar</td>
-    </tr>
+    <thead>
+        <tr>
+            <td>Placa</td>
+            <td>Capacidade</td>
+            <td>Ano</td>
+            <td>Modelo</td>
+            <td>Edit</td>
+            <td>Deletar</td>
+        </tr>
+    </thead>
+    <tbody>
 <#list vehicles as vehicle>
     <tr>
         <td class="license">
@@ -39,6 +42,7 @@
         </td>
     </tr>
 </#list>
+    </tbody>
 </table>
 
 

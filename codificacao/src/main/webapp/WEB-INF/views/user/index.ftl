@@ -8,12 +8,15 @@
 <@link_to action="new_form" class="bt-a">Adicionar novo usuário</@link_to>
 
 <table class="listing-table">
-    <tr>
-        <td>Nome</td>
-        <td>Tipo</td>
-        <td>Editar</td>
-        <td>Deletar</td>
-    </tr>
+    <thead>
+        <tr>
+            <td>Nome</td>
+            <td>Tipo</td>
+            <td>Editar</td>
+            <td>Deletar</td>
+        </tr>
+    </thead>
+    <tbody>
 <#list users as user>
     <tr>
         <td>
@@ -33,6 +36,7 @@
         </td>
     </tr>
 </#list>
+    </tbody>
 </table>
 
 
