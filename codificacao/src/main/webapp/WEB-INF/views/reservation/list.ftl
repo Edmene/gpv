@@ -22,8 +22,10 @@
     </div>
     <table id="passengers-table" class="listing-table">
         <thead>
-        <tr>Reservas do plano</tr>
-        <tr>
+        <tr class="tr-even">
+            <td colspan="3">Reservas do plano</td>
+        </tr>
+        <tr class="tr-even">
             <td>Pessoa</td>
             <td>Detalhes do plano</td>
             <td>Planos do Passageiro</td>
@@ -31,19 +33,19 @@
         </thead>
         <tbody>
             <#list reservations as reservation>
-            <tr>
-                <td>${reservation.passenger}</td>
-                <td>
-                    <@form action="reservation_list" method="get" class="passenger_reservations">
-                        <input hidden name="passenger_id" value="${reservation.passenger_id}">
-                        <input hidden name="plan_id" value="${reservation.plan_id}">
-                        <button type="submit">Mostrar</button>
-                    </@form>
-                </td>
-                <td>
-                    <@link_to controller="passenger" action="list_plan" id=reservation.passenger_id class="passenger_plans">Listar</@link_to>
-                </td>
-            </tr>
+                <tr <#if reservation_index % 2 != 0> class="tr-even" </#if>>
+                    <td>${reservation.passenger}</td>
+                    <td>
+                        <@form action="reservation_list" method="get" class="passenger_reservations">
+                            <input hidden name="passenger_id" value="${reservation.passenger_id}">
+                            <input hidden name="plan_id" value="${reservation.plan_id}">
+                            <button type="submit">Mostrar</button>
+                        </@form>
+                    </td>
+                    <td>
+                        <@link_to controller="passenger" action="list_plan" id=reservation.passenger_id class="passenger_plans">Listar</@link_to>
+                    </td>
+                </tr>
             </#list>
         </tbody>
     </table>

@@ -6,7 +6,9 @@
 <span class="message"><@flash name="message"/></span>
     <table class="listing-table">
         <thead>
-            <tr>Planos com seus destinos</tr>
+            <tr class="tr-even" >
+                <td colspan="8">Planos com seus destinos</td>
+            </tr>
             <tr class="tr-even">
                 <td>Plano</td>
                 <td>Destino</td>

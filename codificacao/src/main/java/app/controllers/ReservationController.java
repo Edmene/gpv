@@ -110,7 +110,7 @@ public class ReservationController extends GenericAppController {
             reservationJson.setAttributesOfReservation(reservation);
             if (param("reservation_type").contains("P")) {
                 for (Day day : Day.values()) {
-                    if (!param(day.name()).isEmpty() && reservationJson.day == day.ordinal()) {
+                    if (param(day.name()) != null && reservationJson.day == day.ordinal()) {
                         LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(param(day.name())));
                         reservation.setDate("date", date);
                     }
@@ -290,7 +290,7 @@ public class ReservationController extends GenericAppController {
             }
         }
         reservation.save();
-        redirect(ReservationController.class, "reservation_list", param("plan_id"));
+        redirect(PassengerController.class, "list_plan", param("passenger_id"));
     }
 
     private boolean isPassengerNumberNotExcessive(Reservation reservation){

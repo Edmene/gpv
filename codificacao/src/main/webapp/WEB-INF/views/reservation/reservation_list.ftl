@@ -3,8 +3,11 @@
 <span class="message"><@flash name="message"/></span>
     <table class="listing-table">
         <thead>
-            <tr>Reservas do plano</tr>
             <tr class="tr-even">
+                <td colspan="11">Reservas do plano</td>
+            </tr>
+            <tr class="tr-even">
+                <td>Data</td>
                 <td>Dia</td>
                 <td>Turno</td>
                 <td>Direcao</td>
@@ -20,6 +23,7 @@
         <tbody>
             <#list reservations as reservation>
                 <tr <#if reservation_index % 2 != 0> class="tr-even" </#if>>
+                    <td>${(reservation.date)!}</td>
                     <td>${days[reservation.day]}</td>
                     <td>${shifts[reservation.shift]}</td>
                     <td>${directions[reservation.direction]}</td>
@@ -54,10 +58,10 @@
     </table>
     <table class="listing-table">
         <thead>
-            <tr>
-                <td>Valores Totais</td>
+            <tr class="tr-even">
+                <td colspan="3">Valores Totais</td>
             </tr>
-            <tr>
+            <tr class="tr-even">
                 <td>Passagem Ativas</td>
                 <td>Passagem Inativas</td>
                 <td>Mensal</td>
