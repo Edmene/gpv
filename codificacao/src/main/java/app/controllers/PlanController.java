@@ -1,10 +1,7 @@
 package app.controllers;
 
 import app.controllers.authorization.Protected;
-import app.models.Destination;
-import app.models.DestinationPlan;
-import app.models.Plan;
-import app.models.State;
+import app.models.*;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.DELETE;
@@ -152,13 +149,20 @@ public class PlanController extends GenericAppController {
     }
 
     @POST
-    public void addDestinations(){
+    public void addDestinations() {
         String[] destinations = param("items").split(",");
         for (String destination : destinations) {
-            DestinationPlan destinationPlan = new DestinationPlan();
-            destinationPlan.set("destination_id", Integer.parseInt(destination),
-                    "plan_id", Integer.parseInt(param("plan")));
-            destinationPlan.insert();
+            if (!PassengerPlans.findByCompositeKeys(Integer.parseInt(destination),
+                    Integer.parseInt(param("plan"))).exists()) {
+
+                DestinationPlan destinationPlan = new DestinationPlan();
+                destinationPlan.set("destination_id", Integer.parseInt(destination),
+                        "plan_id", Integer.parseInt(param("plan")));
+                destinationPlan.insert();
+            }
+            else {
+                flash("message", "Destinos ja vinculados ao plano previamente");
+            }
         }
         redirect(PlanController.class);
     }
@@ -171,10 +175,18 @@ public class PlanController extends GenericAppController {
         if(param("item") != null) {
             destinations = Arrays.asList(param("items").split(","));
         }
+
         for(Object destination : destinationsPlan){
             DestinationPlan destinationPlan = (DestinationPlan) destination;
             if(!destinations.contains(destinationPlan.get("destination_id").toString())){
-                destinationPlan.delete();
+                if(PassengerPlans.find("plan_id = ?" +
+                        " AND destination_id = ?", Integer.parseInt(param("plan")),
+                        destinationPlan.getInteger("destination_id")).isEmpty()) {
+                    destinationPlan.delete();
+                }
+                else {
+                    flash("message", "Destinos referenciados nao e possivel remove-lo do plano");
+                }
             }
         }
         redirect(PlanController.class);

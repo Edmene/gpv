@@ -352,11 +352,6 @@ table tr td{
     border-bottom: 1px outset grey;
 }
 
-.shift-cell{
-    display: flex;
-    flex-direction: column;
-}
-
 .shift-cell-label{
     border-bottom: 1px outset grey;
 }
@@ -389,6 +384,16 @@ table tr td{
 #select-flow{
     display: flex;
     flex-direction: column;
+}
+
+.days-selection{
+    display: flex;
+    flex-direction: column;
+}
+
+.total-value{
+    color: white;
+    background-color: #13293d;
 }
 
 /*
