@@ -1,5 +1,5 @@
 
-<@content for="title">Lista de reservas do plano ${reservations[0].plan_id}</@content>
+<@content for="title">Lista de reservas do plano ${(reservations[0].plan_id)!}</@content>
 
 <span class="message"><@flash name="message"/></span>
     <div>

@@ -294,10 +294,9 @@ function formJSON(testSelection){
     }
     else {
         let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", getUrlPath("availability") + "availability/addStop", true);
+        xhttp.open("POST", getUrlPath("availability") + "availability/addStop", false);
         xhttp.send(JSON.stringify(jsonArray));
 
-        document.location.href = getUrlPath("availability")+"availability/plan/"+getPlanId();
     }
 
 }

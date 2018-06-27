@@ -148,18 +148,32 @@ public class PlanController extends GenericAppController {
 
     @POST
     public void addDestinations() {
-        String[] destinations = param("items").split(",");
-        for (String destination : destinations) {
-            if (!PassengerPlans.findByCompositeKeys(Integer.parseInt(destination),
-                    Integer.parseInt(param("plan"))).exists()) {
+        if(param("items").contains(",")) {
+            String[] destinations = param("items").split(",");
+            for (String destination : destinations) {
+                if (PassengerPlans.findByCompositeKeys(Integer.parseInt(destination),
+                        Integer.parseInt(param("plan"))) == null) {
+
+                    DestinationPlan destinationPlan = new DestinationPlan();
+                    destinationPlan.set("destination_id", Integer.parseInt(destination),
+                            "plan_id", Integer.parseInt(param("plan")));
+                    destinationPlan.insert();
+                } else {
+                    flash("message", "Destinos ja vinculados ao plano previamente");
+                }
+            }
+        }
+        else {
+            if (PassengerPlans.findByCompositeKeys(Integer.parseInt(param("items")),
+                    Integer.parseInt(param("plan"))) == null) {
 
                 DestinationPlan destinationPlan = new DestinationPlan();
-                destinationPlan.set("destination_id", Integer.parseInt(destination),
+                destinationPlan.set("destination_id", Integer.parseInt(param("items")),
                         "plan_id", Integer.parseInt(param("plan")));
                 destinationPlan.insert();
-            }
-            else {
-                flash("message", "Destinos ja vinculados ao plano previamente");
+                flash("message", "Destino adicionados com sucesso");
+            } else {
+                flash("message", "Destino ja vinculados ao plano previamente");
             }
         }
         redirect(PlanController.class);

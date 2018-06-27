@@ -3,6 +3,7 @@ package app.controllers;
 import app.controllers.authorization.ProtectedAdministrative;
 import app.enums.Day;
 import app.enums.Direction;
+import app.enums.InsertionException;
 import app.enums.Shift;
 import app.json.AvailabilityJson;
 import app.json.ShiftsEnableJson;
@@ -125,7 +126,6 @@ public class AvailabilityController extends GenericAppController {
     public void addStop() throws IOException {
 
         String json = Util.read(getRequestInputStream());
-        respond(json).contentType("application/json").status(200);
 
         ArrayList<Availability> availabilityList = new ArrayList<>();
         Gson g = new Gson();
@@ -138,8 +138,21 @@ public class AvailabilityController extends GenericAppController {
 
             availabilityList.add(availability);
         }
-        sendAvailabilitiesQuery(availabilityList);
-        redirect(PlanController.class);
+        InsertionException errorsInInsertion = sendAvailabilitiesQuery(availabilityList);
+        //redirect(PlanController.class);
+        if(errorsInInsertion != null){
+            if(errorsInInsertion == InsertionException.CONFLICT){
+                respond("Planos conflitantes").status(200);
+            }
+            else {
+                respond("Entradas repetidas").status(200);
+            }
+
+        }
+        else {
+            respond("Sucesso").status(200);
+        }
+        //respond(json).contentType("application/json").status(200);
 
     }
 
@@ -222,7 +235,6 @@ public class AvailabilityController extends GenericAppController {
             status = true;
         }
         availability.set("status", status);
-        availability.saveIt();
         LazyList<Reservation> reservations = Reservation.find("day = ? AND " +
                         "shift = ? AND direction = ? AND plan_id = ? AND " +
                         "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
@@ -233,22 +245,30 @@ public class AvailabilityController extends GenericAppController {
                 toInt(param("driver_id")),
                 toInt(param("vehicle_id")),
                 toInt(param("stop_id")));
-        for(Reservation reservation : reservations){
-            reservation.set("status", status);
-            reservation.save();
-        }
-
-        if(!status) {
-            flash("message", "A disponibilidae do plano foi desativada");
+        if(!reservations.isEmpty()) {
+            for (Reservation reservation : reservations) {
+                reservation.set("status", status);
+                reservation.save();
+            }
+            availability.saveIt();
+            if(!status) {
+                flash("message", "A disponibilidae do plano foi desativada");
+            }
+            else {
+                flash("message", "A disponibilidae do plano foi reativada");
+            }
         }
         else {
-            flash("message", "A disponibilidae do plano foi reativada");
+            availability.delete();
+            flash("message", "A disponibilidade do plano foi deletada");
         }
+
+
         redirect(AvailabilityController.class, "plan", param("plan_id"));
     }
 
-    private boolean sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
-        boolean hasRepeatedReservations = true;
+    private InsertionException sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
+        InsertionException hasRepeatedReservations = null;
 
         for (Availability availability : availabilityList) {
 
@@ -260,11 +280,11 @@ public class AvailabilityController extends GenericAppController {
                     availability.get("direction"),
                     availability.get("plan_id"));
             if(availabilities.size() != 0){
-                hasRepeatedReservations = false;
+                hasRepeatedReservations = InsertionException.CONFLICT;
                 flash("message", "Houveram planos conflitantes");
             }
 
-            if(hasRepeatedReservations) {
+            if(hasRepeatedReservations != InsertionException.CONFLICT) {
                 //Check if the availability is already registered
                 Integer numResults = Availability.find("day = ? AND shift = ? AND " +
                                 "driver_id = ? AND vehicle_id = ? AND stop_id = ? AND " +
@@ -276,7 +296,7 @@ public class AvailabilityController extends GenericAppController {
                         availability.get("stop_id"),
                         availability.get("plan_id")).size();
                 if (numResults != 0) {
-                    hasRepeatedReservations = false;
+                    hasRepeatedReservations = InsertionException.REPEATED_ENTRIES;
                     flash("message", "Entradas repetidas");
                 } else {
                     availability.insert();
