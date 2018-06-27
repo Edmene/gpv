@@ -2,19 +2,26 @@
 <@content for="title">Selecionar Reservas</@content>
 
 <section id="plans">
-    <#assign a = 0>
     <#list days as day>
-        <div class="dayOfWeek-cell" id="${day}">
+        <div class="dayOfWeek-cell" id="${day}"
+            <#if availabilitiesSubSets[day_index][0]?size +
+            availabilitiesSubSets[day_index][1]?size +
+            availabilitiesSubSets[day_index][2]?size == 0>
+                style="display: none"
+            </#if>>
             <div class="day-cell-label">${day}</div>
             <#list shifts as shift>
-                <div class="shift-cell" id="${day}${shift}">
-                    <div>${shift}</div>
+                <div class="shift-cell" id="${day}${shift}"
+                    <#if availabilitiesSubSets[day_index][shift_index]?size == 0>
+                        style="display: none"
+                    </#if>>
+                    <div class="shift-cell-label">${shift}</div>
                     <#list directions as direction>
                         <div class="direction-cell" id="${day}${shift}${direction}">
                             <div>${direction}</div>
-                            <#if availabilitiesSubSets[a]??>
+                            <#if availabilitiesSubSets[day_index][shift_index]??>
                                 <div class="stops-cell">
-                                <#list availabilitiesSubSets[a] as subSet>
+                                <#list availabilitiesSubSets[day_index][shift_index] as subSet>
                                     <#if subSet.direction??>
                                         <#if direction?index == subSet.direction>
                                             <div class="stop-cell">
@@ -30,7 +37,6 @@
                         </div>
                     </#list>
                 </div>
-                <#assign a++>
             </#list>
         </div>
     </#list>

@@ -339,7 +339,8 @@ table tr td{
 .shift-cell {
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
+    border: 2px inset black;
+    justify-content: space-between;
 }
 
 .direction-cell {
@@ -348,12 +349,16 @@ table tr td{
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
-    border-bottom: 1px inset black;
+    border-bottom: 1px outset grey;
 }
 
 .shift-cell{
     display: flex;
     flex-direction: column;
+}
+
+.shift-cell-label{
+    border-bottom: 1px outset grey;
 }
 
 .stops-cell{
