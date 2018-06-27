@@ -2,9 +2,6 @@
 
 <h1>Adicionando nova disponibilidade</h1>
 
-<div class="message"><@flash name="message"/></div>
-<div class="error_message"><@flash name="message"/></div>
-
 <main id="availability-selection" class="availability">
     <section id="base-city">
         <label>Selecao de estado base</label>

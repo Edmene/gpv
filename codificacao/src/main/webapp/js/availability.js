@@ -298,13 +298,15 @@ function formJSON(testSelection){
         xhttp.send(JSON.stringify(jsonArray));
 
         //document.location.href = getUrlPath("availability")+"availability/plan/"+getPlanId();
-
+        /*
         let messageDiv = document.getElementsByClassName("message");
         if (xhttp.status === 202) {
             messageDiv = document.getElementsByClassName("error_message");
         }
         messageDiv = messageDiv.item(0);
-        messageDiv.innerText = xhttp.responseText;
+        */
+        //messageDiv.innerText = xhttp.responseText;
+        alert(xhttp.responseText);
 
 
     }
