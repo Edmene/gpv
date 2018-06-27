@@ -21,8 +21,7 @@ public class PlanController extends GenericAppController {
         view("plans", Plan.findAll().toMaps());
     }
 
-    @Override
-    public void show(){
+    private void detailsOfPlan(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
             view("plan", plan);
@@ -30,6 +29,11 @@ public class PlanController extends GenericAppController {
             view("message", "are you trying to hack the URL?");
             render("/system/404");
         }
+    }
+
+    @Override
+    public void show(){
+        detailsOfPlan();
     }
 
     @Override @POST
@@ -76,13 +80,7 @@ public class PlanController extends GenericAppController {
 
     @Override @PUT
     public void alterForm(){
-        Plan plan = Plan.findById(Integer.parseInt(getId()));
-        if(plan != null){
-            view("plan", plan);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
-        }
+        detailsOfPlan();
     }
 
     @Override @POST

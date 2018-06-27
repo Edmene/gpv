@@ -1,10 +1,7 @@
 package app.controllers;
 
 import app.controllers.authorization.Protected;
-import app.enums.CalculationMethod;
-import app.enums.Day;
-import app.enums.Direction;
-import app.enums.Shift;
+import app.enums.*;
 import app.json.ReservationJson;
 import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
@@ -29,209 +26,218 @@ import java.util.Map;
 public class ReservationController extends GenericAppController {
     @Override
     public void index() {
-        view("destinations", Destination.findAll());
+        if(!negateAccess(UserType.A)) {
+            view("destinations", Destination.findAll());
+        }
     }
 
     public void planSelection() {
-        LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
-                Integer.parseInt(getId())).include(Plan.class);
-        List<Map<String, Object>> destinationPlanMap = destinationPlanLazyList.toMaps();
-        if (CountPassenger.findAll().size() > 0) {
-            for (Map<String, Object> destinationMap : destinationPlanMap) {
-                if (CountPassenger.find("plan_id = ?", destinationMap.get("plan_id")).size() > 0) {
-                    destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
-                            .get(0).getInteger("num_passengers"));
+        if(!negateAccess(UserType.A)) {
+            LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
+                    Integer.parseInt(getId())).include(Plan.class);
+            List<Map<String, Object>> destinationPlanMap = destinationPlanLazyList.toMaps();
+            if (CountPassenger.findAll().size() > 0) {
+                for (Map<String, Object> destinationMap : destinationPlanMap) {
+                    if (CountPassenger.find("plan_id = ?", destinationMap.get("plan_id")).size() > 0) {
+                        destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
+                                .get(0).getInteger("num_passengers"));
+                    }
                 }
             }
+            view("destinationPlanMapList", destinationPlanMap,
+                    "destination", getId());
         }
-        view("destinationPlanMapList", destinationPlanMap,
-                "destination", getId());
     }
 
 
     @POST
     public void availabilitySelection() {
-        LinkedList<List<List<Map<String, Object>>>> lazyLists = new LinkedList<>();
-        for (int day = 0; day < Day.values().length; day++) {
-            List<List<Map<String, Object>>> mapListFinal = new LinkedList<>();
-            for (int shift = 0; shift < Shift.values().length; shift++) {
-                List<Map<String, Object>> mapList = AvailabilityStopAddress.find("plan_id = ?" +
-                                "AND shift = ? AND day = ? AND status IS TRUE",
-                        Integer.parseInt(param("plan")),
-                        shift, day).toMaps();
-                mapListFinal.add(mapList);
+        if(!negateAccess(UserType.A)) {
+            LinkedList<List<List<Map<String, Object>>>> lazyLists = new LinkedList<>();
+            for (int day = 0; day < Day.values().length; day++) {
+                List<List<Map<String, Object>>> mapListFinal = new LinkedList<>();
+                for (int shift = 0; shift < Shift.values().length; shift++) {
+                    List<Map<String, Object>> mapList = AvailabilityStopAddress.find("plan_id = ?" +
+                                    "AND shift = ? AND day = ? AND status IS TRUE",
+                            Integer.parseInt(param("plan")),
+                            shift, day).toMaps();
+                    mapListFinal.add(mapList);
+                }
+                lazyLists.add(mapListFinal);
             }
-            lazyLists.add(mapListFinal);
-        }
 
-        view("days", Day.values(),
-                "shifts", Shift.values(),
-                "destination", Integer.parseInt(param("destination")),
-                "plan", Plan.findById(Integer.parseInt(param("plan"))),
-                "directions", Direction.values(),
-                "availabilitiesSubSets", lazyLists,
-                "selection", true);
+            view("days", Day.values(),
+                    "shifts", Shift.values(),
+                    "destination", Integer.parseInt(param("destination")),
+                    "plan", Plan.findById(Integer.parseInt(param("plan"))),
+                    "directions", Direction.values(),
+                    "availabilitiesSubSets", lazyLists,
+                    "selection", true);
+        }
     }
 
     @POST
     public void availabilityConfirmation() {
-        ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
-        Gson g = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
-        for (JsonElement element : jsonArray) {
-            ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
-            reservationJsonList.add(reservationJson);
+        if(!negateAccess(UserType.A)) {
+            ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
+            for (JsonElement element : jsonArray) {
+                ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
+                reservationJsonList.add(reservationJson);
+            }
+
+            Plan plan = Plan.findById(Integer.parseInt(param("plan")));
+            ArrayList<ArrayList<Map<String, Object>>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
+            TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
+            CalculationMethod type = CalculationMethod.M;
+
+            if (param("reservation_type").contains("P")) {
+                type = CalculationMethod.T;
+            }
+
+            view("days", Day.values(),
+                    "json", jsonArray,
+                    "reservation_type", param("reservation_type"),
+                    "destination", param("destination"),
+                    "plan", param("plan"),
+                    "listOfDates", listOfDates,
+                    "totalValue", totalValueOfPlanSelection.calculateTotalValue(type, plan)
+            );
         }
-
-        Plan plan = Plan.findById(Integer.parseInt(param("plan")));
-        ArrayList<ArrayList<Map<String, Object>>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
-        TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
-        CalculationMethod type = CalculationMethod.M;
-
-        if (param("reservation_type").contains("P")) {
-            type = CalculationMethod.T;
-        }
-
-        view("days", Day.values(),
-                "json", jsonArray,
-                "reservation_type", param("reservation_type"),
-                "destination", param("destination"),
-                "plan", param("plan"),
-                "listOfDates", listOfDates,
-                "totalValue", totalValueOfPlanSelection.calculateTotalValue(type, plan)
-        );
     }
 
     @POST
     public void addReservations() {
-
-        ArrayList<Reservation> reservationList = new ArrayList<>();
-        Gson g = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
-        for (JsonElement element : jsonArray) {
-            Reservation reservation = new Reservation();
-            ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
-            reservationJson.setAttributesOfReservation(reservation);
-            if (param("reservation_type").contains("P")) {
-                for (Day day : Day.values()) {
-                    if (param(day.name()) != null && reservationJson.day == day.ordinal()) {
-                        LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(param(day.name())));
-                        reservation.setDate("date", date);
+        if(!negateAccess(UserType.A)) {
+            ArrayList<Reservation> reservationList = new ArrayList<>();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
+            for (JsonElement element : jsonArray) {
+                Reservation reservation = new Reservation();
+                ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
+                reservationJson.setAttributesOfReservation(reservation);
+                if (param("reservation_type").contains("P")) {
+                    for (Day day : Day.values()) {
+                        if (param(day.name()) != null && reservationJson.day == day.ordinal()) {
+                            LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(param(day.name())));
+                            reservation.setDate("date", date);
+                        }
                     }
                 }
+                reservation.set("plan_id", Integer.parseInt(param("plan_id")),
+                        "passenger_id", session().get("id"),
+                        "status", true,
+                        "reservation_type", param("reservation_type"));
+                reservationList.add(reservation);
+
             }
-            reservation.set("plan_id", Integer.parseInt(param("plan_id")),
-                    "passenger_id", session().get("id"),
-                    "status", true,
-                    "reservation_type", param("reservation_type"));
-            reservationList.add(reservation);
 
+            if (PassengerPlans.find("plan_id = ? AND passenger_id = ? AND destination_id = ?",
+                    Integer.parseInt(param("plan_id")), session().get("id"),
+                    Integer.parseInt(param("destination"))).size() == 0) {
+                PassengerPlans passengerPlans = new PassengerPlans();
+                passengerPlans.set("plan_id", Integer.parseInt(param("plan_id")),
+                        "passenger_id", session().get("id"),
+                        "destination_id", Integer.parseInt(param("destination")));
+                passengerPlans.save();
+            }
+
+            boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
+            if (!hasRepeatedReservations) {
+                flash("message", "Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
+            } else {
+                flash("message", "Reservas registradas com sucesso");
+            }
+            redirect(HomeController.class);
         }
-
-        if(PassengerPlans.find("plan_id = ? AND passenger_id = ? AND destination_id = ?",
-                Integer.parseInt(param("plan_id")), session().get("id"),
-                Integer.parseInt(param("destination"))).size() == 0) {
-            PassengerPlans passengerPlans = new PassengerPlans();
-            passengerPlans.set("plan_id", Integer.parseInt(param("plan_id")),
-                    "passenger_id", session().get("id"),
-                    "destination_id", Integer.parseInt(param("destination")));
-            passengerPlans.save();
-        }
-
-        boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
-        if (!hasRepeatedReservations) {
-            flash("message", "Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
-        } else {
-            flash("message", "Reservas registradas com sucesso");
-        }
-        redirect(HomeController.class);
-
     }
 
     public void list(){
-        view("reservations", ReservationInfoAgg.find("plan_id = ?",
-                Integer.parseInt(getId())).toMaps(),
-                "days", Day.values(),
-                "shifts", Shift.values(),
-                "reservation", true);
+        if(!negateAccess(UserType.P)) {
+            view("reservations", ReservationInfoAgg.find("plan_id = ?",
+                    Integer.parseInt(getId())).toMaps(),
+                    "days", Day.values(),
+                    "shifts", Shift.values(),
+                    "reservation", true);
+        }
     }
 
     public void filteredList(){
+        if(!negateAccess(UserType.P)) {
+            Map<String, String> map = params1st();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+            ReservationsSearchFiltersJson searchFiltersJson = g.fromJson(jsonParser.parse(
+                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ReservationsSearchFiltersJson.class);
 
-        Map<String, String> map = params1st();
-        Gson g = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
-        ReservationsSearchFiltersJson searchFiltersJson = g.fromJson(jsonParser.parse(
-                String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ReservationsSearchFiltersJson.class);
+            String response;
 
-        String response;
-
-        if(searchFiltersJson.day == 0){
-            if(searchFiltersJson.shift == 0){
-                response = ReservationInfoAgg.find("plan_id = ?", searchFiltersJson.plan_id).toJson(false);
+            if (searchFiltersJson.day == 0) {
+                if (searchFiltersJson.shift == 0) {
+                    response = ReservationInfoAgg.find("plan_id = ?", searchFiltersJson.plan_id).toJson(false);
+                } else {
+                    response = ReservationInfoAggShift.find("plan_id = ? AND " +
+                            "shift = ?", searchFiltersJson.plan_id, searchFiltersJson.shift).toJson(false);
+                }
+            } else {
+                if (searchFiltersJson.shift == 0) {
+                    response = ReservationInfoAggDay.find("plan_id = ? AND " +
+                            "day = ?", searchFiltersJson.plan_id, searchFiltersJson.day).toJson(false);
+                } else {
+                    response = ReservationInfoAggDayShift.find("plan_id = ? AND " +
+                                    "shift = ? AND day = ?", searchFiltersJson.plan_id,
+                            searchFiltersJson.shift, searchFiltersJson.day).toJson(false);
+                }
             }
-            else {
-                response = ReservationInfoAggShift.find("plan_id = ? AND " +
-                        "shift = ?", searchFiltersJson.plan_id, searchFiltersJson.shift).toJson(false);
-            }
+
+            respond(response).contentType("application/json").status(200);
         }
-        else {
-            if(searchFiltersJson.shift == 0){
-                response = ReservationInfoAggDay.find("plan_id = ? AND " +
-                                "day = ?", searchFiltersJson.plan_id, searchFiltersJson.day).toJson(false);
-            }
-            else {
-                response = ReservationInfoAggDayShift.find("plan_id = ? AND " +
-                        "shift = ? AND day = ?", searchFiltersJson.plan_id,
-                        searchFiltersJson.shift, searchFiltersJson.day).toJson(false);
-            }
-        }
-
-        respond(response).contentType("application/json").status(200);
-
     }
 
     public void reservationList(){
-        Integer passenger_id = Integer.parseInt(param("passenger_id"));
-        Integer plan_id = Integer.parseInt(param("plan_id"));
-        LazyList<Reservation> reservationPAList = Reservation.find(
-                "passenger_id = ? AND plan_id = ? AND " +
-                        "reservation_type = ? AND status IS TRUE",
-                passenger_id, plan_id, "P");
+        if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
+            Integer passenger_id = Integer.parseInt(param("passenger_id"));
+            Integer plan_id = Integer.parseInt(param("plan_id"));
+            LazyList<Reservation> reservationPAList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS TRUE",
+                    passenger_id, plan_id, "P");
 
-        LazyList<Reservation> reservationPIList = Reservation.find(
-                "passenger_id = ? AND plan_id = ? AND " +
-                        "reservation_type = ? AND status IS FALSE",
-                passenger_id, plan_id, "P");
+            LazyList<Reservation> reservationPIList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS FALSE",
+                    passenger_id, plan_id, "P");
 
-        LazyList<Reservation> reservationMList = Reservation.find(
-                "passenger_id = ? AND plan_id = ? AND " +
-                        "reservation_type = ? AND status IS TRUE",
-                passenger_id, plan_id, "M");
+            LazyList<Reservation> reservationMList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS TRUE",
+                    passenger_id, plan_id, "M");
 
-        Plan plan = Plan.findById(plan_id);
+            Plan plan = Plan.findById(plan_id);
 
-        ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
-        for(Reservation reservationM : reservationMList){
-            ReservationJson reservationJson = new ReservationJson(reservationM);
-            reservationJsonListM.add(reservationJson);
+            ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
+            for (Reservation reservationM : reservationMList) {
+                ReservationJson reservationJson = new ReservationJson(reservationM);
+                reservationJsonListM.add(reservationJson);
+            }
+            ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
+            TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
+
+
+            view("shifts", Shift.values(),
+                    "days", Day.values(),
+                    "directions", Direction.values(),
+                    "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
+                                    " AND plan_id = ?", passenger_id,
+                            plan_id),
+                    "totalTicketActive", reservationPAList.size() * plan.getFloat("ticket_price"),
+                    "totalTicketInactive", reservationPIList.size() * plan.getFloat("ticket_price"),
+                    "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
         }
-        ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
-        TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
-
-
-        view("shifts", Shift.values(),
-                "days", Day.values(),
-                "directions", Direction.values(),
-                "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
-                        " AND plan_id = ?", passenger_id,
-                        plan_id),
-                "totalTicketActive", reservationPAList.size()*plan.getFloat("ticket_price"),
-                "totalTicketInactive", reservationPIList.size()*plan.getFloat("ticket_price"),
-                "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
     }
 
     private Integer toInt(String s){

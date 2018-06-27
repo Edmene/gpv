@@ -8,7 +8,7 @@
 
     <div class="forms-div">
         <label>Nome de Usuario</label>
-        <input type="text" required name="user_name" value="${(user.name)!}">>
+        <input type="text" required name="user_name" value="${(user.name)!}">
         <span class="error">${(flasher.errors.user_name)!}</span>
 
         <label>Senha</label>
