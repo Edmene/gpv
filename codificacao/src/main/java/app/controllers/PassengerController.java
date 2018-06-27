@@ -7,7 +7,6 @@ import app.models.*;
 import app.utils.TransformMaskeredInput;
 import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activejdbc.Model;
 import org.javalite.activeweb.annotations.DELETE;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;

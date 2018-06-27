@@ -1,16 +1,15 @@
 package app.utils;
 
-import org.quartz.*;
-
-import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import static org.quartz.TriggerBuilder.newTrigger;
-
+import org.quartz.JobDetail;
 import org.quartz.Scheduler;
+import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+
+import static org.quartz.CronScheduleBuilder.dailyAtHourAndMinute;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 @ApplicationScoped
 public class QuartzScheduler {

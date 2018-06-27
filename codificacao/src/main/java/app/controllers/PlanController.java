@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.authorization.Protected;
+import app.controllers.authorization.ProtectedAdministrative;
 import app.models.*;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-@Protected
+@ProtectedAdministrative
 public class PlanController extends GenericAppController {
 
     @Override

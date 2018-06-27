@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.authorization.Protected;
+import app.controllers.authorization.ProtectedAdministrative;
 import app.json.DestinationFlowJson;
 import app.models.*;
 import com.google.gson.Gson;
@@ -12,7 +12,7 @@ import org.javalite.activeweb.annotations.PUT;
 import java.util.List;
 import java.util.Map;
 
-@Protected
+@ProtectedAdministrative
 public class DestinationController extends GenericAppController {
 
     //Partir do estado para cidade e depois permitir o cadastro.

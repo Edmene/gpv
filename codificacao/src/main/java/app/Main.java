@@ -4,8 +4,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AllowSymLinkAliasChecker;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import java.io.File;
-
 /**
  * Example of starting ActiveWeb app in an embedded Jetty server.
  * Have to run instrumentation before start if not already.

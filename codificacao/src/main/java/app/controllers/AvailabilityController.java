@@ -1,20 +1,20 @@
 package app.controllers;
 
-import app.controllers.authorization.Protected;
+import app.controllers.authorization.ProtectedAdministrative;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.Shift;
 import app.json.AvailabilityJson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import org.javalite.activeweb.annotations.PUT;
-import org.javalite.common.Util;
 import app.json.ShiftsEnableJson;
 import app.models.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
+import org.javalite.activeweb.annotations.PUT;
+import org.javalite.common.Util;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-@Protected
+@ProtectedAdministrative
 public class AvailabilityController extends GenericAppController {
     private String shiftValues[]= {"12","18","04"};
 

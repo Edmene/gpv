@@ -10,14 +10,20 @@ import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
 import app.utils.TotalValueOfPlanSelection;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Protected
 public class ReservationController extends GenericAppController {

@@ -1,6 +1,6 @@
 package app.controllers;
 
-import app.controllers.authorization.Protected;
+import app.controllers.authorization.ProtectedAdministrative;
 import app.models.City;
 import app.models.State;
 import org.javalite.activejdbc.LazyList;
@@ -11,7 +11,7 @@ import org.javalite.activeweb.annotations.PUT;
 import java.util.List;
 import java.util.Map;
 
-@Protected
+@ProtectedAdministrative
 public class CityController extends GenericAppController {
 
     @Override
