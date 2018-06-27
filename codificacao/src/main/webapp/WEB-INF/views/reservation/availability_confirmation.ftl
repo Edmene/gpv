@@ -24,6 +24,6 @@
                 </#if>
             </#list>
         </#if>
-        <button type="submit">Confirmar</button>
+        <button type="submit" id="log-bt">Confirmar</button>
     </@form>
 </section>

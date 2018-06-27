@@ -396,6 +396,12 @@ table tr td{
     background-color: #13293d;
 }
 
+#plans{
+    padding: 3px;
+    border: 1px inset grey;
+    box-shadow: 2px 2px 3px 4px black;
+}
+
 /*
 .tr-plan-warning{
     box-shadow: 3px 3px 5px 6px #b2b972;
