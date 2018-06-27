@@ -9,7 +9,7 @@
 
 <table class="listing-table">
     <thead>
-        <tr>
+        <tr class="tr-even">
             <td>Placa</td>
             <td>Capacidade</td>
             <td>Ano</td>
@@ -20,7 +20,7 @@
     </thead>
     <tbody>
 <#list vehicles as vehicle>
-    <tr>
+    <tr <#if vehicle_index % 2 != 0> class="tr-even" </#if>>
         <td class="license">
             ${vehicle.license_plate}
         </td>

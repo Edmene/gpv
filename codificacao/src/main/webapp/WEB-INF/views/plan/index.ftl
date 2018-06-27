@@ -9,7 +9,7 @@
 
 <table class="listing-table">
     <thead>
-        <tr>
+        <tr class="tr-even">
             <td>Disponivel por</td>
             <td>Preco de passagem</td>
             <td>Preco diario</td>
@@ -22,7 +22,7 @@
     </thead>
     <tbody>
         <#list plans as plan>
-            <tr>
+            <tr <#if plan_index % 2 != 0> class="tr-even" </#if>>
                 <td>
                     <@link_to action="show" id=plan.id>${plan.availability_condition}</@link_to>
                 </td>

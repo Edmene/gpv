@@ -9,7 +9,7 @@
 
 <table class="listing-table">
     <thead>
-        <tr>
+        <tr class="tr-even">
             <td>Nome</td>
             <td>Sigla</td>
             <td>Edit</td>
@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         <#list states as state>
-            <tr>
+            <tr <#if state_index % 2 != 0> class="tr-even" </#if>>
                 <td>
                     ${state.name}
                 </td>

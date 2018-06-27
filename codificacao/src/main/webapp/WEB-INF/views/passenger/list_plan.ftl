@@ -3,7 +3,7 @@
     <table class="listing-table">
         <thead>
             <tr>Planos com seus destinos</tr>
-            <tr>
+            <tr class="tr-even">
                 <td>Plano</td>
                 <td>Destino</td>
                 <td>Endereco</td>
@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             <#list plans as plan>
-                <tr>
+                <tr <#if plan_index % 2 != 0> class="tr-even" </#if>>
                     <td>
                         <@form controller="reservation" action="reservation_list" method="get">
                             <input hidden name="passenger_id" value="${plan.passenger_id}">

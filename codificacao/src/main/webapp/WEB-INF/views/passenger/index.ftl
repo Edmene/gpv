@@ -9,7 +9,7 @@
 
 <table class="listing-table">
     <thead>
-        <tr>
+        <tr class="tr-even">
             <td>Nome</td>
             <td>Sobrenome</td>
             <td>CPF</td>
@@ -23,7 +23,7 @@
     </thead>
     <tbody>
         <#list passengers as passenger>
-            <tr>
+            <tr <#if passenger_index % 2 != 0> class="tr-even" </#if>>
                 <td>
                     <@link_to action="show" id=passenger.user_id>${passenger.name}</@link_to>
                 </td>

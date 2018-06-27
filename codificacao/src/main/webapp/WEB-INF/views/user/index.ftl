@@ -9,7 +9,7 @@
 
 <table class="listing-table">
     <thead>
-        <tr>
+        <tr class="tr-even">
             <td>Nome</td>
             <td>Tipo</td>
             <td>Editar</td>
@@ -17,25 +17,25 @@
         </tr>
     </thead>
     <tbody>
-<#list users as user>
-    <tr>
-        <td>
-            ${user.name}
-        </td>
-        <td>
-            ${user.type}</td>
-        <td>
-            <@form  id=user.id action="alter_form" method="get" html_id=user.id >
-                <button type="submit">alterar</button>
-            </@form>
-        </td>
-        <td>
-            <@form  id=user.id action="delete" method="delete" html_id=user.id >
-                <button type="submit">Excluir</button>
-            </@form>
-        </td>
-    </tr>
-</#list>
+        <#list users as user>
+            <tr <#if user_index % 2 != 0> class="tr-even" </#if>>
+                <td>
+                    ${user.name}
+                </td>
+                <td>
+                    ${user.type}</td>
+                <td>
+                    <@form  id=user.id action="alter_form" method="get" html_id=user.id >
+                        <button type="submit">alterar</button>
+                    </@form>
+                </td>
+                <td>
+                    <@form  id=user.id action="delete" method="delete" html_id=user.id >
+                        <button type="submit">Excluir</button>
+                    </@form>
+                </td>
+            </tr>
+        </#list>
     </tbody>
 </table>
 
