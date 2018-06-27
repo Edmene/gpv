@@ -1,4 +1,8 @@
 <@content for="title">Lista de planos - passageiro ${plans[0].passenger_id}</@content>
+
+<#if session.accessLevel == "P">
+<@link_to controller="reservation" class="bt-a">Nova reserva</@link_to>
+</#if>
 <span class="message"><@flash name="message"/></span>
     <table class="listing-table">
         <thead>

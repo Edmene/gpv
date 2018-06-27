@@ -16,5 +16,19 @@ limitations under the License.
 
 package app.controllers;
 
+import app.enums.UserType;
+
 public class HomeController extends GenericAppController {
+
+    @Override
+    public void index() {
+        if(sessionHas("accessLevel")){
+            if(session("accessLevel").toString().contains(UserType.A.name())) {
+                redirect(PlanController.class);
+            }
+            else {
+                redirect(UserController.class, "profile");
+            }
+        }
+    }
 }
