@@ -1,7 +1,5 @@
-let select = document.getElementById("select_item");
-
 function selectFlow(element, op) {
-    if(element[element.selectedIndex].value !== 0) {
+    if (element[element.selectedIndex].value !== 0) {
         function selectRequest(op, element, id) {
             let jsonSent = {
                 id: id,
@@ -14,7 +12,7 @@ function selectFlow(element, op) {
             element.appendChild(defaultOption);
 
 
-            $.getJSON(getUrlPath("plan")+"destination/destination", JSON.stringify(jsonSent), function (data) {
+            $.getJSON(getUrlPath("plan") + "destination/destination", JSON.stringify(jsonSent), function (data) {
                 $.each(data, function (key, val) {
                     //items.push( "<li id='" + key + "'>" + val + "</li>" );
                     //alert(key+" "+val[key]);
@@ -51,8 +49,8 @@ function selectFlow(element, op) {
 
 }
 
-function addTable() {
-    //a.value;
+function addTable(button) {
+    select = button.previousElementSibling;
     let table = document.getElementById("table");
     let row = document.createElement("tr");
     let input = document.getElementById("item");
@@ -72,7 +70,7 @@ function addTable() {
 
         columnDelete.appendChild(deleteButton);
 
-        if(select.value !== "0") {
+        if (select.value !== "0") {
             column.innerText = select.options[select.selectedIndex].text;
             row.appendChild(column);
             row.appendChild(columnDelete);

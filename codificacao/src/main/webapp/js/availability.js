@@ -296,6 +296,8 @@ function formJSON(testSelection){
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", getUrlPath("availability") + "availability/addStop", true);
         xhttp.send(JSON.stringify(jsonArray));
+
+        document.location.href = getUrlPath("availability")+"availability/plan/"+getPlanId();
     }
 
 }

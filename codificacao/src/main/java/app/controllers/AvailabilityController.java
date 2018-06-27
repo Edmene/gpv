@@ -194,7 +194,8 @@ public class AvailabilityController extends GenericAppController {
                     "days", Day.values(),
                     "shifts", shifts,
                     "directions", Direction.values(),
-                    "states", State.findAll().toMaps());
+                    "states", State.findAll().toMaps(),
+                    "availability", true);
         }
         else {
             flash("message", "Cadastre destinos, veiculos e motoristas antes de cadastrar disponibilidades");

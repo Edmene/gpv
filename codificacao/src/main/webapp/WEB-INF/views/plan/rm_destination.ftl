@@ -2,6 +2,8 @@
 <@content for="title">Remocao de destinos de plano</@content>
 <#assign plan = 0, destinations="", loops=0>
 
+<@link_to class="bt-a">Retornar a listagem de planos</@link_to>
+
 <table id="table">
     <tr>
         <td>Destino</td>
@@ -23,10 +25,7 @@
     </#list>
 </table>
 <@form action="rmDestinations" method="post" name="rmDestinations">
-    <input id="destination" type="hidden" value="${destinations}" name="destinations">
+    <input id="item" type="hidden" value="${destinations}" name="destinations">
     <input type="hidden" value="${plan}" name="plan">
-    <input type="submit" value="Confirmar destinos">
+    <button type="submit" class="bt-a">Confirmar destinos</button>
 </@form>
-<script src="${context_path}/js/destinationTable.js" type="text/javascript"></script>
-
-<@link_to>Retornar a listagem de planos</@link_to>

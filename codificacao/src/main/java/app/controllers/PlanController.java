@@ -12,6 +12,7 @@ import org.javalite.activeweb.annotations.POST;
 import org.javalite.activeweb.annotations.PUT;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -125,7 +126,8 @@ public class PlanController extends GenericAppController {
     public void addDestination(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
-            view("plan", plan, "states", State.findAll().toMaps());
+            view("plan", plan, "states", State.findAll().toMaps(),
+                    "destination", true,  "add", true);
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");
@@ -139,7 +141,8 @@ public class PlanController extends GenericAppController {
         List<Map<String, Object>> destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()))
                 .include(Destination.class).toMaps();
         if(destinationsPlan != null){
-            view("destinationsPlan", destinationsPlan);
+            view("destinationsPlan", destinationsPlan,
+                    "destination", true);
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");
@@ -164,7 +167,10 @@ public class PlanController extends GenericAppController {
     public void rmDestinations(){
         LazyList destinationsPlan = DestinationPlan.find("plan_id = ?",
                 Integer.parseInt(param("plan")));
-        List destinations = Arrays.asList(param("items").split(","));
+        List destinations = new LinkedList();
+        if(param("item") != null) {
+            destinations = Arrays.asList(param("items").split(","));
+        }
         for(Object destination : destinationsPlan){
             DestinationPlan destinationPlan = (DestinationPlan) destination;
             if(!destinations.contains(destinationPlan.get("destination_id").toString())){

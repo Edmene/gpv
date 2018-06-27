@@ -1,5 +1,4 @@
 <@content for="title">Adicionar nova disponibilidade</@content>
-<script src="${context_path}/js/availability.js" type="text/javascript"></script>
 
 <span class="error_message"><@flash name="message"/></span>
 <h1>Adicionando nova disponibilidade</h1>

@@ -63,7 +63,8 @@ public class ReservationController extends GenericAppController {
                 "destination", Integer.parseInt(param("destination")),
                 "plan", Plan.findById(Integer.parseInt(param("plan"))),
                 "directions", Direction.values(),
-                "availabilitiesSubSets", lazyLists);
+                "availabilitiesSubSets", lazyLists,
+                "selection", true);
     }
 
     @POST
@@ -147,7 +148,8 @@ public class ReservationController extends GenericAppController {
         view("reservations", ReservationInfoAgg.find("plan_id = ?",
                 Integer.parseInt(getId())).toMaps(),
                 "days", Day.values(),
-                "shifts", Shift.values());
+                "shifts", Shift.values(),
+                "reservation", true);
     }
 
     public void filteredList(){

@@ -381,6 +381,16 @@ table tr td{
     color: white;
 }
 
+#destination-add{
+    display: flex;
+    flex-direction: row;
+}
+
+#select-flow{
+    display: flex;
+    flex-direction: column;
+}
+
 /*
 .tr-plan-warning{
     box-shadow: 3px 3px 5px 6px #b2b972;
