@@ -3,8 +3,6 @@
 
 <div class="message"><@flash name="message"/></div>
 
-
-
 <@link_to action="new_form" id="${plan}" class="bt-a">Adicionar nova disponibilidade</@link_to>
 
 <table class="listing-table">

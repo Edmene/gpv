@@ -139,20 +139,18 @@ public class AvailabilityController extends GenericAppController {
             availabilityList.add(availability);
         }
         InsertionException errorsInInsertion = sendAvailabilitiesQuery(availabilityList);
-        //redirect(PlanController.class);
         if(errorsInInsertion != null){
             if(errorsInInsertion == InsertionException.CONFLICT){
-                respond("Planos conflitantes").status(200);
+                respond("Planos conflitantes").status(202);
             }
             else {
-                respond("Entradas repetidas").status(200);
+                respond("Entradas repetidas").status(202);
             }
 
         }
         else {
-            respond("Sucesso").status(200);
+            respond("Sucesso").status(201);
         }
-        //respond(json).contentType("application/json").status(200);
 
     }
 

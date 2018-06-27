@@ -1,7 +1,9 @@
 <@content for="title">Adicionar nova disponibilidade</@content>
 
-<span class="error_message"><@flash name="message"/></span>
 <h1>Adicionando nova disponibilidade</h1>
+
+<div class="message"><@flash name="message"/></div>
+<div class="error_message"><@flash name="message"/></div>
 
 <main id="availability-selection" class="availability">
     <section id="base-city">
