@@ -9,10 +9,30 @@
 </#if>
 
 
-<div class="passenger-details">
-    <h1>${passenger.name}</h1>
-    <strong>Sobrenome:</strong> ${passenger.surname},
-    <strong>CPF:</strong> ${passenger.cpf}, <strong>RG:</strong> ${passenger.rg},
-    <strong>Data de Nascimento:</strong> ${passenger.birth_date},<strong>Telefone:</strong> ${passenger.telephone}
-    <strong>Email:</strong> ${passenger.email}
-</div>
+
+<h1>${passenger.name} ${passenger.surname}</h1>
+<table class="listing-table">
+    <thead>
+    <tr class="tr-even">
+        <td>CPF</td>
+        <td>RG</td>
+        <td>Data de Nascimento</td>
+        <td>Telefone</td>
+        <td>Email</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="cpf">
+                ${passenger.cpf}</td>
+            <td>
+                ${passenger.rg}</td>
+            <td>
+                ${passenger.birth_date}</td>
+            <td class="phone">
+                ${passenger.telephone}</td>
+            <td>
+                ${passenger.email}</td>
+        </tr>
+    </tbody>
+</table>

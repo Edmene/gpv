@@ -1,6 +1,6 @@
 <@content for="title">Confirmar Reserva</@content>
 
-<section id="plans">
+<section class="plans">
     <div class="total-value">
         <strong>Valor Total: R$${totalValue}</strong>
     </div>
@@ -13,7 +13,7 @@
             <#list days as day>
                 <#if listOfDates[day_index]??>
                     <div class="dayOfWeek-cell" id="${day}" <#if listOfDates[day_index]?size == 0>style="display: none"</#if>>
-                        <div class="day-cell-label">${day}</div>
+                        <div class="label-info">${day}</div>
                         <div class="days-selection">
                             <#list listOfDates[day_index] as date>
                                 <input type="radio" name="${day}" value="${date.day}" required="required">

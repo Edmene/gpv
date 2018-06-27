@@ -23,8 +23,14 @@ public class PlanController extends GenericAppController {
 
     private void detailsOfPlan(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
+        Integer count = 0;
+        if(!CountPassenger.find("plan_id = ?", Integer.parseInt(getId())).isEmpty()) {
+            count = CountPassenger.find(
+                    "plan_id = ?", Integer.parseInt(getId())).get(0)
+                    .getInteger("num_passengers");
+        }
         if(plan != null){
-            view("plan", plan);
+            view("plan", plan, "passengers", count);
         }else{
             view("message", "are you trying to hack the URL?");
             render("/system/404");

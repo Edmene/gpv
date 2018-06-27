@@ -370,7 +370,7 @@ table tr td{
     flex-direction: row;
 }
 
-.day-cell-label{
+.label-info{
     align-items: center;
     display: flex;
     flex-wrap: wrap;
@@ -399,10 +399,14 @@ table tr td{
     background-color: #13293d;
 }
 
-#plans{
+.plans{
     padding: 3px;
     border: 1px inset grey;
     box-shadow: 2px 2px 3px 4px black;
+}
+
+.passenger-details{
+    display: flex;
 }
 
 /*

@@ -1,7 +1,7 @@
 
 <@content for="title">Selecionar Reservas</@content>
 
-<section id="plans">
+<section class="plans">
     <#list days as day>
         <div class="dayOfWeek-cell" id="${day}"
             <#if availabilitiesSubSets[day_index][0]?size +
@@ -9,7 +9,7 @@
             availabilitiesSubSets[day_index][2]?size == 0>
                 style="display: none"
             </#if>>
-            <div class="day-cell-label">${day}</div>
+            <div class="label-info">${day}</div>
             <#list shifts as shift>
                 <div class="shift-cell" id="${day}${shift}"
                     <#if availabilitiesSubSets[day_index][shift_index]?size == 0>

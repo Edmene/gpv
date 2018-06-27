@@ -35,7 +35,7 @@
         <span class="error">${(flasher.errors.rg)!}</span>
 
         <label>Data de Nascimento</label>
-        <input type="date" name="birth_date" value="${(passenger.birth_date)!}" required>
+        <input type="date" name="birth_date" value="${(passenger.birth_date?string["yyyy-MM-dd"])!}" required>
         <span class="error">${(flasher.errors.birth_date)!}</span>
 
         <label>Telefone</label>
