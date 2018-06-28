@@ -1,7 +1,7 @@
 <@content for="title">Add new driver</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando novo motorista</h2>
+<h1>Adicionando novo motorista</h1>
 
 
 <@form action="create" method="post">

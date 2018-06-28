@@ -1,7 +1,7 @@
 <@content for="title">Adicionar cidade</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando nova cidade</h2>
+<h1>Adicionando nova cidade</h1>
 
 
 <@form action="update" method="post" name="update">

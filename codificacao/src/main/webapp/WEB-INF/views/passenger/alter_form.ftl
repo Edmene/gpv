@@ -1,7 +1,7 @@
 <@content for="title">Adicionar novo usuario</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adding new user</h2>
+<h1>Alterando usuario</h1>
 
 
 <@form action="update" method="post">

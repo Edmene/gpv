@@ -3,6 +3,9 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de gerenciamento de planos de viagem">
+    <title>ActiveWeb - <@yield to="title"/></title>
     <LINK href="${context_path}/css/main.css" rel="stylesheet" type="text/css"/>
     <#if session.id??>
         <script src="${context_path}/js/nav.js" type="text/javascript"></script>
@@ -27,9 +30,6 @@
     <#if availability??>
         <script src="${context_path}/js/availability.js" type="text/javascript"></script>
     </#if>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistema de gerenciamento de planos de viagem">
-    <title>ActiveWeb - <@yield to="title"/></title>
 </head>
 <body>
 

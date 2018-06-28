@@ -1,7 +1,7 @@
 <@content for="title">Adicionar novo feriado</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando novo feriado</h2>
+<h1>Adicionando novo feriado</h1>
 
 
 <@form action="create" method="post">

@@ -1,7 +1,7 @@
 <@content for="title">Alterar endereco</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Alterando endereco</h2>
+<h1>Alterando endereco</h1>
 
 
 <@form action="update" method="post" name="update">

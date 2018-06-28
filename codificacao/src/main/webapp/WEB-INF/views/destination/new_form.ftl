@@ -1,7 +1,7 @@
 <@content for="title">Adicionar destino</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando novo destino</h2>
+<h1>Adicionando novo destino</h1>
 
 
 <@form action="create" method="post" name="create">

@@ -1,7 +1,7 @@
 <@content for="title">Adicionar endereco</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Adicionando novo endereco</h2>
+<h1>Adicionando novo endereco</h1>
 
 <@form action="create" method="post" name="create">
 

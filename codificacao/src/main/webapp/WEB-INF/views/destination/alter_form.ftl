@@ -1,7 +1,7 @@
 <@content for="title">Alterar destino</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Alterando destino</h2>
+<h1>Alterando destino</h1>
 
 
 <@form action="update" method="post" name="update">

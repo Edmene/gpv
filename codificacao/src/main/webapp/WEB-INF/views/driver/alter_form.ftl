@@ -1,7 +1,7 @@
 <@content for="title">Alterar motorista</@content>
 
 <span class="error_message"><@flash name="message"/></span>
-<h2>Alterando motorista</h2>
+<h1>Alterando motorista</h1>
 
 
 <@form action="update" method="post" name="update">
