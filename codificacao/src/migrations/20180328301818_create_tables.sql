@@ -37,7 +37,7 @@ CREATE TABLE passengers (
   surname VARCHAR(200) NOT NULL,
   cpf VARCHAR(11) CHECK(cpf ~ '^[0-9]{11}$') NOT NULL UNIQUE,
   rg VARCHAR(20) NOT NULL,
-  birth_date DATE NOT NULL,
+  birth_date DATE NOT NULL CHECK(birth_date <= CURRENT_DATE ),
   telephone VARCHAR(20) CHECK(telephone ~ '^9[0-9]{8}|[0-9]{8}$') NOT NULL,
   email VARCHAR(200) NOT NULL
 );
