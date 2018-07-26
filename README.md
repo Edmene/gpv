@@ -1,26 +1,7 @@
-# ActiveWeb simple example
+# Gerenciador de Planos de Viagens
 
-Follow these simple steps to run this app:
+Projeto criado para a disciplina Projeto Integrador do terceiro semestre
+do curso ADS do IFRS campus Sertão.
 
-
-* AdjustJDBC connection parameters in [database.properties](src/main/resources/database.properties)
-
-* Create two empty schemas in MySQL DB
-
-```
-mvn db-migrator:create
-```
-
-* Run the application
-
-```
-mvn jetty:run
-```
-
-* Navigate with browser
-
-    to: [http://localhost:8080/](http://localhost:8080/)
-
-
-For support, post to: https://groups.google.com/forum/?hl=en#!forum/activeweb
+O projeto tem como base o exemplo [activeweb-simple](https://github.com/javalite/activeweb-simple)
  
