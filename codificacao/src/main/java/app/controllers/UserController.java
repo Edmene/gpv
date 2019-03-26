@@ -20,22 +20,22 @@ import app.controllers.authorization.PasswordHashing;
 import app.controllers.authorization.Protected;
 import app.enums.UserType;
 import app.models.User;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 @Protected
 public class UserController extends GenericAppController {
 
     @Override
     public void index(){
+        /*
         if(!negateAccess(UserType.P)) {
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void create() throws Exception {
+        /*
         if(!negateAccess(UserType.P)) {
             User user = new User();
             user.fromMap(params1st());
@@ -53,10 +53,12 @@ public class UserController extends GenericAppController {
                 
             }
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
         if(!negateAccess(UserType.P)) {
             User u = User.findById(Integer.parseInt(getId()));
             String name = u.getString("name");
@@ -73,10 +75,12 @@ public class UserController extends GenericAppController {
                 
             }
         }
+        */
     }
 
     @Override
     public void alterForm(){
+        /*
         if(!negateAccess(UserType.P)) {
             User user = User.findById(Integer.parseInt(getId()));
             if (user != null) {
@@ -86,10 +90,12 @@ public class UserController extends GenericAppController {
                 
             }
         }
+        */
     }
 
-    @Override @PUT
+    @Override
     public void update() throws Exception {
+        /*
         if(!negateAccess(UserType.P)) {
             User user = User.findById(Integer.parseInt(param("id")));
             String oldName = user.getString("name");
@@ -112,6 +118,7 @@ public class UserController extends GenericAppController {
 
             }
         }
+        */
     }
 
     public void profile(){

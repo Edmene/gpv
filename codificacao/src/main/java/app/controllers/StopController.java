@@ -5,9 +5,6 @@ import app.models.Address;
 import app.models.City;
 import app.models.State;
 import app.models.Stop;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.sql.Time;
 import java.util.List;
@@ -24,29 +21,34 @@ public class StopController extends GenericAppController{
     }
 
     public void cities(){
+        /*
         List<Map<String, Object>> citiesList = City.find("state_id = ?",
                 Integer.parseInt(getId())).toMaps();
+                */
         
     }
 
     public void addresses(){
-
+        /*
         List<Map<String, Object>> addressList = Address.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
+                */
         
     }
 
     public void stops(){
+        /*
         List<Map<String, Object>> stopList = Stop.find("address_id = ?",
                 Integer.parseInt(getId())).toMaps();
         for (Map<String, Object> stop : stopList){
             stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
-        
+        */
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Stop stop = new Stop();
         stop.fromMap(params1st());
         stop.setInteger("address_id", Integer.parseInt(param("address_id")));
@@ -60,6 +62,7 @@ public class StopController extends GenericAppController{
             
             
         }
+        */
     }
 
     @Override
@@ -67,8 +70,9 @@ public class StopController extends GenericAppController{
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         Stop stop = Stop.findById(Integer.parseInt(getId()));
         if(stop != null){
             
@@ -76,10 +80,12 @@ public class StopController extends GenericAppController{
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Stop stop = new Stop();
         stop.fromMap(params1st());
         stop.setInteger("address_id", Integer.parseInt(param("address_id")));
@@ -93,14 +99,14 @@ public class StopController extends GenericAppController{
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
-
+        /*
         Stop stop = Stop.findById(Integer.parseInt(getId()));
         stop.delete();
-        
-        
+        */
     }
 }

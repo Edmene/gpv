@@ -1,18 +1,11 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.json.DestinationFlowJson;
 import app.models.*;
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.util.List;
 import java.util.Map;
 
-@ProtectedAdministrative
 public class DestinationController extends GenericAppController {
 
     //Partir do estado para cidade e depois permitir o cadastro.
@@ -23,28 +16,34 @@ public class DestinationController extends GenericAppController {
     }
 
     public void cities(){
+        /*
         List<Map<String, Object>> citiesList = City.find("state_id = ?",
                 Integer.parseInt(getId())).toMaps();
+                */
         
     }
 
     public void addresses(){
-
+        /*
         List<Map<String, Object>> addressList = Address.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
+                */
         
     }
 
     public void destinations(){
+        /*
         List<Map<String, Object>> destinationList = Destination.find("address_id = ?",
                 Integer.parseInt(getId())).toMaps();
         for (Map<String, Object> stop : destinationList){
             stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
+        */
         
     }
 
     public void destination(){
+        /*
         if (xhr()) {
             Map<String, String> map = params1st();
             Gson g = new Gson();
@@ -59,10 +58,12 @@ public class DestinationController extends GenericAppController {
                 respond(DestinationAddress.find("city_id = ?", destinationFlowJson.id).toJson(false)).contentType("application/json").status(200);
             }
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Destination destination = new Destination();
         destination.fromMap(params1st());
         destination.setInteger("address_id", Integer.parseInt(param("address_id")));
@@ -75,6 +76,7 @@ public class DestinationController extends GenericAppController {
             
             
         }
+        */
     }
 
     @Override
@@ -82,8 +84,9 @@ public class DestinationController extends GenericAppController {
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         Destination destination = Destination.findById(Integer.parseInt(getId()));
         if(destination != null){
             
@@ -91,10 +94,12 @@ public class DestinationController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Destination destination = new Destination();
         destination.fromMap(params1st());
         destination.setInteger("address_id", Integer.parseInt(param("address_id")));
@@ -107,14 +112,17 @@ public class DestinationController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
 
         Destination destination = Destination.findById(Integer.parseInt(getId()));
         String name = destination.getString("name");
         destination.delete();
+        */
         
         
     }

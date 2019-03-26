@@ -1,12 +1,7 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.models.Holiday;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
-@ProtectedAdministrative
 public class HolidayController extends GenericAppController {
 
     @Override
@@ -14,8 +9,9 @@ public class HolidayController extends GenericAppController {
         
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());
         holiday.setShort("day", Short.parseShort(param("day")));
@@ -29,20 +25,25 @@ public class HolidayController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
 
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
         String name = holiday.getString("name");
         holiday.delete();
+
+        */
         
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
         if(holiday != null){
             
@@ -50,10 +51,12 @@ public class HolidayController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());
         holiday.set("id", Integer.parseInt(param("id")));
@@ -65,5 +68,6 @@ public class HolidayController extends GenericAppController {
             
             
         }
+        */
     }
 }

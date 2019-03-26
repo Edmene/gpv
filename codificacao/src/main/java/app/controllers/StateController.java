@@ -2,9 +2,6 @@ package app.controllers;
 
 import app.controllers.authorization.ProtectedAdministrative;
 import app.models.State;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 @ProtectedAdministrative
 public class StateController extends GenericAppController {
@@ -14,8 +11,9 @@ public class StateController extends GenericAppController {
         
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         State state = new State();
         state.fromMap(params1st());
         if(!state.save()){
@@ -27,10 +25,12 @@ public class StateController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         State state = State.findById(Integer.parseInt(getId()));
         if(state != null){
             
@@ -38,10 +38,12 @@ public class StateController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         State state = new State();
         state.fromMap(params1st());
         state.set("id", Integer.parseInt(param("id")));
@@ -53,16 +55,18 @@ public class StateController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
 
         State state = State.findById(Integer.parseInt(getId()));
         String name = state.getString("name");
         state.delete();
-        
-        
+
+        */
     }
 
 }

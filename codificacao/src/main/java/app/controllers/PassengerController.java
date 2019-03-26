@@ -1,24 +1,20 @@
 package app.controllers;
 
-import app.controllers.authorization.PasswordHashing;
-import app.controllers.authorization.Protected;
+
 import app.enums.UserType;
 import app.json.CheckUserJson;
 import app.models.*;
 import app.utils.TransformMaskeredInput;
-import com.google.gson.Gson;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
-@Protected
+
 public class PassengerController extends GenericAppController {
 
     public void check(){
+        /*
         if(xhr()){
             Map<String, String> map = params1st();
             if(map.keySet().size() > 0) {
@@ -33,17 +29,21 @@ public class PassengerController extends GenericAppController {
                 respond(gson.toJson(userJson)).contentType("application/json").status(200);
             }
         }
+        */
     }
 
     @Override
     public void index(){
+        /*
         if(!negateAccess(UserType.P)) {
             
         }
+        */
     }
 
     @Override
     public void show(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             //this is to protect from URL hacking
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
@@ -54,10 +54,12 @@ public class PassengerController extends GenericAppController {
                 
             }
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
             String name = passenger.getString("name");
@@ -70,11 +72,13 @@ public class PassengerController extends GenericAppController {
                 
             }
         }
+        */
 
     }
 
     @Override
     public void alterForm(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
             User user = User.findById(Integer.parseInt(getId()));
@@ -86,10 +90,12 @@ public class PassengerController extends GenericAppController {
                 
             }
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update() throws Exception{
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             User user = User.findById(Integer.parseInt(param("id")));
             String oldName = user.getString("name");
@@ -125,18 +131,21 @@ public class PassengerController extends GenericAppController {
                 }
             }
         }
+        */
     }
 
     public void listPlan(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             
                     PassengerDestinationWithInfo.find("passenger_id = ?",
                             Integer.parseInt(getId())).toMaps());
         }
+        */
     }
 
-    @PUT
     public void changePlan(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
             PassengerPlans passengerPlans = (PassengerPlans) PassengerPlans.find("plan_id = ? AND" +
                             " destination_id = ? AND passenger_id = ?", Integer.parseInt(param("plan_id")),
@@ -166,5 +175,6 @@ public class PassengerController extends GenericAppController {
             }
             
         }
+        */
     }
 }

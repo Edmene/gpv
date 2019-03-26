@@ -1,17 +1,12 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.models.City;
 import app.models.State;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.util.List;
 import java.util.Map;
 
-@ProtectedAdministrative
 public class CityController extends GenericAppController {
 
     @Override
@@ -20,6 +15,7 @@ public class CityController extends GenericAppController {
     }
 
     public void list(){
+        /*
         if(xhr()){
             Map<String, String> map = params1st();
             Integer stateId = Integer.parseInt((String) map.keySet().toArray()[0]);
@@ -28,16 +24,20 @@ public class CityController extends GenericAppController {
                 respond(citiesList.toJson(false));
             }
         }
+        */
     }
 
     public void cities(){
+        /*
         List<Map<String, Object>> citiesList = City.find("state_id = ?",
                 Integer.parseInt(getId())).toMaps();
+                */
         
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         City city = new City();
         city.fromMap(params1st());
         city.setInteger("state_id", Integer.parseInt(param("state_id")));
@@ -50,6 +50,7 @@ public class CityController extends GenericAppController {
             
             
         }
+        */
     }
 
     @Override
@@ -57,8 +58,9 @@ public class CityController extends GenericAppController {
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         City city = City.findById(Integer.parseInt(getId()));
         if(city != null){
             
@@ -66,10 +68,12 @@ public class CityController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         City city = new City();
         city.fromMap(params1st());
         city.setInteger("state_id", Integer.parseInt(param("state_id")));
@@ -82,14 +86,17 @@ public class CityController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
 
+        /*
         City city = City.findById(Integer.parseInt(getId()));
         String name = city.getString("name");
         city.delete();
+        */
         
         
     }

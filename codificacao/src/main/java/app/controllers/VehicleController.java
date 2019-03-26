@@ -4,9 +4,6 @@ import app.controllers.authorization.ProtectedAdministrative;
 import app.models.Vehicle;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 @ProtectedAdministrative
 public class VehicleController extends GenericAppController {
@@ -16,8 +13,9 @@ public class VehicleController extends GenericAppController {
         
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());
         vehicle.setShort("capacity", Short.parseShort(param("capacity")));
@@ -34,20 +32,22 @@ public class VehicleController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
-
+        /*
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         String placa = vehicle.getString("license_plate");
         vehicle.delete();
-        
+        */
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         if(vehicle != null){
             
@@ -55,10 +55,12 @@ public class VehicleController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());
         vehicle.set("id", Integer.parseInt(param("id")));
@@ -71,5 +73,6 @@ public class VehicleController extends GenericAppController {
             
             
         }
+        */
     }
 }

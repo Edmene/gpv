@@ -21,13 +21,16 @@ public class AvailabilityController extends GenericAppController {
     private String shiftValues[]= {"12","18","04"};
 
     public void plan(){
-        
+        /*
+        view("availabilities", AvailabilityDriverVehicle.find("plan_id = ?",
                 Integer.parseInt(getId())).orderBy("day,shift,direction").toMaps(), "plan", getId(),
                 "days", Day.values(), "shifts", Shift.values(),
                 "directions", Direction.values());
+        */
     }
 
     public void stopsOfDestination(){
+        /*
         if(xhr()){
 
             Map<String, String> map = params1st();
@@ -74,9 +77,11 @@ public class AvailabilityController extends GenericAppController {
             //LazyList<Stop> filteredStopsList = Stop.find("");
             respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
         }
+        */
     }
 
     public void stopsOfBase(){
+        /*
         LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
 
         Map<String, String> map = params1st();
@@ -111,12 +116,12 @@ public class AvailabilityController extends GenericAppController {
         }
 
         respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
+        */
 
     }
 
-    @POST
     public void addStop() throws IOException {
-
+        /*
         String json = Util.read(getRequestInputStream());
 
         ArrayList<Availability> availabilityList = new ArrayList<>();
@@ -144,10 +149,12 @@ public class AvailabilityController extends GenericAppController {
             respond("Sucesso").status(201);
         }
 
+        */
     }
 
     @Override
     public void newForm(){
+        /*
         if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0 &&
                 Driver.findAll().size() > 0 && Vehicle.findAll().size() > 0) {
             ArrayList<TreeMap<String, Object>> shifts = new ArrayList<>();
@@ -204,14 +211,16 @@ public class AvailabilityController extends GenericAppController {
             
             
         }
+        */
     }
 
     private Integer toInt(String s){
         return Integer.parseInt(s);
     }
 
-    @PUT
+
     public void alterStatus() {
+        /*
         Availability availability = Availability.findByCompositeKeys(
                 Integer.parseInt(param("day")),
                 Integer.parseInt(param("shift")),
@@ -254,7 +263,7 @@ public class AvailabilityController extends GenericAppController {
         }
 
 
-        
+        */
     }
 
     private InsertionException sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){

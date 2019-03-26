@@ -1,27 +1,24 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.models.*;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-@ProtectedAdministrative
+
 public class PlanController extends GenericAppController {
 
     @Override
     public void index(){
-        view("plans", Plan.findAll().toMaps());
+
     }
 
     private void detailsOfPlan(){
+        /*
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         Integer count = 0;
         if(!CountPassenger.find("plan_id = ?", Integer.parseInt(getId())).isEmpty()) {
@@ -35,6 +32,7 @@ public class PlanController extends GenericAppController {
             view("message", "are you trying to hack the URL?");
             
         }
+        */
     }
 
     @Override
@@ -42,8 +40,9 @@ public class PlanController extends GenericAppController {
         detailsOfPlan();
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Plan plan = new Plan();
         plan.fromMap(params1st());
         String ticketPrice = TransformMaskeredInput.format(param("ticket_price"), ".");
@@ -74,23 +73,27 @@ public class PlanController extends GenericAppController {
                 
             }
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         plan.delete();
+        */
         
         
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
         detailsOfPlan();
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Plan plan = new Plan();
         plan.fromMap(params1st());
         plan.set("id", Integer.parseInt(param("id")));
@@ -118,13 +121,15 @@ public class PlanController extends GenericAppController {
                 
             }
         }
+        */
     }
 
     //DestinationPlan Model related methods
 
 
-    @PUT
+
     public void addDestination(){
+        /*
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         if(plan != null){
             view("plan", plan, "states", State.findAll().toMaps(),
@@ -134,11 +139,13 @@ public class PlanController extends GenericAppController {
             view("message", "are you trying to hack the URL?");
             
         }
+        */
 
     }
 
-    @PUT
+
     public void rmDestination(){
+        /*
         List<Map<String, Object>> destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()))
                 .include(Destination.class).toMaps();
         if(destinationsPlan != null){
@@ -149,11 +156,12 @@ public class PlanController extends GenericAppController {
             view("message", "are you trying to hack the URL?");
             
         }
+        */
 
     }
 
-    @POST
     public void addDestinations() {
+        /*
         if(param("items").contains(",")) {
             String[] destinations = param("items").split(",");
             for (String destination : destinations) {
@@ -182,11 +190,12 @@ public class PlanController extends GenericAppController {
                 
             }
         }
+        */
         
     }
 
-    @POST
     public void rmDestinations(){
+        /*
         LazyList destinationsPlan = DestinationPlan.find("plan_id = ?",
                 Integer.parseInt(param("plan")));
         List destinations = new LinkedList();
@@ -207,6 +216,7 @@ public class PlanController extends GenericAppController {
                 }
             }
         }
+        */
         
     }
 

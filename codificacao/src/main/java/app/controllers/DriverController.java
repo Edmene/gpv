@@ -1,13 +1,8 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.models.Driver;
 import app.utils.TransformMaskeredInput;
-import org.javalite.activeweb.annotations.DELETE;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
-@ProtectedAdministrative
 public class DriverController extends GenericAppController {
 
     @Override
@@ -15,8 +10,9 @@ public class DriverController extends GenericAppController {
         
     }
 
-    @Override @POST
+    @Override
     public void create(){
+        /*
         Driver driver = new Driver();
         driver.fromMap(params1st());
         driver.set("rg", TransformMaskeredInput.format(param("rg")));
@@ -29,20 +25,23 @@ public class DriverController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @DELETE
+    @Override
     public void delete(){
+        /*
 
         Driver m = Driver.findById(Integer.parseInt(getId()));
         String name = m.getString("name");
         m.delete();
         
-        
+        */
     }
 
-    @Override @PUT
+    @Override
     public void alterForm(){
+        /*
         Driver driver = Driver.findById(Integer.parseInt(getId()));
         if(driver != null){
             
@@ -50,10 +49,12 @@ public class DriverController extends GenericAppController {
             
             
         }
+        */
     }
 
-    @Override @POST
+    @Override
     public void update(){
+        /*
         Driver driver = new Driver();
         driver.fromMap(params1st());
         driver.set("id", Integer.parseInt(param("id")));
@@ -66,5 +67,6 @@ public class DriverController extends GenericAppController {
             
             
         }
+        */
     }
 }

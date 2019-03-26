@@ -7,13 +7,7 @@ import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
 import app.utils.TotalValueOfPlanSelection;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,12 +20,15 @@ import java.util.Map;
 public class ReservationController extends GenericAppController {
     @Override
     public void index() {
+        /*
         if(!negateAccess(UserType.A)) {
             
         }
+        */
     }
 
     public void planSelection() {
+        /*
         if(!negateAccess(UserType.A)) {
             LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
                     Integer.parseInt(getId())).include(Plan.class);
@@ -47,11 +44,12 @@ public class ReservationController extends GenericAppController {
             
                     "destination", getId());
         }
+        */
     }
 
 
-    @POST
     public void availabilitySelection() {
+        /*
         if(!negateAccess(UserType.A)) {
             LinkedList<List<List<Map<String, Object>>>> lazyLists = new LinkedList<>();
             for (int day = 0; day < Day.values().length; day++) {
@@ -74,10 +72,11 @@ public class ReservationController extends GenericAppController {
                     "availabilitiesSubSets", lazyLists,
                     "selection", true);
         }
+        */
     }
 
-    @POST
     public void availabilityConfirmation() {
+        /*
         if(!negateAccess(UserType.A)) {
             ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
             Gson g = new Gson();
@@ -106,10 +105,11 @@ public class ReservationController extends GenericAppController {
                     "totalValue", totalValueOfPlanSelection.calculateTotalValue(type, plan)
             );
         }
+        */
     }
 
-    @POST
     public void addReservations() {
+        /*
         if(!negateAccess(UserType.A)) {
             ArrayList<Reservation> reservationList = new ArrayList<>();
             Gson g = new Gson();
@@ -153,9 +153,11 @@ public class ReservationController extends GenericAppController {
             }
             
         }
+        */
     }
 
     public void list(){
+        /*
         if(!negateAccess(UserType.P)) {
             
                     Integer.parseInt(getId())).toMaps(),
@@ -163,9 +165,11 @@ public class ReservationController extends GenericAppController {
                     "shifts", Shift.values(),
                     "reservation", true);
         }
+        */
     }
 
     public void filteredList(){
+        /*
         if(!negateAccess(UserType.P)) {
             Map<String, String> map = params1st();
             Gson g = new Gson();
@@ -196,9 +200,11 @@ public class ReservationController extends GenericAppController {
 
             respond(response).contentType("application/json").status(200);
         }
+        */
     }
 
     public void reservationList(){
+        /*
         if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
             Integer passenger_id = Integer.parseInt(param("passenger_id"));
             Integer plan_id = Integer.parseInt(param("plan_id"));
@@ -238,14 +244,15 @@ public class ReservationController extends GenericAppController {
                     "totalTicketInactive", reservationPIList.size() * plan.getFloat("ticket_price"),
                     "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
         }
+        */
     }
 
     private Integer toInt(String s){
         return Integer.parseInt(s);
     }
 
-    @PUT
     public void changeReservation(){
+        /*
         Reservation reservation = (Reservation) Reservation.find("passenger_id = ? AND " +
                 "day = ? AND shift = ? AND direction = ? AND plan_id = ? AND " +
                 "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
@@ -301,7 +308,8 @@ public class ReservationController extends GenericAppController {
                 
             }
         }
-        reservation.save();
+        reservation.save()'
+        */
         
     }
 
@@ -331,7 +339,9 @@ public class ReservationController extends GenericAppController {
         return isActive;
     }
 
+    /*
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
+
         boolean hasRepeatedReservations = true;
         //This command exists in order to avoid a issue if there are no records in the reservation table
         if (CountPassenger.findAll().size() != 0) {
@@ -363,5 +373,6 @@ public class ReservationController extends GenericAppController {
         }
         return hasRepeatedReservations;
     }
+    */
 
 }

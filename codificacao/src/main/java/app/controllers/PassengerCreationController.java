@@ -1,20 +1,19 @@
 package app.controllers;
 
-import app.controllers.authorization.PasswordHashing;
 import app.models.Passenger;
 import app.models.User;
 import app.utils.TransformMaskeredInput;
 import org.javalite.activejdbc.LazyList;
 import org.javalite.activejdbc.Model;
-import org.javalite.activeweb.annotations.POST;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class PassengerCreationController extends GenericAppController {
 
-    @Override @POST
+    @Override
     public void create() throws Exception{
+        /*
         if(User.find("name = ?", param("user_name")).size() == 0) {
             User user = new User();
             user.fromMap(params1st());
@@ -58,5 +57,6 @@ public class PassengerCreationController extends GenericAppController {
             
             
         }
+        */
     }
 }
