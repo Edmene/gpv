@@ -11,7 +11,7 @@ public class StateController extends GenericAppController {
 
     @Override
     public void index(){
-        view("states", State.findAll().toMaps());
+        
     }
 
     @Override @POST
@@ -19,13 +19,13 @@ public class StateController extends GenericAppController {
         State state = new State();
         state.fromMap(params1st());
         if(!state.save()){
-            flash("message", "Something went wrong, please  fill out all fields");
-            flash("errors", state.errors());
-            flash("params", params1st());
-            redirect(StateController.class, "new_form");
+            
+            
+            
+            
         }else{
-            flash("message", "New book was added: " + state.get("name"));
-            redirect(StateController.class);
+            
+            
         }
     }
 
@@ -33,10 +33,10 @@ public class StateController extends GenericAppController {
     public void alterForm(){
         State state = State.findById(Integer.parseInt(getId()));
         if(state != null){
-            view("state", state);
+            
         }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
+            
         }
     }
 
@@ -46,12 +46,12 @@ public class StateController extends GenericAppController {
         state.fromMap(params1st());
         state.set("id", Integer.parseInt(param("id")));
         if(!state.save()){
-            flash("message", "Something went wrong, please restart the process");
-            redirect(StateController.class);
+            
+            
         }
         else{
-            flash("message", "Estado alterado " + state.get("name"));
-            redirect(StateController.class);
+            
+            
         }
     }
 
@@ -61,8 +61,8 @@ public class StateController extends GenericAppController {
         State state = State.findById(Integer.parseInt(getId()));
         String name = state.getString("name");
         state.delete();
-        flash("message", "Estado: '" + name + "' was deleted");
-        redirect(StateController.class);
+        
+        
     }
 
 }

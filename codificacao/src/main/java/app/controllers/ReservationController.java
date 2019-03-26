@@ -27,7 +27,7 @@ public class ReservationController extends GenericAppController {
     @Override
     public void index() {
         if(!negateAccess(UserType.A)) {
-            view("destinations", Destination.findAll());
+            
         }
     }
 
@@ -44,7 +44,7 @@ public class ReservationController extends GenericAppController {
                     }
                 }
             }
-            view("destinationPlanMapList", destinationPlanMap,
+            
                     "destination", getId());
         }
     }
@@ -66,7 +66,7 @@ public class ReservationController extends GenericAppController {
                 lazyLists.add(mapListFinal);
             }
 
-            view("days", Day.values(),
+            
                     "shifts", Shift.values(),
                     "destination", Integer.parseInt(param("destination")),
                     "plan", Plan.findById(Integer.parseInt(param("plan"))),
@@ -97,7 +97,7 @@ public class ReservationController extends GenericAppController {
                 type = CalculationMethod.T;
             }
 
-            view("days", Day.values(),
+            
                     "json", jsonArray,
                     "reservation_type", param("reservation_type"),
                     "destination", param("destination"),
@@ -147,17 +147,17 @@ public class ReservationController extends GenericAppController {
 
             boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
             if (!hasRepeatedReservations) {
-                flash("message", "Reservas registradas. Algumas já estavam presentes e foram ignoradas.");
+                
             } else {
-                flash("message", "Reservas registradas com sucesso");
+                
             }
-            redirect(HomeController.class);
+            
         }
     }
 
     public void list(){
         if(!negateAccess(UserType.P)) {
-            view("reservations", ReservationInfoAgg.find("plan_id = ?",
+            
                     Integer.parseInt(getId())).toMaps(),
                     "days", Day.values(),
                     "shifts", Shift.values(),
@@ -228,7 +228,7 @@ public class ReservationController extends GenericAppController {
             TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
 
 
-            view("shifts", Shift.values(),
+            
                     "days", Day.values(),
                     "directions", Direction.values(),
                     "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
@@ -262,16 +262,16 @@ public class ReservationController extends GenericAppController {
             if (reservation.getString("reservation_type").contains("M")) {
                 if (reservation.getDate("alteration_date") == null) {
                     reservation.set("alteration_date", LocalDate.now().plusDays(15));
-                    flash("message", "Reserva agendada para desativacao");
+                    
                 }
                 else {
                     reservation.set("alteration_date", null);
-                    flash("message", "Desativacao de reserva cancelada");
+                    
                 }
             }
             else {
                 reservation.set("status", false);
-                flash("message", "Reserva desativada");
+                
             }
 
         }
@@ -280,29 +280,29 @@ public class ReservationController extends GenericAppController {
                 if (reservation.getDate("date") == null) {
                     if (isPassengerNumberNotExcessive(reservation)) {
                         reservation.set("status", true);
-                        flash("message", "Reserva ativada");
+                        
                     } else {
-                        flash("message", "Reserva nao pode ser ativada devido ao numero de reservas estar preenchido");
+                        
                     }
                 } else {
                     if (LocalDate.now().isAfter(reservation.getDate("date").toLocalDate())) {
-                        flash("message", "Reserva expirada");
+                        
                     } else {
                         if (isPassengerNumberNotExcessive(reservation)) {
                             reservation.set("status", true);
-                            flash("message", "Reserva ativada");
+                            
                         } else {
-                            flash("message", "Reserva nao pode ser ativada devido ao numero de reservas estar preenchido");
+                            
                         }
                     }
                 }
             }
             else {
-                flash("message", "Plano nao mais disponivel neste formato");
+                
             }
         }
         reservation.save();
-        redirect(PassengerController.class, "list_plan", param("passenger_id"));
+        
     }
 
     private boolean isPassengerNumberNotExcessive(Reservation reservation){

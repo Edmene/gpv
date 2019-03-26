@@ -11,8 +11,8 @@ public class LoginController extends GenericAppController {
     @Override
     public void index(){
         if(session().containsKey("accessLevel")){
-            flash("message", "Voce ja esta logado");
-            redirect(HomeController.class);
+            
+            
         }
     }
 
@@ -20,13 +20,13 @@ public class LoginController extends GenericAppController {
     public void login() throws Exception {
 
         if(session().containsKey("accessLevel")){
-            flash("message", "Voce ja esta logado");
-            redirect(HomeController.class);
+            
+            
         }
         else {
             if (blank("user", "password")) {
-                flash("message", "Informe a senha e usuario");
-                redirect();
+                
+                
             }
             else {
 
@@ -40,12 +40,12 @@ public class LoginController extends GenericAppController {
                         session("user", param("user"));
                         session().put("accessLevel", user.get("type"));
                         isInDatabase = true;
-                        redirect(HomeController.class);
+                        
                     }
                 }
                 if (!isInDatabase) {
-                    flash("message", "Usuario ou senha incorretos");
-                    redirect();
+                    
+                    
                 }
 
             }
@@ -56,6 +56,6 @@ public class LoginController extends GenericAppController {
         session("id", null);
         session("user", null);
         session("accessLevel", null);
-        redirect(HomeController.class);
+        
     }
 }

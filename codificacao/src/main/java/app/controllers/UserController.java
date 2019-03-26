@@ -30,7 +30,7 @@ public class UserController extends GenericAppController {
     @Override
     public void index(){
         if(!negateAccess(UserType.P)) {
-            view("users", User.findAll().toMaps());
+            
         }
     }
 
@@ -44,13 +44,13 @@ public class UserController extends GenericAppController {
             user.set("extra", passwordHashing.getSalt());
             user.set("password", passwordHashing.hashPassword(param("password").trim()));
             if(!user.save()){
-                flash("message", "Something went wrong, please  fill out all fields");
-                flash("errors", user.errors());
-                flash("params", params1st());
-                redirect(UserController.class, "new_form");
+                
+                
+                
+                
             }else{
-                flash("message", "Novo usuario foi adicionado: " + user.get("name"));
-                redirect(UserController.class);
+                
+                
             }
         }
     }
@@ -63,14 +63,14 @@ public class UserController extends GenericAppController {
             u.delete();
             if (!session().isEmpty()) {
                 if (session("user").toString().contentEquals(name)) {
-                    redirect(LoginController.class, "logout");
+                    
                 } else {
-                    flash("message", "User: '" + name + "' foi deletado");
-                    redirect(UserController.class);
+                    
+                    
                 }
             } else {
-                flash("message", "User: '" + name + "' foi deletado");
-                redirect(UserController.class);
+                
+                
             }
         }
     }
@@ -80,10 +80,10 @@ public class UserController extends GenericAppController {
         if(!negateAccess(UserType.P)) {
             User user = User.findById(Integer.parseInt(getId()));
             if (user != null) {
-                view("user", user);
+                
             } else {
-                view("message", "are you trying to hack the URL?");
-                render("/system/404");
+                
+                
             }
         }
     }
@@ -101,14 +101,14 @@ public class UserController extends GenericAppController {
             user.set("id", Integer.parseInt(param("id")));
 
             if (!user.save()) {
-                flash("message", "Something went wrong, please restart the process");
-                redirect(UserController.class);
+                
+                
             } else {
-                flash("message", "Usuario alterado " + user.get("name"));
+                
                 if (session("user").toString().contentEquals(((oldName)))) {
                     session("user", (String) user.get("name"));
                 }
-                redirect(UserController.class);
+                
 
             }
         }

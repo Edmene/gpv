@@ -33,7 +33,7 @@ public class PlanController extends GenericAppController {
             view("plan", plan, "passengers", count);
         }else{
             view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
         }
     }
 
@@ -57,21 +57,21 @@ public class PlanController extends GenericAppController {
         plan.set("ticket_price", Float.parseFloat(ticketPrice));
         plan.set("daily_value", Float.parseFloat(dailyValue));
         if(param("available_reservations").length() <= 0){
-            flash("message", "Preencha o campo numero de reservas");
-            flash("errors", plan.errors());
-            flash("params", params1st());
-            redirect(PlanController.class, "new_form");
+            
+            
+            
+            
         }
         else {
             plan.set("available_reservations", Short.parseShort(param("available_reservations")));
             if (!plan.save()) {
-                flash("message", "Something went wrong, please  fill out all fields");
-                flash("errors", plan.errors());
-                flash("params", params1st());
-                redirect(PlanController.class, "new_form");
+                
+                
+                
+                
             } else {
-                flash("message", "Novo plano adicionado");
-                redirect(PlanController.class);
+                
+                
             }
         }
     }
@@ -80,8 +80,8 @@ public class PlanController extends GenericAppController {
     public void delete(){
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         plan.delete();
-        flash("message", "Plano deletado");
-        redirect(PlanController.class);
+        
+        
     }
 
     @Override @PUT
@@ -105,17 +105,17 @@ public class PlanController extends GenericAppController {
         plan.set("ticket_price", Float.parseFloat(ticketPrice));
         plan.set("daily_value", Float.parseFloat(dailyValue));
         if(param("available_reservations").length() <= 0){
-            flash("message", "Preencha o campo numero de reservas");
-            redirect(PlanController.class);
+            
+            
         }
         else {
             plan.set("available_reservations", Short.parseShort(param("available_reservations")));
             if (!plan.save()) {
-                flash("message", "Something went wrong, please fill out all fields");
-                redirect(PlanController.class);
+                
+                
             } else {
-                flash("message", "Plano Alterado");
-                redirect(PlanController.class);
+                
+                
             }
         }
     }
@@ -132,7 +132,7 @@ public class PlanController extends GenericAppController {
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
         }
 
     }
@@ -147,7 +147,7 @@ public class PlanController extends GenericAppController {
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
         }
 
     }
@@ -165,7 +165,7 @@ public class PlanController extends GenericAppController {
                             "plan_id", Integer.parseInt(param("plan")));
                     destinationPlan.insert();
                 } else {
-                    flash("message", "Destinos ja vinculados ao plano previamente");
+                    
                 }
             }
         }
@@ -177,12 +177,12 @@ public class PlanController extends GenericAppController {
                 destinationPlan.set("destination_id", Integer.parseInt(param("items")),
                         "plan_id", Integer.parseInt(param("plan")));
                 destinationPlan.insert();
-                flash("message", "Destino adicionados com sucesso");
+                
             } else {
-                flash("message", "Destino ja vinculados ao plano previamente");
+                
             }
         }
-        redirect(PlanController.class);
+        
     }
 
     @POST
@@ -203,11 +203,11 @@ public class PlanController extends GenericAppController {
                     destinationPlan.delete();
                 }
                 else {
-                    flash("message", "Destinos referenciados nao e possivel remove-lo do plano");
+                    
                 }
             }
         }
-        redirect(PlanController.class);
+        
     }
 
 }

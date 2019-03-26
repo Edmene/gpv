@@ -38,7 +38,7 @@ public class PassengerController extends GenericAppController {
     @Override
     public void index(){
         if(!negateAccess(UserType.P)) {
-            view("passengers", Passenger.findAll().toMaps());
+            
         }
     }
 
@@ -48,10 +48,10 @@ public class PassengerController extends GenericAppController {
             //this is to protect from URL hacking
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
             if (passenger != null) {
-                view("passenger", passenger);
+                
             } else {
-                view("message", "are you trying to hack the URL?");
-                render("/system/404");
+                
+                
             }
         }
     }
@@ -64,10 +64,10 @@ public class PassengerController extends GenericAppController {
             passenger.delete();
             User.findById(Integer.parseInt(getId())).delete();
             if (session("user").toString().contentEquals(((name)))) {
-                redirect(LoginController.class, "logout");
+                
             } else {
-                flash("message", "User: '" + name + "' foi deletado");
-                redirect(PassengerController.class);
+                
+                
             }
         }
 
@@ -80,10 +80,10 @@ public class PassengerController extends GenericAppController {
             User user = User.findById(Integer.parseInt(getId()));
             LocalDate date = LocalDate.parse(passenger.get("birth_date").toString());
             if (passenger != null) {
-                view("passenger", passenger, "user", user, "birth", date.toString());
+                
             } else {
-                view("message", "are you trying to hack the URL?");
-                render("/system/404");
+                
+                
             }
         }
     }
@@ -100,8 +100,8 @@ public class PassengerController extends GenericAppController {
             user.set("name", param("user_name"));
             user.set("id", Integer.parseInt(param("id")));
             if (!user.save()) {
-                flash("message", "Something went wrong, please  fill out all fields");
-                redirect(PassengerController.class);
+                
+                
             } else {
                 Passenger passenger = new Passenger();
                 passenger.fromMap(params1st());
@@ -114,11 +114,11 @@ public class PassengerController extends GenericAppController {
                 LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
                 passenger.setDate("birth_date", date);
                 if (!passenger.save()) {
-                    flash("message", "Something went wrong, please  fill out all fields ");
-                    redirect(PassengerController.class);
+                    
+                    
                 } else {
-                    flash("message", "Passageiro Alterado: " + passenger.get("name"));
-                    redirect(UserController.class, "profile", session("id"));
+                    
+                    
                     if (session("user").toString().contentEquals(((oldName)))) {
                         session("user", (String) passenger.get("name"));
                     }
@@ -129,7 +129,7 @@ public class PassengerController extends GenericAppController {
 
     public void listPlan(){
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            view("plans",
+            
                     PassengerDestinationWithInfo.find("passenger_id = ?",
                             Integer.parseInt(getId())).toMaps());
         }
@@ -158,13 +158,13 @@ public class PassengerController extends GenericAppController {
                         reservation.save();
                     }
                 }
-                flash("message", "Plano desativado");
+                
             } else {
                 passengerPlans.set("status", true);
                 passengerPlans.save();
-                flash("message", "Plano ativado. Reservas mensais tem de ser reativadas");
+                
             }
-            redirect(PassengerController.class, "list_plan", param("passenger_id"));
+            
         }
     }
 }

@@ -1,6 +1,5 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.enums.Day;
 import app.enums.Direction;
 import app.enums.InsertionException;
@@ -8,13 +7,7 @@ import app.enums.Shift;
 import app.json.AvailabilityJson;
 import app.json.ShiftsEnableJson;
 import app.models.*;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.activeweb.annotations.POST;
-import org.javalite.activeweb.annotations.PUT;
 import org.javalite.common.Util;
 
 import java.io.IOException;
@@ -24,12 +17,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-@ProtectedAdministrative
 public class AvailabilityController extends GenericAppController {
     private String shiftValues[]= {"12","18","04"};
 
     public void plan(){
-        view("availabilities", AvailabilityDriverVehicle.find("plan_id = ?",
+        
                 Integer.parseInt(getId())).orderBy("day,shift,direction").toMaps(), "plan", getId(),
                 "days", Day.values(), "shifts", Shift.values(),
                 "directions", Direction.values());
@@ -199,7 +191,7 @@ public class AvailabilityController extends GenericAppController {
                 }
                 shifts.add(shift);
             }
-            view("drivers", Driver.findAll().toMaps(),
+            
                     "vehicles", Vehicle.findAll().toMaps(),
                     "plan", getId(),
                     "days", Day.values(),
@@ -209,8 +201,8 @@ public class AvailabilityController extends GenericAppController {
                     "availability", true);
         }
         else {
-            flash("message", "Cadastre destinos, veiculos e motoristas antes de cadastrar disponibilidades");
-            redirect(AvailabilityController.class, "plan", getId());
+            
+            
         }
     }
 
@@ -250,19 +242,19 @@ public class AvailabilityController extends GenericAppController {
             }
             availability.saveIt();
             if(!status) {
-                flash("message", "A disponibilidae do plano foi desativada");
+                
             }
             else {
-                flash("message", "A disponibilidae do plano foi reativada");
+                
             }
         }
         else {
             availability.delete();
-            flash("message", "A disponibilidade do plano foi deletada");
+            
         }
 
 
-        redirect(AvailabilityController.class, "plan", param("plan_id"));
+        
     }
 
     private InsertionException sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
@@ -279,7 +271,7 @@ public class AvailabilityController extends GenericAppController {
                     availability.get("plan_id"));
             if(availabilities.size() != 0){
                 hasRepeatedReservations = InsertionException.CONFLICT;
-                flash("message", "Houveram planos conflitantes");
+                
             }
 
             if(hasRepeatedReservations != InsertionException.CONFLICT) {
@@ -295,7 +287,7 @@ public class AvailabilityController extends GenericAppController {
                         availability.get("plan_id")).size();
                 if (numResults != 0) {
                     hasRepeatedReservations = InsertionException.REPEATED_ENTRIES;
-                    flash("message", "Entradas repetidas");
+                    
                 } else {
                     availability.insert();
                 }

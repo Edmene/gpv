@@ -13,7 +13,7 @@ public class VehicleController extends GenericAppController {
 
     @Override
     public void index(){
-        view("vehicles", Vehicle.findAll().toMaps());
+        
     }
 
     @Override @POST
@@ -24,15 +24,15 @@ public class VehicleController extends GenericAppController {
         vehicle.setShort("year", Short.parseShort(param("year")));
         vehicle.set("license_plate", TransformMaskeredInput.format(param("license_plate")));
         if(!vehicle.save()){
-            flash("message", "Something went wrong, please  fill out all fields");
-            flash("errors", vehicle.errors());
-            flash("params", params1st());
-            redirect(VehicleController.class, "new_form");
+            
+            
+            
+            
         }else{
             LazyList a = Vehicle.find("capacity = ? AND license_plate = ? AND model = ? AND year = ?",
                     vehicle.get("capacity"), vehicle.get("license_plate"), vehicle.get("model"), vehicle.get("year"));
-            flash("message", "New vehicle was added: " + vehicle.get("license_plate") + " " + a.collect("id").get(0));
-            redirect(VehicleController.class);
+            
+            
         }
     }
 
@@ -42,18 +42,18 @@ public class VehicleController extends GenericAppController {
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         String placa = vehicle.getString("license_plate");
         vehicle.delete();
-        flash("message", "Veiculo: '" + placa + "' was deleted");
-        redirect(VehicleController.class);
+        
+        
     }
 
     @Override @PUT
     public void alterForm(){
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         if(vehicle != null){
-            view("vehicle", vehicle);
+            
         }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
+            
         }
     }
 
@@ -64,12 +64,12 @@ public class VehicleController extends GenericAppController {
         vehicle.set("id", Integer.parseInt(param("id")));
         vehicle.set("license_plate", TransformMaskeredInput.format(param("license_plate")));
         if(!vehicle.save()){
-            flash("message", "Something went wrong, please restart the process");
-            redirect(VehicleController.class);
+            
+            
         }
         else{
-            flash("message", "Veiculo alterado " + vehicle.get("placa"));
-            redirect(VehicleController.class);
+            
+            
         }
     }
 }

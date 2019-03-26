@@ -19,20 +19,20 @@ public class DestinationController extends GenericAppController {
 
     @Override
     public void index(){
-        view("states", State.findAll());
+        
     }
 
     public void cities(){
         List<Map<String, Object>> citiesList = City.find("state_id = ?",
                 Integer.parseInt(getId())).toMaps();
-        view("cities", citiesList);
+        
     }
 
     public void addresses(){
 
         List<Map<String, Object>> addressList = Address.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
-        view("addresses", addressList, "city", City.findById(Integer.parseInt(getId())));
+        
     }
 
     public void destinations(){
@@ -41,7 +41,7 @@ public class DestinationController extends GenericAppController {
         for (Map<String, Object> stop : destinationList){
             stop.put("address", Address.findById(stop.get("address_id")).toMap());
         }
-        view("destinations", destinationList, "address", getId());
+        
     }
 
     public void destination(){
@@ -67,29 +67,29 @@ public class DestinationController extends GenericAppController {
         destination.fromMap(params1st());
         destination.setInteger("address_id", Integer.parseInt(param("address_id")));
         if(!destination.save()){
-            flash("message", "Something went wrong, please  fill out all fields");
-            flash("errors", destination.errors());
-            flash("params", params1st());
-            redirect(DestinationController.class, "new_form");
+            
+            
+            
+            
         }else{
-            flash("message", "Novo destino cadastrado: " + destination.get("name"));
-            redirect(DestinationController.class, "destinations", destination.get("address_id"));
+            
+            
         }
     }
 
     @Override
     public void newForm(){
-        view("address", getId());
+        
     }
 
     @Override @PUT
     public void alterForm(){
         Destination destination = Destination.findById(Integer.parseInt(getId()));
         if(destination != null){
-            view("destination", destination, "addresses", Address.findAll().toMaps());
+            
         }else{
-            view("message", "are you trying to hack the URL?");
-            render("/system/404");
+            
+            
         }
     }
 
@@ -100,12 +100,12 @@ public class DestinationController extends GenericAppController {
         destination.setInteger("address_id", Integer.parseInt(param("address_id")));
         destination.set("id", Integer.parseInt(param("id")));
         if(!destination.save()){
-            flash("message", "Something went wrong, please restart the process");
-            redirect(DestinationController.class, "destinations", destination.get("address_id"));
+            
+            
         }
         else{
-            flash("message", "Destino alterado " + destination.get("name"));
-            redirect(DestinationController.class, "destinations", destination.get("address_id"));
+            
+            
         }
     }
 
@@ -115,7 +115,7 @@ public class DestinationController extends GenericAppController {
         Destination destination = Destination.findById(Integer.parseInt(getId()));
         String name = destination.getString("name");
         destination.delete();
-        flash("message", "Destino: '" + name + "' was deleted");
-        redirect(DestinationController.class);
+        
+        
     }
 }
