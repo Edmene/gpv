@@ -2,6 +2,8 @@ package app.controllers;
 
 import app.json.DestinationFlowJson;
 import app.models.*;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,7 @@ public class DestinationController extends GenericAppController {
     //Partir do estado para cidade e depois permitir o cadastro.
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
@@ -62,7 +64,7 @@ public class DestinationController extends GenericAppController {
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Destination destination = new Destination();
         destination.fromMap(params1st());
@@ -80,25 +82,7 @@ public class DestinationController extends GenericAppController {
     }
 
     @Override
-    public void newForm(){
-        
-    }
-
-    @Override
-    public void alterForm(){
-        /*
-        Destination destination = Destination.findById(Integer.parseInt(getId()));
-        if(destination != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Destination destination = new Destination();
         destination.fromMap(params1st());
@@ -116,7 +100,7 @@ public class DestinationController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
 
         Destination destination = Destination.findById(Integer.parseInt(getId()));

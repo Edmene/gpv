@@ -5,6 +5,8 @@ import app.models.Address;
 import app.models.City;
 import app.models.State;
 import app.models.Stop;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Time;
 import java.util.List;
@@ -16,7 +18,7 @@ public class StopController extends GenericAppController{
     //Partir do estado para cidade e depois permitir o cadastro.
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
@@ -47,7 +49,7 @@ public class StopController extends GenericAppController{
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Stop stop = new Stop();
         stop.fromMap(params1st());
@@ -66,25 +68,7 @@ public class StopController extends GenericAppController{
     }
 
     @Override
-    public void newForm(){
-        
-    }
-
-    @Override
-    public void alterForm(){
-        /*
-        Stop stop = Stop.findById(Integer.parseInt(getId()));
-        if(stop != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Stop stop = new Stop();
         stop.fromMap(params1st());
@@ -103,7 +87,7 @@ public class StopController extends GenericAppController{
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
         Stop stop = Stop.findById(Integer.parseInt(getId()));
         stop.delete();

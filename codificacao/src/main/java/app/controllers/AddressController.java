@@ -3,6 +3,8 @@ package app.controllers;
 import app.models.Address;
 import app.models.City;
 import app.models.State;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ public class AddressController extends GenericAppController {
 
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
@@ -34,7 +36,7 @@ public class AddressController extends GenericAppController {
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         Address address = new Address();
         //address.fromMap();
         //address.setInteger("city_id", Integer.parseInt());
@@ -50,24 +52,7 @@ public class AddressController extends GenericAppController {
     }
 
     @Override
-    public void newForm(){
-        
-    }
-
-    @Override
-    public void alterForm(){
-        /*Address address = Address.findById(Integer.parseInt());
-        if(address != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         Address address = new Address();
         //address.fromMap();
         //address.setInteger("city_id", Integer.parseInt());
@@ -83,7 +68,7 @@ public class AddressController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
 
         //Address address = Address.findById(Integer.parseInt());
         //String name = address.getString("name");

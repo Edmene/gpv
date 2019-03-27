@@ -7,7 +7,9 @@ import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
 import app.utils.TotalValueOfPlanSelection;
+import io.javalin.Context;
 import org.javalite.activejdbc.LazyList;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +21,7 @@ import java.util.Map;
 @Protected
 public class ReservationController extends GenericAppController {
     @Override
-    public void index() {
+    public void getAll(@NotNull Context ctx){
         /*
         if(!negateAccess(UserType.A)) {
             

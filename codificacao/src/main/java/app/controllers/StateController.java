@@ -1,18 +1,27 @@
 package app.controllers;
 
-import app.controllers.authorization.ProtectedAdministrative;
 import app.models.State;
+import io.javalin.Context;
+import org.javalite.activejdbc.Base;
+import org.jetbrains.annotations.NotNull;
 
-@ProtectedAdministrative
 public class StateController extends GenericAppController {
 
     @Override
-    public void index(){
-        
+    public void getAll(@NotNull Context ctx){
+        String results = State.findAll().toString();
+        ctx.result(results);
+        Base.close();
     }
 
     @Override
-    public void create(){
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+
+    }
+
+
+    @Override
+    public void create(@NotNull Context ctx){
         /*
         State state = new State();
         state.fromMap(params1st());
@@ -28,21 +37,9 @@ public class StateController extends GenericAppController {
         */
     }
 
-    @Override
-    public void alterForm(){
-        /*
-        State state = State.findById(Integer.parseInt(getId()));
-        if(state != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
 
     @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String resourceId){
         /*
         State state = new State();
         state.fromMap(params1st());
@@ -59,7 +56,7 @@ public class StateController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
         /*
 
         State state = State.findById(Integer.parseInt(getId()));

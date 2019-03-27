@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class AvailabilityController extends GenericAppController {
+public class AvailabilityController {
     private String shiftValues[]= {"12","18","04"};
 
     public void plan(){
@@ -152,7 +152,6 @@ public class AvailabilityController extends GenericAppController {
         */
     }
 
-    @Override
     public void newForm(){
         /*
         if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0 &&

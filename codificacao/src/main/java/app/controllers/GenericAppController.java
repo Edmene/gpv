@@ -1,22 +1,25 @@
 package app.controllers;
 
-import app.enums.UserType;
+import io.javalin.Context;
+import io.javalin.apibuilder.CrudHandler;
+import org.javalite.activejdbc.Base;
+import org.jetbrains.annotations.NotNull;
 
 
-public abstract class GenericAppController{
+public abstract class GenericAppController implements CrudHandler {
 
-    public void index(){}
+    GenericAppController(){
+        Base.open();
+    }
 
-    public void delete() {}
+    public void getAll(@NotNull Context ctx){}
 
-    public void update() throws Exception{}
+    public void delete(@NotNull Context ctx, @NotNull String resourceId) {}
 
-    public void create() throws Exception{}
+    public void update(@NotNull Context ctx, @NotNull String resourceId) {}
 
-    public void alterForm(){}
+    public void create(@NotNull Context ctx) {}
 
-    public void newForm(){}
-
-    public void show(){}
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){}
 
 }

@@ -3,18 +3,20 @@ package app.controllers;
 import app.controllers.authorization.ProtectedAdministrative;
 import app.models.Vehicle;
 import app.utils.TransformMaskeredInput;
+import io.javalin.Context;
 import org.javalite.activejdbc.LazyList;
+import org.jetbrains.annotations.NotNull;
 
 @ProtectedAdministrative
 public class VehicleController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());
@@ -36,7 +38,7 @@ public class VehicleController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
         Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
         String placa = vehicle.getString("license_plate");
@@ -45,21 +47,9 @@ public class VehicleController extends GenericAppController {
         
     }
 
-    @Override
-    public void alterForm(){
-        /*
-        Vehicle vehicle = Vehicle.findById(Integer.parseInt(getId()));
-        if(vehicle != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
 
     @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Vehicle vehicle = new Vehicle();
         vehicle.fromMap(params1st());

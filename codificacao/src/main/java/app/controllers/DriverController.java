@@ -2,16 +2,18 @@ package app.controllers;
 
 import app.models.Driver;
 import app.utils.TransformMaskeredInput;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 public class DriverController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Driver driver = new Driver();
         driver.fromMap(params1st());
@@ -29,7 +31,7 @@ public class DriverController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
 
         Driver m = Driver.findById(Integer.parseInt(getId()));
@@ -40,20 +42,7 @@ public class DriverController extends GenericAppController {
     }
 
     @Override
-    public void alterForm(){
-        /*
-        Driver driver = Driver.findById(Integer.parseInt(getId()));
-        if(driver != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Driver driver = new Driver();
         driver.fromMap(params1st());

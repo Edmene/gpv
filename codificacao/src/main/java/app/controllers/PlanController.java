@@ -2,7 +2,9 @@ package app.controllers;
 
 import app.models.*;
 import app.utils.TransformMaskeredInput;
+import io.javalin.Context;
 import org.javalite.activejdbc.LazyList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class PlanController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
 
     }
 
@@ -35,13 +37,9 @@ public class PlanController extends GenericAppController {
         */
     }
 
-    @Override
-    public void show(){
-        detailsOfPlan();
-    }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Plan plan = new Plan();
         plan.fromMap(params1st());
@@ -77,7 +75,7 @@ public class PlanController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
         Plan plan = Plan.findById(Integer.parseInt(getId()));
         plan.delete();
@@ -87,12 +85,7 @@ public class PlanController extends GenericAppController {
     }
 
     @Override
-    public void alterForm(){
-        detailsOfPlan();
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Plan plan = new Plan();
         plan.fromMap(params1st());

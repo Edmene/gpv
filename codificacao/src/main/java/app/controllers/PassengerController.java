@@ -5,7 +5,9 @@ import app.enums.UserType;
 import app.json.CheckUserJson;
 import app.models.*;
 import app.utils.TransformMaskeredInput;
+import io.javalin.Context;
 import org.javalite.activejdbc.LazyList;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +35,7 @@ public class PassengerController extends GenericAppController {
     }
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         /*
         if(!negateAccess(UserType.P)) {
             
@@ -42,23 +44,56 @@ public class PassengerController extends GenericAppController {
     }
 
     @Override
-    public void show(){
+    public void create(@NotNull Context ctx){
         /*
-        if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            //this is to protect from URL hacking
-            Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
-            if (passenger != null) {
-                
+        if(User.find("name = ?", param("user_name")).size() == 0) {
+            User user = new User();
+            user.fromMap(params1st());
+            PasswordHashing passwordHashing = new PasswordHashing();
+            user.set("extra", passwordHashing.getSalt());
+            user.set("password", passwordHashing.hashPassword(param("password").trim()));
+            user.set("name", param("user_name"));
+            if (!user.save()) {
+
+
+
+
             } else {
-                
-                
+                LazyList<Model> u = User.find("name = ?", param("user_name"));
+                Passenger passenger = new Passenger();
+                passenger.fromMap(params1st());
+                passenger.set("user_id", u.get(0).getId());
+
+                passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
+                passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
+                passenger.set("rg", TransformMaskeredInput.format(param("rg")));
+
+                LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
+                passenger.setDate("birth_date", date);
+                //u.get(0).add(passenger);
+
+                if (!passenger.insert()) {
+                    user.setId(u.get(0).getId()).delete();
+
+
+
+
+                } else {
+
+                    //
+
+                }
             }
+        }
+        else {
+
+
         }
         */
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
@@ -77,24 +112,7 @@ public class PassengerController extends GenericAppController {
     }
 
     @Override
-    public void alterForm(){
-        /*
-        if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
-            User user = User.findById(Integer.parseInt(getId()));
-            LocalDate date = LocalDate.parse(passenger.get("birth_date").toString());
-            if (passenger != null) {
-                
-            } else {
-                
-                
-            }
-        }
-        */
-    }
-
-    @Override
-    public void update() throws Exception{
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             User user = User.findById(Integer.parseInt(param("id")));

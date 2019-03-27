@@ -2,7 +2,9 @@ package app.controllers;
 
 import app.models.City;
 import app.models.State;
+import io.javalin.Context;
 import org.javalite.activejdbc.LazyList;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.Map;
 public class CityController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
@@ -36,7 +38,7 @@ public class CityController extends GenericAppController {
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         City city = new City();
         city.fromMap(params1st());
@@ -54,25 +56,7 @@ public class CityController extends GenericAppController {
     }
 
     @Override
-    public void newForm(){
-        
-    }
-
-    @Override
-    public void alterForm(){
-        /*
-        City city = City.findById(Integer.parseInt(getId()));
-        if(city != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         City city = new City();
         city.fromMap(params1st());
@@ -90,7 +74,7 @@ public class CityController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
 
         /*
         City city = City.findById(Integer.parseInt(getId()));

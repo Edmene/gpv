@@ -20,12 +20,14 @@ import app.controllers.authorization.PasswordHashing;
 import app.controllers.authorization.Protected;
 import app.enums.UserType;
 import app.models.User;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 @Protected
 public class UserController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         /*
         if(!negateAccess(UserType.P)) {
             
@@ -34,7 +36,7 @@ public class UserController extends GenericAppController {
     }
 
     @Override
-    public void create() throws Exception {
+    public void create(@NotNull Context ctx) {
         /*
         if(!negateAccess(UserType.P)) {
             User user = new User();
@@ -57,7 +59,7 @@ public class UserController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
         if(!negateAccess(UserType.P)) {
             User u = User.findById(Integer.parseInt(getId()));
@@ -79,22 +81,7 @@ public class UserController extends GenericAppController {
     }
 
     @Override
-    public void alterForm(){
-        /*
-        if(!negateAccess(UserType.P)) {
-            User user = User.findById(Integer.parseInt(getId()));
-            if (user != null) {
-                
-            } else {
-                
-                
-            }
-        }
-        */
-    }
-
-    @Override
-    public void update() throws Exception {
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         if(!negateAccess(UserType.P)) {
             User user = User.findById(Integer.parseInt(param("id")));
@@ -119,8 +106,5 @@ public class UserController extends GenericAppController {
             }
         }
         */
-    }
-
-    public void profile(){
     }
 }

@@ -1,16 +1,18 @@
 package app.controllers;
 
 import app.models.Holiday;
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
 public class HolidayController extends GenericAppController {
 
     @Override
-    public void index(){
+    public void getAll(@NotNull Context ctx){
         
     }
 
     @Override
-    public void create(){
+    public void create(@NotNull Context ctx){
         /*
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());
@@ -29,7 +31,7 @@ public class HolidayController extends GenericAppController {
     }
 
     @Override
-    public void delete(){
+    public void delete(@NotNull Context ctx, @NotNull String contentId){
         /*
 
         Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
@@ -42,20 +44,7 @@ public class HolidayController extends GenericAppController {
     }
 
     @Override
-    public void alterForm(){
-        /*
-        Holiday holiday = Holiday.findById(Integer.parseInt(getId()));
-        if(holiday != null){
-            
-        }else{
-            
-            
-        }
-        */
-    }
-
-    @Override
-    public void update(){
+    public void update(@NotNull Context ctx, @NotNull String contentId){
         /*
         Holiday holiday = new Holiday();
         holiday.fromMap(params1st());

@@ -1,17 +1,11 @@
 package app.controllers;
 
 
-public class LoginController extends GenericAppController {
+import io.javalin.Context;
+import org.jetbrains.annotations.NotNull;
 
-    @Override
-    public void index(){
-        /*
-        if(session().containsKey("accessLevel")){
-            
-            
-        }
-        */
-    }
+public class LoginController {
+
 
     public void login() throws Exception {
         /*
