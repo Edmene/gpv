@@ -1,16 +1,14 @@
 package app.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Context;
 import io.javalin.apibuilder.CrudHandler;
-import org.javalite.activejdbc.Base;
 import org.jetbrains.annotations.NotNull;
 
 
 public abstract class GenericAppController implements CrudHandler {
 
-    GenericAppController(){
-        Base.open();
-    }
+    ObjectMapper mapper = new ObjectMapper();
 
     public void getAll(@NotNull Context ctx){}
 

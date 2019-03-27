@@ -2,7 +2,7 @@ package app;
 
 import app.controllers.CityController;
 import app.controllers.StateController;
-import io.javalin.*;
+import io.javalin.Javalin;
 import io.javalin.apibuilder.ApiBuilder;
 
 
@@ -13,7 +13,7 @@ public class Main {
             Javalin app = Javalin.create().enableCorsForOrigin("*").start(7000);
             app.routes(() -> {
                 ApiBuilder.crud("states/:state-id", new StateController());
-                ApiBuilder.crud("states/:state-id", new CityController());
+                ApiBuilder.crud("cities/:city-id", new CityController());
             });
         }
         catch (Exception e){

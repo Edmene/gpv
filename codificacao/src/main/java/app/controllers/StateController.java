@@ -1,69 +1,122 @@
 package app.controllers;
 
+import app.json.StateJson;
 import app.models.State;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Context;
+import io.javalin.Javalin;
+import io.javalin.JavalinEvent;
 import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class StateController extends GenericAppController {
 
     @Override
     public void getAll(@NotNull Context ctx){
-        String results = State.findAll().toString();
-        ctx.result(results);
-        Base.close();
+        try {
+            Base.open();
+            LazyList<State> results = State.findAll();
+            ArrayList<StateJson> json = new ArrayList<>();
+
+            for (State state : results) {
+                json.add(new StateJson(state));
+            }
+            ctx.result(mapper.writeValueAsString(json));
+
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String resourceId){
-
+        try{
+            Base.open();
+            State state = State.findById(Integer.parseInt(resourceId));
+            StateJson stateJson = new StateJson(state);
+            ctx.result(mapper.writeValueAsString(stateJson));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
 
     @Override
     public void create(@NotNull Context ctx){
-        /*
-        State state = new State();
-        state.fromMap(params1st());
-        if(!state.save()){
-            
-            
-            
-            
-        }else{
-            
-            
+        try {
+            Base.open();
+            State state = new State();
+            StateJson stateJson = ctx.bodyAsClass(StateJson.class);
+            stateJson.setAttributesOfState(state);
+            if(state.saveIt()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+
     }
 
 
     @Override
     public void update(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-        State state = new State();
-        state.fromMap(params1st());
-        state.set("id", Integer.parseInt(param("id")));
-        if(!state.save()){
-            
-            
+        try {
+            Base.open();
+            State state = new State();
+            StateJson stateJson = ctx.bodyAsClass(StateJson.class);
+            stateJson.setAttributesOfState(state);
+            if(state.save()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        else{
-            
-            
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        */
+
     }
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-
-        State state = State.findById(Integer.parseInt(getId()));
-        String name = state.getString("name");
-        state.delete();
-
-        */
+        try{
+            Base.open();
+            State state = State.findById(Integer.parseInt(resourceId));
+            if(state.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
 }
