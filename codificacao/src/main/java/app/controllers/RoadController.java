@@ -1,7 +1,7 @@
 package app.controllers;
 
-import app.json.CityJson;
-import app.models.City;
+import app.json.RoadJson;
+import app.models.Road;
 import app.utils.Db;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
@@ -10,22 +10,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class CityController extends GenericAppController {
+public class RoadController extends GenericAppController {
 
-    private ArrayList<CityJson> citiesToCityJsonList(LazyList<City> cities){
-        ArrayList<CityJson> json = new ArrayList<>();
-        for (City city : cities) {
-            json.add(new CityJson(city));
+    private ArrayList<RoadJson> citiesToRoadJsonList(LazyList<Road> cities){
+        ArrayList<RoadJson> json = new ArrayList<>();
+        for (Road city : cities) {
+            json.add(new RoadJson(city));
         }
         return json;
     }
+
 
     @Override
     public void getAll(@NotNull Context ctx){
         try {
             Base.open(Db.getInstance());
-            LazyList<City> results = City.findAll();
-            ctx.result(mapper.writeValueAsString(citiesToCityJsonList(results)));
+            LazyList<Road> results = Road.findAll();
+            ctx.result(mapper.writeValueAsString(citiesToRoadJsonList(results)));
             Base.close();
         }
         catch (Exception e){
@@ -39,8 +40,8 @@ public class CityController extends GenericAppController {
     public void getOne(@NotNull Context ctx, @NotNull String resourceId){
         try{
             Base.open(Db.getInstance());
-            City city = City.findById(Integer.parseInt(resourceId));
-            CityJson stateJson = new CityJson(city);
+            Road road = Road.findById(Integer.parseInt(resourceId));
+            RoadJson stateJson = new RoadJson(road);
             ctx.result(mapper.writeValueAsString(stateJson));
             Base.close();
         }
@@ -51,29 +52,14 @@ public class CityController extends GenericAppController {
         }
     }
 
-    public void getByState(@NotNull Context ctx, @NotNull String resourceId){
-        try{
-            Base.open(Db.getInstance());
-            LazyList<City> cities = City.find("state_id = ?", Integer.parseInt(resourceId));
-            ctx.result(mapper.writeValueAsString(citiesToCityJsonList(cities)));
-            Base.close();
-        }
-        catch (Exception e){
-            ctx.res.setStatus(500);
-            e.printStackTrace();
-            Base.close();
-        }
-    }
-
-
     @Override
     public void create(@NotNull Context ctx){
         try {
             Base.open(Db.getInstance());
-            City city = new City();
-            CityJson cityJson  = ctx.bodyAsClass(CityJson.class);
-            cityJson.setAttributesOfCity(city);
-            if(city.saveIt()){
+            Road road = new Road();
+            RoadJson roadJson  = ctx.bodyAsClass(RoadJson.class);
+            roadJson.setAttributesOfRoad(road);
+            if(road.saveIt()){
                 ctx.res.setStatus(200);
             }
             else{
@@ -92,10 +78,10 @@ public class CityController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            City city = new City();
-            CityJson cityJson = ctx.bodyAsClass(CityJson.class);
-            cityJson.setAttributesOfCity(city);
-            if(city.save()){
+            Road road = new Road();
+            RoadJson roadJson = ctx.bodyAsClass(RoadJson.class);
+            roadJson.setAttributesOfRoad(road);
+            if(road.save()){
                 ctx.res.setStatus(200);
             }
             else{
@@ -114,8 +100,8 @@ public class CityController extends GenericAppController {
     public void delete(@NotNull Context ctx, @NotNull String resourceId){
         try{
             Base.open(Db.getInstance());
-            City city = City.findById(Integer.parseInt(resourceId));
-            if(city.delete()){
+            Road road = Road.findById(Integer.parseInt(resourceId));
+            if(road.delete()){
                 ctx.res.setStatus(200);
             }
             else{

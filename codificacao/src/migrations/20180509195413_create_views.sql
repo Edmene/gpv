@@ -1,6 +1,6 @@
 CREATE VIEW availability_stop_address AS
-  SELECT a.*, s.time, s.address_id, address.name as address_name FROM availabilities a
-    JOIN stops s on s.id = a.stop_id JOIN addresses address on s.address_id = address.id;
+  SELECT a.*, s.time, s.address_id, road.name as address_name FROM availabilities a
+    JOIN stops s on s.id = a.stop_id JOIN addresses road on s.address_id = road.id;
 
 CREATE VIEW count_passenger AS
   SELECT COUNT(*) as num_passengers, c.plan_id FROM
@@ -13,7 +13,7 @@ CREATE VIEW count_passenger AS
   GROUP BY c.plan_id;
 
 CREATE VIEW stops_info AS
-  SELECT s.id, s.time, a.name as address, a.extra, a.city_id FROM stops s JOIN addresses a ON s.address_id = a.id;
+  SELECT s.id, s.time, a.name as road, a.extra, a.city_id FROM stops s JOIN addresses a ON s.address_id = a.id;
 
 CREATE VIEW destination_plan_city AS
   SELECT dp.plan_id, a.city_id FROM destination_plans dp
@@ -57,7 +57,7 @@ CREATE VIEW reservation_info_agg_day_shift AS
   GROUP BY info.passenger_id, info.passenger, info.plan_id, info.day, info.shift;
 
 CREATE VIEW passenger_destination_with_info AS
-  SELECT pp.*, d.name as destination, a.name as address, a.extra, c.name as city, s.acronym as state FROM passenger_plans pp
+  SELECT pp.*, d.name as destination, a.name as road, a.extra, c.name as city, s.acronym as state FROM passenger_plans pp
     JOIN destinations d ON pp.destination_id = d.id
     JOIN addresses a on d.address_id = a.id
     JOIN cities c on a.city_id = c.id

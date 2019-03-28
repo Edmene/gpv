@@ -27,7 +27,7 @@ public class DestinationController extends GenericAppController {
 
     public void addresses(){
         /*
-        List<Map<String, Object>> addressList = Address.find("city_id = ?",
+        List<Map<String, Object>> addressList = Road.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
                 */
         
@@ -38,7 +38,7 @@ public class DestinationController extends GenericAppController {
         List<Map<String, Object>> destinationList = Destination.find("address_id = ?",
                 Integer.parseInt(getId())).toMaps();
         for (Map<String, Object> stop : destinationList){
-            stop.put("address", Address.findById(stop.get("address_id")).toMap());
+            stop.put("address", Road.findById(stop.get("address_id")).toMap());
         }
         */
         

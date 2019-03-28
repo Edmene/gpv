@@ -1,16 +1,8 @@
 package app.controllers;
 
 import app.controllers.authorization.ProtectedAdministrative;
-import app.models.Address;
-import app.models.City;
-import app.models.State;
-import app.models.Stop;
 import io.javalin.Context;
 import org.jetbrains.annotations.NotNull;
-
-import java.sql.Time;
-import java.util.List;
-import java.util.Map;
 
 @ProtectedAdministrative
 public class StopController extends GenericAppController{
@@ -32,7 +24,7 @@ public class StopController extends GenericAppController{
 
     public void addresses(){
         /*
-        List<Map<String, Object>> addressList = Address.find("city_id = ?",
+        List<Map<String, Object>> addressList = Road.find("city_id = ?",
                 Integer.parseInt(getId())).toMaps();
                 */
         
@@ -43,7 +35,7 @@ public class StopController extends GenericAppController{
         List<Map<String, Object>> stopList = Stop.find("address_id = ?",
                 Integer.parseInt(getId())).toMaps();
         for (Map<String, Object> stop : stopList){
-            stop.put("address", Address.findById(stop.get("address_id")).toMap());
+            stop.put("address", Road.findById(stop.get("address_id")).toMap());
         }
         */
     }

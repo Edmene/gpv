@@ -2,11 +2,13 @@ package app.controllers;
 
 import app.json.StateJson;
 import app.models.State;
+import app.utils.Db;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Context;
 import io.javalin.Javalin;
 import io.javalin.JavalinEvent;
 import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.DB;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +19,7 @@ public class StateController extends GenericAppController {
     @Override
     public void getAll(@NotNull Context ctx){
         try {
-            Base.open();
+            Base.open(Db.getInstance());
             LazyList<State> results = State.findAll();
             ArrayList<StateJson> json = new ArrayList<>();
 
@@ -25,7 +27,6 @@ public class StateController extends GenericAppController {
                 json.add(new StateJson(state));
             }
             ctx.result(mapper.writeValueAsString(json));
-
             Base.close();
         }
         catch (Exception e){
@@ -38,7 +39,7 @@ public class StateController extends GenericAppController {
     @Override
     public void getOne(@NotNull Context ctx, @NotNull String resourceId){
         try{
-            Base.open();
+            Base.open(Db.getInstance());
             State state = State.findById(Integer.parseInt(resourceId));
             StateJson stateJson = new StateJson(state);
             ctx.result(mapper.writeValueAsString(stateJson));
@@ -55,7 +56,7 @@ public class StateController extends GenericAppController {
     @Override
     public void create(@NotNull Context ctx){
         try {
-            Base.open();
+            Base.open(Db.getInstance());
             State state = new State();
             StateJson stateJson = ctx.bodyAsClass(StateJson.class);
             stateJson.setAttributesOfState(state);
@@ -79,7 +80,7 @@ public class StateController extends GenericAppController {
     @Override
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
-            Base.open();
+            Base.open(Db.getInstance());
             State state = new State();
             StateJson stateJson = ctx.bodyAsClass(StateJson.class);
             stateJson.setAttributesOfState(state);
@@ -102,7 +103,7 @@ public class StateController extends GenericAppController {
     @Override
     public void delete(@NotNull Context ctx, @NotNull String resourceId){
         try{
-            Base.open();
+            Base.open(Db.getInstance());
             State state = State.findById(Integer.parseInt(resourceId));
             if(state.delete()){
                 ctx.res.setStatus(200);
