@@ -10,17 +10,17 @@ CREATE TABLE cities(
   state_id INT REFERENCES states
 );
 
-CREATE TABLE addresses(
+CREATE TABLE roads(
   id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  extra VARCHAR(100),
   city_id INT REFERENCES cities
 );
 
 CREATE TABLE destinations(
   id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(150) NOT NULL,
-  address_id INT REFERENCES addresses UNIQUE
+  address_number VARCHAR(10) NOT NULL,
+  road_id INT REFERENCES roads
 );
 
 CREATE TABLE users(

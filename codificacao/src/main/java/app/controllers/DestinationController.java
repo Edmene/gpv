@@ -1,20 +1,40 @@
 package app.controllers;
 
-import app.json.DestinationFlowJson;
+import app.json.DestinationJson;
 import app.models.*;
+import app.utils.Db;
 import io.javalin.Context;
+import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class DestinationController extends GenericAppController {
 
     //Partir do estado para cidade e depois permitir o cadastro.
 
+    private ArrayList<DestinationJson> destinationsToDestinationJsonList(LazyList<Destination> destinations){
+        ArrayList<DestinationJson> json = new ArrayList<>();
+        for (Destination destination : destinations) {
+            json.add(new DestinationJson(destination));
+        }
+        return json;
+    }
+
     @Override
     public void getAll(@NotNull Context ctx){
-        
+        try {
+            Base.open(Db.getInstance());
+            LazyList<Destination> results = Destination.findAll();
+            ctx.result(mapper.writeValueAsString(destinationsToDestinationJsonList(results)));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     public void cities(){
@@ -41,73 +61,87 @@ public class DestinationController extends GenericAppController {
             stop.put("address", Road.findById(stop.get("address_id")).toMap());
         }
         */
-        
+
     }
 
-    public void destination(){
-        /*
-        if (xhr()) {
-            Map<String, String> map = params1st();
-            Gson g = new Gson();
-            JsonParser jsonParser = new JsonParser();
-            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
-            DestinationFlowJson destinationFlowJson = g.fromJson(jsonParser.parse(
-                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), DestinationFlowJson.class);
 
-            if (destinationFlowJson.op == 0) {
-                respond(City.find("state_id = ?", destinationFlowJson.id).toJson(false)).contentType("application/json").status(200);
-            } else {
-                respond(DestinationAddress.find("city_id = ?", destinationFlowJson.id).toJson(false)).contentType("application/json").status(200);
-            }
+    @Override
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Destination city = Destination.findById(Integer.parseInt(resourceId));
+            DestinationJson stateJson = new DestinationJson(city);
+            ctx.result(mapper.writeValueAsString(stateJson));
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
     public void create(@NotNull Context ctx){
-        /*
-        Destination destination = new Destination();
-        destination.fromMap(params1st());
-        destination.setInteger("address_id", Integer.parseInt(param("address_id")));
-        if(!destination.save()){
-            
-            
-            
-            
-        }else{
-            
-            
+        try {
+            Base.open(Db.getInstance());
+            Destination destination = new Destination();
+            DestinationJson destinationJson  = ctx.bodyAsClass(DestinationJson.class);
+            destinationJson.setAttributesOfDestination(destination);
+            if(destination.saveIt()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
     public void update(@NotNull Context ctx, @NotNull String contentId){
-        /*
-        Destination destination = new Destination();
-        destination.fromMap(params1st());
-        destination.setInteger("address_id", Integer.parseInt(param("address_id")));
-        destination.set("id", Integer.parseInt(param("id")));
-        if(!destination.save()){
-            
-            
+        try {
+            Base.open(Db.getInstance());
+            Destination destination = new Destination();
+            DestinationJson destinationJson = ctx.bodyAsClass(DestinationJson.class);
+            destinationJson.setAttributesOfDestination(destination);
+            if(destination.save()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        else{
-            
-            
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        */
     }
 
     @Override
-    public void delete(@NotNull Context ctx, @NotNull String contentId){
-        /*
-
-        Destination destination = Destination.findById(Integer.parseInt(getId()));
-        String name = destination.getString("name");
-        destination.delete();
-        */
-        
-        
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Destination destination = Destination.findById(Integer.parseInt(resourceId));
+            if(destination.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 }
