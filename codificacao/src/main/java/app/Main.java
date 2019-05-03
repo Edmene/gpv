@@ -1,9 +1,6 @@
 package app;
 
-import app.controllers.CityController;
-import app.controllers.DestinationController;
-import app.controllers.RoadController;
-import app.controllers.StateController;
+import app.controllers.*;
 
 import io.javalin.Javalin;
 import io.javalin.apibuilder.ApiBuilder;
@@ -18,6 +15,7 @@ public class Main {
                 ApiBuilder.crud("cities/:city-id", new CityController());
                 ApiBuilder.crud("roads/:road-id", new RoadController());
                 ApiBuilder.crud("destinations/:destination-id", new DestinationController());
+                ApiBuilder.crud("drivers/:driver-id", new DriverController());
             });
             app.get("/cities/state/:state-id", ctx ->
                     new CityController().getByState(ctx, ctx.pathParam("state-id")));
