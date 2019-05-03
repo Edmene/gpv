@@ -119,6 +119,12 @@ CREATE TABLE destination_plans (
   PRIMARY KEY (destination_id, plan_id)
 );
 
+CREATE TABLE driver_vehicles (
+    driver_id INT NOT NULL REFERENCES drivers,
+    vehicle_id INT NOT NULL REFERENCES vehicles,
+    PRIMARY KEY (driver_id, vehicle_id)
+);
+
 CREATE TABLE passenger_plans (
   passenger_id INT NOT NULL REFERENCES passengers,
   destination_id INT NOT NULL,
