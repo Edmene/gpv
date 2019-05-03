@@ -79,7 +79,8 @@ CREATE TABLE plans(
 CREATE TABLE stops(
   id SERIAL NOT NULL PRIMARY KEY,
   time TIME NOT NULL,
-  address_id INT NOT NULL REFERENCES addresses
+  address_number VARCHAR(10) NOT NULL,
+  road_id INT NOT NULL REFERENCES roads
 );
 
 CREATE TABLE availabilities(
