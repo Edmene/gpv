@@ -2,7 +2,7 @@ package app.utils;
 
 import app.enums.Day;
 import app.json.ReservationJson;
-import app.models.Holiday;
+import app.models.ActivePeriod;
 import org.javalite.activejdbc.LazyList;
 
 import java.time.DayOfWeek;
@@ -50,10 +50,10 @@ public class DateOfDayFinder {
             }
             testDate += "/" + Year.now().getValue();
 
-            LazyList<Holiday> holidays = Holiday.find("month = ? AND day = ?",
+            LazyList<ActivePeriod> activePeriods = ActivePeriod.find("month = ? AND day = ?",
                     month, i);
 
-            if (holidays.size() == 0) {
+            if (activePeriods.size() == 0) {
                 TemporalAccessor date = DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(testDate);
 
                 int dayOfWeek = DayOfWeek.from(date).getValue();

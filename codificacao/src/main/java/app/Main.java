@@ -17,7 +17,8 @@ public class Main {
                 ApiBuilder.crud("destinations/:destination-id", new DestinationController());
                 ApiBuilder.crud("drivers/:driver-id", new DriverController());
                 ApiBuilder.crud("vehicles/:vehicle-id", new VehicleController());
-                ApiBuilder.crud("driver_vehicles/:driver_vehicles-id", new DriverVehicleController());
+                ApiBuilder.crud("driver_vehicles/:driver_vehicle-id", new DriverVehicleController());
+                ApiBuilder.crud("active_periods/:active_period-id", new ActivePeriodController());
             });
             app.get("/cities/state/:state-id", ctx ->
                     new CityController().getByState(ctx, ctx.pathParam("state-id")));

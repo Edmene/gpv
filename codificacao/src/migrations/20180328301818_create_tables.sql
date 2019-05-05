@@ -59,11 +59,10 @@ CREATE TABLE vehicles (
   year SMALLINT NOT NULL CHECK (year > 0)
 );
 
-CREATE TABLE holidays(
+CREATE TABLE active_periods(
   id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  month SMALLINT NOT NULL CHECK (month BETWEEN 1 AND 12),
-  day SMALLINT NOT NULL CHECK (day BETWEEN 1 AND 31)
+  initial_date DATE NOT NULL,
+  final_date DATE CHECK (final_date > initial_date OR final_date IS NULL)
 );
 
 CREATE TABLE plans(
