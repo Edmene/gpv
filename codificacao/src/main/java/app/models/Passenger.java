@@ -10,6 +10,6 @@ public class Passenger extends Model {
     static {
         validatePresenceOf("user_id","name","surname","cpf","rg","birth_date",
                 "telephone","email");
-        validateEmailOf("email");
+        validateEmailOf("email").message("Invalid email");
     }
 }

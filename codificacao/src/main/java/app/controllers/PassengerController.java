@@ -1,17 +1,15 @@
 package app.controllers;
 
 
-import app.enums.UserType;
-import app.json.CheckUserJson;
+import app.json.PassengerJson;
 import app.models.*;
-import app.utils.TransformMaskeredInput;
+import app.utils.Db;
 import io.javalin.Context;
+import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class PassengerController extends GenericAppController {
 
@@ -34,6 +32,14 @@ public class PassengerController extends GenericAppController {
         */
     }
 
+    private ArrayList<PassengerJson> passengersToPassengerJsonList(LazyList<Passenger> passengers){
+        ArrayList<PassengerJson> json = new ArrayList<>();
+        for (Passenger passenger : passengers) {
+            json.add(new PassengerJson(passenger));
+        }
+        return json;
+    }
+
     @Override
     public void getAll(@NotNull Context ctx){
         /*
@@ -41,6 +47,17 @@ public class PassengerController extends GenericAppController {
             
         }
         */
+        try {
+            Base.open(Db.getInstance());
+            LazyList<Passenger> results = Passenger.findAll();
+            ctx.result(mapper.writeValueAsString(passengersToPassengerJsonList(results)));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
@@ -93,7 +110,7 @@ public class PassengerController extends GenericAppController {
     }
 
     @Override
-    public void delete(@NotNull Context ctx, @NotNull String contentId){
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
         /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
@@ -108,11 +125,32 @@ public class PassengerController extends GenericAppController {
             }
         }
         */
-
+        try{
+            Base.open(Db.getInstance());
+            Passenger passenger = Passenger.findById(Integer.parseInt(resourceId));
+            User user = User.findById(passenger.getInteger("user_id"));
+            if(user.delete()){
+                if(passenger.delete()){
+                    ctx.res.setStatus(200);
+                }
+                else {
+                    ctx.res.setStatus(400);
+                }
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
-    public void update(@NotNull Context ctx, @NotNull String contentId){
+    public void update(@NotNull Context ctx, @NotNull String resourceId){
         /*
         if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
             User user = User.findById(Integer.parseInt(param("id")));
