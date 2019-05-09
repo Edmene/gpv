@@ -142,7 +142,7 @@ public class ActivePeriodController extends GenericAppController {
         }
     }
 
-    public void removeActivePeriodToPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
+    public void removeActivePeriodOfPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
         try {
             Base.open(Db.getInstance());
             ActivePeriodPlan activePeriodPlan = new ActivePeriodPlan();
