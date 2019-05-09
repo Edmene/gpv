@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.json.ActivePeriodJson;
 import app.models.ActivePeriod;
+import app.models.ActivePeriodPlan;
 import app.utils.Db;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
@@ -124,7 +125,35 @@ public class ActivePeriodController extends GenericAppController {
     public void addActivePeriodToPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
         try {
             Base.open(Db.getInstance());
+            ActivePeriodPlan activePeriodPlan = new ActivePeriodPlan();
+            activePeriodPlan.set("plan_id", resourceId,
+                    "active_period_id", activePeriodId);
+            if(activePeriodPlan.save()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        } catch (Exception e) {
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
 
+    public void removeActivePeriodToPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
+        try {
+            Base.open(Db.getInstance());
+            ActivePeriodPlan activePeriodPlan = new ActivePeriodPlan();
+            activePeriodPlan.set("plan_id", resourceId,
+                    "active_period_id", activePeriodId);
+            if(activePeriodPlan.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
             Base.close();
         } catch (Exception e) {
             ctx.res.setStatus(500);
