@@ -118,6 +118,12 @@ CREATE TABLE destination_plans (
   PRIMARY KEY (destination_id, plan_id)
 );
 
+CREATE TABLE active_period_plans (
+    active_period_id INT NOT NULL REFERENCES active_periods,
+    plan_id INT NOT NULL REFERENCES plans,
+    PRIMARY KEY (active_period_id, plan_id)
+);
+
 CREATE TABLE driver_vehicles (
     driver_id INT NOT NULL REFERENCES drivers,
     vehicle_id INT NOT NULL REFERENCES vehicles,

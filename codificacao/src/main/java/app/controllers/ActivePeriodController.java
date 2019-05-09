@@ -120,6 +120,18 @@ public class ActivePeriodController extends GenericAppController {
             Base.close();
         }
     }
+
+    public void addActivePeriodToPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
+        try {
+            Base.open(Db.getInstance());
+
+            Base.close();
+        } catch (Exception e) {
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
 }
             
 
