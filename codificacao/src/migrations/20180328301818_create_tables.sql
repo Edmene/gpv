@@ -59,12 +59,6 @@ CREATE TABLE vehicles (
   year SMALLINT NOT NULL CHECK (year > 0)
 );
 
-CREATE TABLE active_periods(
-  id SERIAL NOT NULL PRIMARY KEY,
-  initial_date DATE NOT NULL,
-  final_date DATE CHECK (final_date > initial_date OR final_date IS NULL),
-  plan_id INTEGER REFERENCES plans
-);
 
 CREATE TABLE plans(
   id SERIAL NOT NULL PRIMARY KEY,
@@ -76,6 +70,14 @@ CREATE TABLE plans(
   available_reservations SMALLINT NOT NULL CHECK (plans.available_reservations > 0)
 );
 
+CREATE TABLE active_periods(
+    id SERIAL,
+    plan_id INTEGER REFERENCES plans,
+    initial_date DATE NOT NULL,
+    final_date DATE CHECK (final_date > initial_date OR final_date IS NULL),
+    PRIMARY KEY (id, plan_id)
+);
+
 CREATE TABLE stops(
   id SERIAL NOT NULL PRIMARY KEY,
   time TIME NOT NULL,
@@ -83,15 +85,35 @@ CREATE TABLE stops(
   road_id INT NOT NULL REFERENCES roads
 );
 
+
+CREATE TABLE driver_vehicles (
+    driver_id INT NOT NULL REFERENCES drivers,
+    vehicle_id INT NOT NULL REFERENCES vehicles,
+    PRIMARY KEY (driver_id, vehicle_id)
+);
+
+CREATE TABLE driver_vehicle_replacements (
+    driver_id INT NOT NULL REFERENCES drivers,
+    vehicle_id INT NOT NULL REFERENCES vehicles,
+    driver_v_id INT NOT NULL,
+    vehicle_v_id INT NOT NULL,
+    date DATE NOT NULL,
+    CONSTRAINT driver_vehicles_fk FOREIGN KEY (driver_v_id, vehicle_v_id)
+        REFERENCES driver_vehicles(driver_id, vehicle_id),
+    PRIMARY KEY (driver_id, vehicle_id, driver_v_id, vehicle_v_id, date)
+);
+
 CREATE TABLE availabilities(
   day INT NOT NULL,
   shift INT NOT NULL,
   direction INT NOT NULL,
   plan_id INT NOT NULL REFERENCES plans,
-  driver_id INT NOT NULL REFERENCES drivers,
-  vehicle_id INT NOT NULL REFERENCES vehicles,
+  driver_id INT NOT NULL,
+  vehicle_id INT NOT NULL,
   stop_id INT NOT NULL REFERENCES stops,
   status BOOLEAN DEFAULT TRUE NOT NULL,
+  CONSTRAINT a_driver_vehicles_fk FOREIGN KEY (driver_id, vehicle_id)
+    REFERENCES driver_vehicles(driver_id, vehicle_id),
   PRIMARY KEY (day, shift, direction, plan_id, driver_id, vehicle_id, stop_id)
 );
 
@@ -119,11 +141,6 @@ CREATE TABLE destination_plans (
   PRIMARY KEY (destination_id, plan_id)
 );
 
-CREATE TABLE driver_vehicles (
-    driver_id INT NOT NULL REFERENCES drivers,
-    vehicle_id INT NOT NULL REFERENCES vehicles,
-    PRIMARY KEY (driver_id, vehicle_id)
-);
 
 CREATE TABLE passenger_plans (
   passenger_id INT NOT NULL REFERENCES passengers,
