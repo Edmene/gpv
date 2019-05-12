@@ -2,7 +2,6 @@ package app.controllers;
 
 import app.json.ActivePeriodJson;
 import app.models.ActivePeriod;
-import app.models.ActivePeriodPlan;
 import app.utils.Db;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
@@ -42,19 +41,6 @@ public class ActivePeriodController extends GenericAppController {
             ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
             ActivePeriodJson stateJson = new ActivePeriodJson(activePeriod);
             ctx.result(mapper.writeValueAsString(stateJson));
-            Base.close();
-        } catch (Exception e) {
-            ctx.res.setStatus(500);
-            e.printStackTrace();
-            Base.close();
-        }
-    }
-
-    public void getByState(@NotNull Context ctx, @NotNull String resourceId) {
-        try {
-            Base.open(Db.getInstance());
-            LazyList<ActivePeriod> cities = ActivePeriod.find("state_id = ?", Integer.parseInt(resourceId));
-            ctx.result(mapper.writeValueAsString(citiesToActivePeriodJsonList(cities)));
             Base.close();
         } catch (Exception e) {
             ctx.res.setStatus(500);
@@ -112,46 +98,6 @@ public class ActivePeriodController extends GenericAppController {
             if (activePeriod.delete()) {
                 ctx.res.setStatus(200);
             } else {
-                ctx.res.setStatus(400);
-            }
-            Base.close();
-        } catch (Exception e) {
-            ctx.res.setStatus(500);
-            e.printStackTrace();
-            Base.close();
-        }
-    }
-
-    public void addActivePeriodToPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
-        try {
-            Base.open(Db.getInstance());
-            ActivePeriodPlan activePeriodPlan = new ActivePeriodPlan();
-            activePeriodPlan.set("plan_id", resourceId,
-                    "active_period_id", activePeriodId);
-            if(activePeriodPlan.save()){
-                ctx.res.setStatus(200);
-            }
-            else{
-                ctx.res.setStatus(400);
-            }
-            Base.close();
-        } catch (Exception e) {
-            ctx.res.setStatus(500);
-            e.printStackTrace();
-            Base.close();
-        }
-    }
-
-    public void removeActivePeriodOfPlan(@NotNull Context ctx, @NotNull String resourceId, @NotNull String activePeriodId){
-        try {
-            Base.open(Db.getInstance());
-            ActivePeriodPlan activePeriodPlan = new ActivePeriodPlan();
-            activePeriodPlan.set("plan_id", resourceId,
-                    "active_period_id", activePeriodId);
-            if(activePeriodPlan.delete()){
-                ctx.res.setStatus(200);
-            }
-            else{
                 ctx.res.setStatus(400);
             }
             Base.close();

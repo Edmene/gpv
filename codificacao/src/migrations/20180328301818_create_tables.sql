@@ -62,7 +62,8 @@ CREATE TABLE vehicles (
 CREATE TABLE active_periods(
   id SERIAL NOT NULL PRIMARY KEY,
   initial_date DATE NOT NULL,
-  final_date DATE CHECK (final_date > initial_date OR final_date IS NULL)
+  final_date DATE CHECK (final_date > initial_date OR final_date IS NULL),
+  plan_id INTEGER REFERENCES plans
 );
 
 CREATE TABLE plans(
@@ -116,12 +117,6 @@ CREATE TABLE destination_plans (
   destination_id INT NOT NULL REFERENCES destinations,
   plan_id INT NOT NULL REFERENCES plans,
   PRIMARY KEY (destination_id, plan_id)
-);
-
-CREATE TABLE active_period_plans (
-    active_period_id INT NOT NULL REFERENCES active_periods,
-    plan_id INT NOT NULL REFERENCES plans,
-    PRIMARY KEY (active_period_id, plan_id)
 );
 
 CREATE TABLE driver_vehicles (

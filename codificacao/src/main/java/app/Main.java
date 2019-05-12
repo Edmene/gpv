@@ -23,12 +23,7 @@ public class Main {
             app.get("/cities/state/:state-id", ctx ->
                     new CityController().getByState(ctx, ctx.pathParam("state-id")));
 
-            app.delete("/plans/:plan-id/active_period/:active_period-id", ctx ->
-                    new ActivePeriodController().removeActivePeriodOfPlan(ctx, ctx.pathParam("plan-id"),
-                            ctx.pathParam("active_period-id")));
-            app.post("/plans/:plan-id/active_period/:active_period-id", ctx ->
-                    new ActivePeriodController().addActivePeriodToPlan(ctx, ctx.pathParam("plan-id"),
-                            ctx.pathParam("active_period-id")));
+
         }
         catch (Exception e){
             e.printStackTrace();
