@@ -1,22 +1,57 @@
 package app.controllers;
 
+import app.json.PlanJson;
 import app.models.*;
+import app.utils.Db;
 import app.utils.TransformMaskeredInput;
 import io.javalin.Context;
+import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class PlanController extends GenericAppController {
 
+    private ArrayList<PlanJson> plansToPlanJsonList(LazyList<Plan> plans){
+        ArrayList<PlanJson> json = new ArrayList<>();
+        for (Plan plan : plans) {
+            json.add(new PlanJson(plan));
+        }
+        return json;
+    }
+
+
     @Override
     public void getAll(@NotNull Context ctx){
+        try {
+            Base.open(Db.getInstance());
+            LazyList<Plan> results = Plan.findAll();
+            ctx.result(mapper.writeValueAsString(plansToPlanJsonList(results)));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
 
+    @Override
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Plan plan = Plan.findById(Integer.parseInt(resourceId));
+            PlanJson stateJson = new PlanJson(plan);
+            ctx.result(mapper.writeValueAsString(stateJson));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     private void detailsOfPlan(){
@@ -40,81 +75,67 @@ public class PlanController extends GenericAppController {
 
     @Override
     public void create(@NotNull Context ctx){
-        /*
-        Plan plan = new Plan();
-        plan.fromMap(params1st());
-        String ticketPrice = TransformMaskeredInput.format(param("ticket_price"), ".");
-        String dailyValue = TransformMaskeredInput.format(param("daily_value"), ".");
-        if(ticketPrice.trim().length() == 0){
-            ticketPrice = "0";
-        }
-        if(dailyValue.trim().length() == 0){
-            dailyValue = "0";
-        }
-        plan.set("ticket_price", Float.parseFloat(ticketPrice));
-        plan.set("daily_value", Float.parseFloat(dailyValue));
-        if(param("available_reservations").length() <= 0){
-            
-            
-            
-            
-        }
-        else {
-            plan.set("available_reservations", Short.parseShort(param("available_reservations")));
-            if (!plan.save()) {
-                
-                
-                
-                
-            } else {
-                
-                
+        try {
+            Base.open(Db.getInstance());
+            Plan plan = new Plan();
+            PlanJson planJson = ctx.bodyAsClass(PlanJson.class);
+            planJson.setAttributesOfPlan(plan);
+            if(plan.saveIt()){
+                ctx.res.setStatus(200);
             }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        */
+        catch (Exception e) {
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
-    public void delete(@NotNull Context ctx, @NotNull String contentId){
-        /*
-        Plan plan = Plan.findById(Integer.parseInt(getId()));
-        plan.delete();
-        */
-        
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Plan plan = Plan.findById(Integer.parseInt(resourceId));
+            if(plan.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
         
     }
 
     @Override
-    public void update(@NotNull Context ctx, @NotNull String contentId){
-        /*
-        Plan plan = new Plan();
-        plan.fromMap(params1st());
-        plan.set("id", Integer.parseInt(param("id")));
-        String ticketPrice = TransformMaskeredInput.format(param("ticket_price"),".");
-        String dailyValue = TransformMaskeredInput.format(param("daily_value"), ".");
-        if(ticketPrice.trim().length() == 0){
-            ticketPrice = "0";
-        }
-        if(dailyValue.trim().length() == 0){
-            dailyValue = "0";
-        }
-        plan.set("ticket_price", Float.parseFloat(ticketPrice));
-        plan.set("daily_value", Float.parseFloat(dailyValue));
-        if(param("available_reservations").length() <= 0){
-            
-            
-        }
-        else {
-            plan.set("available_reservations", Short.parseShort(param("available_reservations")));
-            if (!plan.save()) {
-                
-                
-            } else {
-                
-                
+    public void update(@NotNull Context ctx, @NotNull String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            Plan plan = new Plan();
+            PlanJson planJson = ctx.bodyAsClass(PlanJson.class);
+            planJson.setAttributesOfPlan(plan);
+            if(plan.save()){
+                ctx.res.setStatus(200);
             }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     //DestinationPlan Model related methods

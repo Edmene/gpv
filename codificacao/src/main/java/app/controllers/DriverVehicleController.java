@@ -51,21 +51,6 @@ public class DriverVehicleController extends GenericAppController {
         }
     }
 
-    public void getByState(@NotNull Context ctx, @NotNull String resourceId){
-        try{
-            Base.open(Db.getInstance());
-            LazyList<DriverVehicle> driverVehicles = DriverVehicle.find("state_id = ?", Integer.parseInt(resourceId));
-            ctx.result(mapper.writeValueAsString(driverVehiclesToDriverVehicleJsonList(driverVehicles)));
-            Base.close();
-        }
-        catch (Exception e){
-            ctx.res.setStatus(500);
-            e.printStackTrace();
-            Base.close();
-        }
-    }
-
-
     @Override
     public void create(@NotNull Context ctx){
         try {

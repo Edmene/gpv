@@ -38,6 +38,22 @@ public class VehicleController extends GenericAppController {
     }
 
     @Override
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Vehicle vehicle = Vehicle.findById(Integer.parseInt(resourceId));
+            VehicleJson stateJson = new VehicleJson(vehicle);
+            ctx.result(mapper.writeValueAsString(stateJson));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
     public void create(@NotNull Context ctx){
         try {
             Base.open(Db.getInstance());
