@@ -1,7 +1,6 @@
 package app.json;
 
 import app.models.DriverVehicle;
-import app.models.Vehicle;
 
 public class DriverVehicleJson {
     public Integer driverKey, vehicleKey;
