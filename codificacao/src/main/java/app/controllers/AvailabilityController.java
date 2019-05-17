@@ -1,24 +1,58 @@
 package app.controllers;
 
-import app.enums.Day;
-import app.enums.Direction;
 import app.enums.InsertionException;
-import app.enums.Shift;
 import app.json.AvailabilityJson;
-import app.json.ShiftsEnableJson;
 import app.models.*;
+import app.utils.Db;
+import io.javalin.Context;
+import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
-import org.javalite.common.Util;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
-public class AvailabilityController {
+public class AvailabilityController extends GenericAppController{
     private String shiftValues[]= {"12","18","04"};
+
+    private ArrayList<AvailabilityJson> availabilitiesToAvailabilityJsonList(LazyList<Availability> availabilitys){
+        ArrayList<AvailabilityJson> json = new ArrayList<>();
+        for (Availability availability : availabilitys) {
+            json.add(new AvailabilityJson(availability));
+        }
+        return json;
+    }
+
+    @Override
+    public void getAll(@NotNull Context ctx){
+        try {
+            Base.open(Db.getInstance());
+            LazyList<Availability> results = Availability.findAll();
+            ctx.result(mapper.writeValueAsString(availabilitiesToAvailabilityJsonList(results)));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Availability driverVehicle = Availability.findById(Integer.parseInt(resourceId));
+            AvailabilityJson stateJson = new AvailabilityJson(driverVehicle);
+            ctx.result(mapper.writeValueAsString(stateJson));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
 
     public void plan(){
         /*
