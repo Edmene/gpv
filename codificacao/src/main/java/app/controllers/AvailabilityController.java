@@ -1,7 +1,10 @@
 package app.controllers;
 
 import app.enums.InsertionException;
+import app.enums.Shift;
 import app.json.AvailabilityJson;
+import app.json.CityJson;
+import app.json.StopJson;
 import app.models.*;
 import app.utils.Db;
 import io.javalin.Context;
@@ -10,10 +13,12 @@ import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AvailabilityController extends GenericAppController{
-    private String shiftValues[]= {"12","18","04"};
+    private String shiftValues[]= {"11","17","03"};
 
     private ArrayList<AvailabilityJson> availabilitiesToAvailabilityJsonList(LazyList<Availability> availabilitys){
         ArrayList<AvailabilityJson> json = new ArrayList<>();
@@ -42,9 +47,9 @@ public class AvailabilityController extends GenericAppController{
     public void getOne(@NotNull Context ctx, @NotNull String resourceId){
         try{
             Base.open(Db.getInstance());
-            Availability driverVehicle = Availability.findById(Integer.parseInt(resourceId));
-            AvailabilityJson stateJson = new AvailabilityJson(driverVehicle);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            Availability availability = Availability.findById(Integer.parseInt(resourceId));
+            AvailabilityJson availabilityJson = new AvailabilityJson(availability);
+            ctx.result(mapper.writeValueAsString(availabilityJson));
             Base.close();
         }
         catch (Exception e){
@@ -52,6 +57,100 @@ public class AvailabilityController extends GenericAppController{
             e.printStackTrace();
             Base.close();
         }
+    }
+
+
+    @Override
+    public void create(@NotNull Context ctx){
+        try {
+            Base.open(Db.getInstance());
+            Availability availability = new Availability();
+            AvailabilityJson availabilityJson  = ctx.bodyAsClass(AvailabilityJson.class);
+            availabilityJson.setAttributesOfAvailability(availability);
+            if(isTimeMatchingShift(availabilityJson)) {
+                availabilityJson.setAttributesOfAvailability(availability);
+                if (availability.saveIt()) {
+                    ctx.res.setStatus(200);
+                }
+                else {
+                    ctx.res.setStatus(400);
+                }
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
+    public void update(@NotNull Context ctx, @NotNull String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            Availability availability = new Availability();
+            AvailabilityJson availabilityJson = ctx.bodyAsClass(AvailabilityJson.class);
+            if(isTimeMatchingShift(availabilityJson)) {
+                availabilityJson.setAttributesOfAvailability(availability);
+                if (availability.save()) {
+                    ctx.res.setStatus(200);
+                }
+                else {
+                    ctx.res.setStatus(400);
+                }
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            Availability availability = Availability.findById(Integer.parseInt(resourceId));
+            if(availability.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    private boolean isTimeMatchingShift(AvailabilityJson availabilityJson){
+        StopJson stop = new StopJson(Stop.findById(availabilityJson.stop));
+
+        if(availabilityJson.shift == Shift.Manha) {
+            return stop.time.isBefore(LocalTime.parse(shiftValues[0] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) &&
+                    stop.time.isAfter(LocalTime.parse(shiftValues[2] + ":59", DateTimeFormatter.ofPattern("HH:mm")));
+        }
+        if(availabilityJson.shift == Shift.Tarde){
+            return stop.time.isBefore(LocalTime.parse(shiftValues[1] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) &&
+                    stop.time.isAfter(LocalTime.parse(shiftValues[0] + ":59",DateTimeFormatter.ofPattern("HH:mm")));
+        }
+        if(availabilityJson.shift == Shift.Noite){
+            return stop.time.isAfter(LocalTime.parse(shiftValues[1] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) ||
+                    stop.time.isBefore(LocalTime.parse(shiftValues[2]+":59",DateTimeFormatter.ofPattern("HH:mm")));
+        }
+        return false;
     }
 
     public void plan(){
