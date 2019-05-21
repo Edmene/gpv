@@ -2,7 +2,6 @@ package app;
 
 import app.controllers.*;
 
-import app.models.DriverVehicleReplacement;
 import io.javalin.Javalin;
 import io.javalin.apibuilder.ApiBuilder;
 
@@ -30,6 +29,31 @@ public class Main {
             });
             app.get("/cities/state/:state-id", ctx ->
                     new CityController().getByState(ctx, ctx.pathParam("state-id")));
+
+            app.get("/availability", ctx -> new AvailabilityController().getAll(ctx));
+
+            app.post("/availability", ctx -> new AvailabilityController().create(ctx));
+
+            app.get("/availability/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id")));
+
+            app.patch("/availability/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id")));
+
+            app.delete("/availability/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id")));
 
 
         }

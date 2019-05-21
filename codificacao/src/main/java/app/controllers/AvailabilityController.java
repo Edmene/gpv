@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AvailabilityController extends GenericAppController{
-    private String shiftValues[]= {"11","17","03"};
+    private String[] shiftValues = {"11", "17", "03"};
 
     private ArrayList<AvailabilityJson> availabilitiesToAvailabilityJsonList(LazyList<Availability> availabilitys){
         ArrayList<AvailabilityJson> json = new ArrayList<>();
@@ -43,11 +43,14 @@ public class AvailabilityController extends GenericAppController{
         }
     }
 
-    @Override
-    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+    public void getOne(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId){
         try{
             Base.open(Db.getInstance());
-            Availability availability = Availability.findById(Integer.parseInt(resourceId));
+            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
+                    directionId, planId, driverId, vehicleId, stopId);
             AvailabilityJson availabilityJson = new AvailabilityJson(availability);
             ctx.result(mapper.writeValueAsString(availabilityJson));
             Base.close();
@@ -88,11 +91,14 @@ public class AvailabilityController extends GenericAppController{
         }
     }
 
-    @Override
-    public void update(@NotNull Context ctx, @NotNull String resourceId){
+    public void update(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId){
         try {
             Base.open(Db.getInstance());
-            Availability availability = new Availability();
+            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
+            directionId, planId, driverId, vehicleId, stopId);
             AvailabilityJson availabilityJson = ctx.bodyAsClass(AvailabilityJson.class);
             if(isTimeMatchingShift(availabilityJson)) {
                 availabilityJson.setAttributesOfAvailability(availability);
@@ -115,11 +121,14 @@ public class AvailabilityController extends GenericAppController{
         }
     }
 
-    @Override
-    public void delete(@NotNull Context ctx, @NotNull String resourceId){
+    public void delete(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId){
         try{
             Base.open(Db.getInstance());
-            Availability availability = Availability.findById(Integer.parseInt(resourceId));
+            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
+                    directionId, planId, driverId, vehicleId, stopId);
             if(availability.delete()){
                 ctx.res.setStatus(200);
             }
