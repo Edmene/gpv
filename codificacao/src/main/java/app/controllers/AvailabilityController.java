@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.enums.Day;
+import app.enums.Direction;
 import app.enums.InsertionException;
 import app.enums.Shift;
 import app.json.AvailabilityJson;
@@ -162,17 +164,27 @@ public class AvailabilityController extends GenericAppController{
         return false;
     }
 
-    public void plan(){
-        /*
-        view("availabilities", AvailabilityDriverVehicle.find("plan_id = ?",
-                Integer.parseInt(getId())).orderBy("day,shift,direction").toMaps(), "plan", getId(),
-                "days", Day.values(), "shifts", Shift.values(),
-                "directions", Direction.values());
-        */
+    public void availabilitiesOfPlanWithDriverAndVehicle(Context ctx, String planId){
+        try {
+            Base.open(Db.getInstance());
+            LazyList<AvailabilityDriverVehicle> results = AvailabilityDriverVehicle.find("plan_id = ?",
+                    Integer.parseInt(planId));
+            ctx.result(results.toJson(false));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+
     }
 
     public void stopsOfDestination(){
         /*
+        Aparentemente era para identificar as paradas disponiveis para o plano baseado nas
+         cidades em que o plano iria abranger
+         
         if(xhr()){
 
             Map<String, String> map = params1st();
