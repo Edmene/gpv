@@ -30,6 +30,8 @@ public class Main {
             app.get("/cities/state/:state-id", ctx ->
                     new CityController().getByState(ctx, ctx.pathParam("state-id")));
 
+            //Availability
+
             app.get("/availability", ctx -> new AvailabilityController().getAll(ctx));
 
             app.post("/availability", ctx -> new AvailabilityController().create(ctx));
@@ -54,6 +56,38 @@ public class Main {
                     ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                     ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                     ctx.pathParam("stop-id")));
+
+            app.get("/reservation/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id" +
+                    "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
+            ///
+
+            //Reservation
+
+            app.get("/reservation", ctx -> new AvailabilityController().getAll(ctx));
+
+            app.post("/reservation", ctx -> new AvailabilityController().create(ctx));
+
+            app.patch("/reservation/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id" +
+                    "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
+
+            app.delete("/reservation/:plan-id/driver/:driver-id/vehicle/" +
+                    ":vehicle-id/shift/:shift-id/day/:day-id" +
+                    "/direction/:direction-id/stop/:stop-id" +
+                    "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                    ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                    ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
+                    ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
+            ///
 
 
         }

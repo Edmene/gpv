@@ -6,8 +6,10 @@ import app.json.ReservationJson;
 import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
+import app.utils.Db;
 import app.utils.TotalValueOfPlanSelection;
 import io.javalin.Context;
+import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,13 +22,121 @@ import java.util.Map;
 
 @Protected
 public class ReservationController extends GenericAppController {
+
+    private ArrayList<ReservationJson> reservationsToReservationJsonList(LazyList<Reservation> reservations){
+        ArrayList<ReservationJson> json = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            json.add(new ReservationJson(reservation));
+        }
+        return json;
+    }
+
     @Override
     public void getAll(@NotNull Context ctx){
-        /*
-        if(!negateAccess(UserType.A)) {
-            
+        try {
+            Base.open(Db.getInstance());
+            LazyList<Reservation> results = Reservation.findAll();
+            ctx.result(mapper.writeValueAsString(reservationsToReservationJsonList(results)));
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    public void getOne(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId,
+                       @NotNull String passengerId){
+        try{
+            Base.open(Db.getInstance());
+            Reservation reservation = Reservation.findByCompositeKeys(dayId, shiftId,
+                    directionId, planId, driverId, vehicleId, stopId, passengerId);
+            ReservationJson reservationJson = new ReservationJson(reservation);
+            ctx.result(mapper.writeValueAsString(reservationJson));
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+
+    @Override
+    public void create(@NotNull Context ctx){
+        try {
+            Base.open(Db.getInstance());
+            Reservation reservation = new Reservation();
+            ReservationJson reservationJson  = ctx.bodyAsClass(ReservationJson.class);
+            reservationJson.setAttributesOfReservation(reservation);
+            if (reservation.save()) {
+                ctx.res.setStatus(200);
+            }
+            else {
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    public void update(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId,
+                       @NotNull String passengerId){
+        try {
+            Base.open(Db.getInstance());
+            Reservation reservation = Reservation.findByCompositeKeys(dayId, shiftId,
+                    directionId, planId, driverId, vehicleId, stopId, passengerId);
+            ReservationJson reservationJson = ctx.bodyAsClass(ReservationJson.class);
+            reservationJson.setAttributesOfReservation(reservation);
+            if (reservation.save()) {
+                ctx.res.setStatus(200);
+            }
+            else {
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    public void delete(@NotNull Context ctx, @NotNull String planId,
+                       @NotNull String driverId, @NotNull String vehicleId,
+                       @NotNull String shiftId, @NotNull String dayId,
+                       @NotNull String directionId, @NotNull String stopId,
+                       @NotNull String passengerId){
+        try{
+            Base.open(Db.getInstance());
+            Reservation reservation = Reservation.findByCompositeKeys(dayId, shiftId,
+                    directionId, planId, driverId, vehicleId, stopId, passengerId);
+            if(reservation.delete()){
+                ctx.res.setStatus(200);
+            }
+            else{
+                ctx.res.setStatus(400);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     public void planSelection() {

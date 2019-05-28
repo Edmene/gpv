@@ -4,16 +4,17 @@ import app.models.Reservation;
 
 public class ReservationJson {
     public Integer day,shift,direction;
-    public String driverId,vehicleId,stopId;
+    public String driverId,vehicleId,stopId,passengerId;
 
     public ReservationJson(Integer day, Integer shift, Integer direction, String driverId,
-                       String vehicleId, String stopId){
+                       String vehicleId, String stopId, String passengerId){
         this.day = day;
         this.shift = shift;
         this.direction = direction;
         this.driverId = driverId;
         this.vehicleId = vehicleId;
         this.stopId = stopId;
+        this.passengerId = passengerId;
     }
 
     public ReservationJson(Reservation reservation){
@@ -23,6 +24,7 @@ public class ReservationJson {
         this.driverId = reservation.get("driver_id").toString();
         this.vehicleId = reservation.get("vehicle_id").toString();
         this.stopId = reservation.get("stop_id").toString();
+        this.passengerId = reservation.get("passenger_id").toString();
     }
 
     public void setAttributesOfReservation(Reservation reservation){
@@ -31,6 +33,7 @@ public class ReservationJson {
                 "direction", this.direction,
                 "driver_id", Integer.parseInt(this.driverId),
                 "vehicle_id", Integer.parseInt(this.vehicleId),
-                "stop_id", Integer.parseInt(this.stopId));
+                "stop_id", Integer.parseInt(this.stopId),
+                "passenger_id", Integer.parseInt(this.passengerId));
     }
 }
