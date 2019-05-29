@@ -182,9 +182,11 @@ public class AvailabilityController extends GenericAppController{
 
     public void stopsOfDestination(){
         /*
-        Aparentemente era para identificar as paradas disponiveis para o plano baseado nas
-         cidades em que o plano iria abranger
-         
+        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
+         cidades em que o plano iria abranger nos seus destinos
+
+         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
+
         if(xhr()){
 
             Map<String, String> map = params1st();
@@ -236,6 +238,11 @@ public class AvailabilityController extends GenericAppController{
 
     public void stopsOfBase(){
         /*
+        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
+         cidades em que o plano iria abranger nas suas paradas de partida ou iniciais.
+
+         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
+
         LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
 
         Map<String, String> map = params1st();
@@ -274,40 +281,14 @@ public class AvailabilityController extends GenericAppController{
 
     }
 
-    public void addStop() throws IOException {
-        /*
-        String json = Util.read(getRequestInputStream());
-
-        ArrayList<Availability> availabilityList = new ArrayList<>();
-        Gson g = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        JsonArray jsonArray = jsonParser.parse(json).getAsJsonArray();
-        for (JsonElement element : jsonArray) {
-            Availability availability = new Availability();
-            AvailabilityJson reservationJson = g.fromJson(element.getAsJsonObject(), AvailabilityJson.class);
-            reservationJson.setAttributesOfAvailability(availability);
-
-            availabilityList.add(availability);
-        }
-        InsertionException errorsInInsertion = sendAvailabilitiesQuery(availabilityList);
-        if(errorsInInsertion != null){
-            if(errorsInInsertion == InsertionException.CONFLICT){
-                respond("Planos conflitantes").status(202);
-            }
-            else {
-                respond("Entradas repetidas").status(202);
-            }
-
-        }
-        else {
-            respond("Sucesso").status(201);
-        }
-
-        */
-    }
-
     public void newForm(){
         /*
+
+        Nao eh mais provido pelo controller logica passa para possivel implementacao do front-end pedir separadamente
+        os dados
+
+        -> LISTAGEM DE PARADAS DE ACORDO COM O TURNO PASSA PARA O CONTROLLER DE PARADAS
+
         if(DestinationPlan.find("plan_id = ?", Integer.parseInt(getId())).size() > 0 &&
                 Driver.findAll().size() > 0 && Vehicle.findAll().size() > 0) {
             ArrayList<TreeMap<String, Object>> shifts = new ArrayList<>();
@@ -367,13 +348,12 @@ public class AvailabilityController extends GenericAppController{
         */
     }
 
-    private Integer toInt(String s){
-        return Integer.parseInt(s);
-    }
-
 
     public void alterStatus() {
         /*
+
+        -> Vira um trigger ativado pela delecao na base de dados
+
         Availability availability = Availability.findByCompositeKeys(
                 Integer.parseInt(param("day")),
                 Integer.parseInt(param("shift")),
@@ -420,6 +400,10 @@ public class AvailabilityController extends GenericAppController{
     }
 
     private InsertionException sendAvailabilitiesQuery(ArrayList<Availability> availabilityList){
+        /*
+        -> Forte candidato a se tornar uma trigger.
+
+         */
         InsertionException hasRepeatedReservations = null;
 
         for (Availability availability : availabilityList) {

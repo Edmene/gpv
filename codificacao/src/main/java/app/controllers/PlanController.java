@@ -28,6 +28,7 @@ public class PlanController extends GenericAppController {
         try {
             Base.open(Db.getInstance());
             LazyList<Plan> results = Plan.findAll();
+            ctx.res.setStatus(200);
             ctx.result(mapper.writeValueAsString(plansToPlanJsonList(results)));
             Base.close();
         }
@@ -44,6 +45,7 @@ public class PlanController extends GenericAppController {
             Base.open(Db.getInstance());
             Plan plan = Plan.findById(Integer.parseInt(resourceId));
             PlanJson stateJson = new PlanJson(plan);
+            ctx.res.setStatus(200);
             ctx.result(mapper.writeValueAsString(stateJson));
             Base.close();
         }
@@ -54,22 +56,20 @@ public class PlanController extends GenericAppController {
         }
     }
 
-    private void detailsOfPlan(){
-        /*
-        Plan plan = Plan.findById(Integer.parseInt(getId()));
-        Integer count = 0;
-        if(!CountPassenger.find("plan_id = ?", Integer.parseInt(getId())).isEmpty()) {
-            count = CountPassenger.find(
-                    "plan_id = ?", Integer.parseInt(getId())).get(0)
-                    .getInteger("num_passengers");
+    public void numPassengerOfPlan(Context ctx, String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            ctx.res.setStatus(200);
+            ctx.result(CountPassenger.find(
+                    "plan_id = ?", Integer.parseInt(resourceId)).toJson(false));
+            Base.close();
         }
-        if(plan != null){
-            view("plan", plan, "passengers", count);
-        }else{
-            view("message", "are you trying to hack the URL?");
-            
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        */
+
     }
 
 
@@ -138,7 +138,11 @@ public class PlanController extends GenericAppController {
         }
     }
 
-    //DestinationPlan Model related methods
+    /*
+    Adicionar triggers para os processos de criacao, alteracao e delecao
+     */
+
+    //DestinationPlan Model related methods <-> RE-IMPLEMENTAR EM OUTRO CONTROLLER
 
 
 
@@ -151,7 +155,7 @@ public class PlanController extends GenericAppController {
             //view("destinations", Destination.findAll().toMaps());
         }else{
             view("message", "are you trying to hack the URL?");
-            
+
         }
         */
 

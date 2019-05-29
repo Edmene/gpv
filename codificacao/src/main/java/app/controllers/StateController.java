@@ -120,4 +120,8 @@ public class StateController extends GenericAppController {
         }
     }
 
+    /*
+    Adicionar triggers para os processos de criacao, alteracao e delecao
+     */
+
 }

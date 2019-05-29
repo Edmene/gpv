@@ -139,6 +139,10 @@ public class ReservationController extends GenericAppController {
         }
     }
 
+    /*
+    Adicionar triggers para os processos de criacao, alteracao e delecao
+     */
+
     public void planSelection() {
         /*
         if(!negateAccess(UserType.A)) {

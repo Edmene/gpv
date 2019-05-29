@@ -113,4 +113,8 @@ public class DriverController extends GenericAppController {
             Base.close();
         }
     }
+
+    /*
+    Adicionar triggers para os processos de criacao, alteracao e delecao
+     */
 }

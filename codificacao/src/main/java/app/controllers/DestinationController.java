@@ -37,31 +37,18 @@ public class DestinationController extends GenericAppController {
         }
     }
 
-    public void cities(){
-        /*
-        List<Map<String, Object>> citiesList = City.find("state_id = ?",
-                Integer.parseInt(getId())).toMaps();
-                */
-        
-    }
-
-    public void addresses(){
-        /*
-        List<Map<String, Object>> addressList = Road.find("city_id = ?",
-                Integer.parseInt(getId())).toMaps();
-                */
-        
-    }
-
-    public void destinations(){
-        /*
-        List<Map<String, Object>> destinationList = Destination.find("address_id = ?",
-                Integer.parseInt(getId())).toMaps();
-        for (Map<String, Object> stop : destinationList){
-            stop.put("address", Road.findById(stop.get("address_id")).toMap());
+    public void getByCity(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            LazyList<DestinationRoad> destinations = Destination.find("city_id = ?", Integer.parseInt(resourceId));
+            ctx.result((destinations.toJson(false)));
+            Base.close();
         }
-        */
-
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
 
@@ -144,4 +131,8 @@ public class DestinationController extends GenericAppController {
             Base.close();
         }
     }
+
+    /*
+    Adicionar triggers para os processos de criacao, alteracao e delecao
+     */
 }
