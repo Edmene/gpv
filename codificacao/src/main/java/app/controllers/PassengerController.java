@@ -1,14 +1,20 @@
 package app.controllers;
 
 
+import app.controllers.authorization.PasswordHashing;
 import app.json.PassengerJson;
+import app.json.PassengerRegistration;
 import app.models.*;
 import app.utils.Db;
+import app.utils.DocumentValidation;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.DB;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class PassengerController extends GenericAppController {
@@ -62,6 +68,44 @@ public class PassengerController extends GenericAppController {
 
     @Override
     public void create(@NotNull Context ctx){
+        try {
+            PassengerRegistration passenger  = ctx.bodyAsClass(PassengerRegistration.class);
+            DocumentValidation validation = new DocumentValidation();
+            if(validation.validateCpf(passenger.cpf)) {
+
+                DB db = Base.open(Db.getInstance());
+                PasswordHashing hashing = new PasswordHashing();
+
+
+                PreparedStatement passengerCreationFunction = db.connection().prepareStatement(
+                        "passenger_creation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                passengerCreationFunction.setString(1, passenger.userName);
+                passengerCreationFunction.setString(2, hashing.hashPassword(passenger.password));
+                passengerCreationFunction.setString(3, hashing.getSalt());
+                passengerCreationFunction.setString(4, passenger.name);
+                passengerCreationFunction.setString(5, passenger.surname);
+                passengerCreationFunction.setString(6, passenger.cpf);
+                passengerCreationFunction.setString(7, passenger.rg);
+                passengerCreationFunction.setString(8, passenger.telephone);
+                passengerCreationFunction.setString(9, passenger.email);
+                passengerCreationFunction.setDate(10, Date.valueOf(passenger.birthDate));
+                if (passengerCreationFunction.executeUpdate() == 1) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
+                Base.close();
+            }
+            else{
+                ctx.res.setStatus(400);
+                ctx.result("CPF is invalid");
+            }
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
         /*
         if(User.find("name = ?", param("user_name")).size() == 0) {
             User user = new User();

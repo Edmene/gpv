@@ -18,6 +18,7 @@ public class RoutesSetUp {
             ApiBuilder.crud("driver_vehicle_replacements/:driver_vehicle_replacement-id", new DriverVehicleReplacementController());
             ApiBuilder.crud("active_periods/:active_period-id", new ActivePeriodController());
             ApiBuilder.crud("plans/:plan-id", new PlanController());
+            ApiBuilder.crud("passengers/:passenger-id", new PassengerController());
         });
 
         defineComplexRoutes(app);
