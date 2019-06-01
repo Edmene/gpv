@@ -39,4 +39,52 @@ begin
             return false;
     end;
 end
-$$ language plpgsql;#
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION funtr_delete_passenger_check() RETURNS TRIGGER AS
+$$
+declare
+    planN integer = 0;
+    reservationN integer = 0;
+begin
+    SELECT 1 FROM passenger_plans pp WHERE pp.passenger_id = old.user_id AND pp.status = true LIMIT 1
+        into planN;
+    SELECT 1 FROM reservations r WHERE r.passenger_id = old.user_id AND r.status = true LIMIT 1
+        into reservationN;
+
+    if (
+                (case planN
+                     when null then 0
+                     else planN
+                    end) +
+                (case reservationN
+                     when null then 0
+                     else reservationN
+                    end)
+            != 0) then
+        raise exception 'Has active connections with plans or reservations' using errcode = 'HASPR';
+
+    else
+        DELETE FROM reservations r WHERE r.passenger_id = old.user_id;
+        DELETE FROM passenger_plans pp WHERE pp.passenger_id = old.user_id;
+    end if;
+
+    return old;
+
+end;
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION funtr_delete_passenger() RETURNS TRIGGER AS
+$$
+begin
+    DELETE FROM users u WHERE u.id = old.user_id;
+    return old;
+end;
+$$ language plpgsql;
+
+CREATE TRIGGER tr_delete_passenger after delete on passengers
+    for each row execute procedure funtr_delete_passenger();
+
+CREATE TRIGGER tr_delete_passenger_check before delete on passengers
+    for each row execute procedure funtr_delete_passenger_check();
+#

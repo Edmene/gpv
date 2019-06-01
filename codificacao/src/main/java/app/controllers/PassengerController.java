@@ -49,16 +49,34 @@ public class PassengerController extends GenericAppController {
 
     @Override
     public void getAll(@NotNull Context ctx){
-        /*
-        if(!negateAccess(UserType.P)) {
-            
-        }
-        */
         try {
             Base.open(Db.getInstance());
             LazyList<Passenger> results = Passenger.findAll();
             ctx.result(mapper.writeValueAsString(passengersToPassengerJsonList(results)));
             Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            Passenger passenger = Passenger.findById(Integer.parseInt(resourceId));
+            if(passenger == null){
+                ctx.res.setStatus(404);
+                ctx.result("Passenger not found");
+                Base.close();
+            }
+            else {
+                PassengerJson passengerJson = new PassengerJson(passenger);
+                ctx.result(mapper.writeValueAsString(passengerJson));
+                Base.close();
+            }
         }
         catch (Exception e){
             ctx.res.setStatus(500);
@@ -115,83 +133,23 @@ public class PassengerController extends GenericAppController {
             e.printStackTrace();
             Base.close();
         }
-        /*
-        if(User.find("name = ?", param("user_name")).size() == 0) {
-            User user = new User();
-            user.fromMap(params1st());
-            PasswordHashing passwordHashing = new PasswordHashing();
-            user.set("extra", passwordHashing.getSalt());
-            user.set("password", passwordHashing.hashPassword(param("password").trim()));
-            user.set("name", param("user_name"));
-            if (!user.save()) {
 
-
-
-
-            } else {
-                LazyList<Model> u = User.find("name = ?", param("user_name"));
-                Passenger passenger = new Passenger();
-                passenger.fromMap(params1st());
-                passenger.set("user_id", u.get(0).getId());
-
-                passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
-                passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
-                passenger.set("rg", TransformMaskeredInput.format(param("rg")));
-
-                LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
-                passenger.setDate("birth_date", date);
-                //u.get(0).add(passenger);
-
-                if (!passenger.insert()) {
-                    user.setId(u.get(0).getId()).delete();
-
-
-
-
-                } else {
-
-                    //
-
-                }
-            }
-        }
-        else {
-
-
-        }
-        */
     }
 
     @Override
     public void delete(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-        if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            Passenger passenger = Passenger.findById(Integer.parseInt(getId()));
-            String name = passenger.getString("name");
-            passenger.delete();
-            User.findById(Integer.parseInt(getId())).delete();
-            if (session("user").toString().contentEquals(((name)))) {
-                
-            } else {
-                
-                
-            }
-        }
-        */
         try{
             Base.open(Db.getInstance());
             Passenger passenger = Passenger.findById(Integer.parseInt(resourceId));
-            User user = User.findById(passenger.getInteger("user_id"));
-            if(user.delete()){
-                if(passenger.delete()){
+            if(passenger == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (passenger.delete()) {
                     ctx.res.setStatus(200);
-                }
-                else {
+                } else {
                     ctx.res.setStatus(400);
                 }
-            }
-            else{
-                ctx.res.setStatus(400);
             }
             Base.close();
         }
