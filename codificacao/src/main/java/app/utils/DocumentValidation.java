@@ -19,6 +19,10 @@ public class DocumentValidation {
             return false;
         }
 
+        if(cpf.length() != 11){
+            return false;
+        }
+
         String digits = cpf.substring(0,9);
         String validationDigits = cpf.substring(9,11);
 
@@ -61,13 +65,17 @@ public class DocumentValidation {
 
     // BaseMinus signals what type of return will be, either base minus mod of sum or mod of sum.
 
-    private Integer digitCalculation(String digits, List<Integer> weightMash, Integer base, boolean baseMinus){
+    private Integer digitCalculation(String digits, List<Integer> weightMask, Integer base, boolean baseMinus){
         int total = 0;
         for (int i = 0; i < digits.length(); i++){
-            total += (Integer.parseInt(String.valueOf(digits.charAt(i))) * weightMash.get(i));
+            total += (Integer.parseInt(String.valueOf(digits.charAt(i))) * weightMask.get(i));
         }
         if(baseMinus) {
-            return base - (total % base);
+            int rest = base - (total % base);
+            if(rest == 11 || rest == 10){
+                return 0;
+            }
+            return rest;
         }
         else{
             return total % base;

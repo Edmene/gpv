@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.sql.CallableStatement;
 import java.sql.Date;
+import java.sql.Types;
 import java.util.ArrayList;
 
 public class PassengerController extends GenericAppController {
@@ -78,21 +79,28 @@ public class PassengerController extends GenericAppController {
 
 
                 CallableStatement passengerCreationFunction = db.connection().prepareCall(
-                        "SELECT passenger_creation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                passengerCreationFunction.setString(1, passenger.userName);
-                passengerCreationFunction.setString(2, hashing.hashPassword(passenger.password));
-                passengerCreationFunction.setString(3, hashing.getSalt());
-                passengerCreationFunction.setString(4, passenger.name);
-                passengerCreationFunction.setString(5, passenger.surname);
-                passengerCreationFunction.setString(6, passenger.cpf);
-                passengerCreationFunction.setString(7, passenger.rg);
-                passengerCreationFunction.setString(8, passenger.telephone);
-                passengerCreationFunction.setString(9, passenger.email);
-                passengerCreationFunction.setDate(10, Date.valueOf(passenger.birthDate));
-                if (passengerCreationFunction.execute()) {
+                        "{? = call passenger_creation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+
+                passengerCreationFunction.registerOutParameter(1, Types.BOOLEAN);
+
+                passengerCreationFunction.setString(2, passenger.userName);
+                passengerCreationFunction.setString(3, hashing.hashPassword(passenger.password));
+                passengerCreationFunction.setString(4, hashing.getSalt());
+                passengerCreationFunction.setString(5, passenger.name);
+                passengerCreationFunction.setString(6, passenger.surname);
+                passengerCreationFunction.setString(7, passenger.cpf);
+                passengerCreationFunction.setString(8, passenger.rg);
+                passengerCreationFunction.setString(9, passenger.telephone);
+                passengerCreationFunction.setString(10, passenger.email);
+                passengerCreationFunction.setDate(11, Date.valueOf(passenger.birthDate));
+                passengerCreationFunction.execute();
+
+                boolean response = passengerCreationFunction.getBoolean(1);
+                if (response) {
                     ctx.res.setStatus(200);
                 } else {
                     ctx.res.setStatus(400);
+                    ctx.result("Invalid data received");
                 }
                 Base.close();
             }
