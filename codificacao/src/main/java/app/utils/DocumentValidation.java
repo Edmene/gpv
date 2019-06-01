@@ -19,15 +19,15 @@ public class DocumentValidation {
             return false;
         }
 
-        String digits = cpf.substring(0,8);
-        String validationDigits = cpf.substring(9,10);
+        String digits = cpf.substring(0,9);
+        String validationDigits = cpf.substring(9,11);
 
         Integer calcDigitOne = digitCalculation(digits, cpfFirstDigitWeight, 11, true);
         Integer calcDigitTwo = digitCalculation(digits.concat(String.valueOf(calcDigitOne)), cpfSecondDigitWeight, 11, true);
 
         String validation = calcDigitOne + String.valueOf(calcDigitTwo);
 
-        return validation == validationDigits;
+        return validation.contentEquals(validationDigits);
     }
 
     public boolean validateChn(String cnh){
@@ -56,7 +56,7 @@ public class DocumentValidation {
 
         String validation = calcDigitOne + String.valueOf(calcDigitTwo);
 
-        return validation == validationDigits;
+        return validation.contentEquals(validationDigits);
     }
 
     // BaseMinus signals what type of return will be, either base minus mod of sum or mod of sum.

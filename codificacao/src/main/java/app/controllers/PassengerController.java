@@ -13,8 +13,8 @@ import org.javalite.activejdbc.DB;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.CallableStatement;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class PassengerController extends GenericAppController {
@@ -77,8 +77,8 @@ public class PassengerController extends GenericAppController {
                 PasswordHashing hashing = new PasswordHashing();
 
 
-                PreparedStatement passengerCreationFunction = db.connection().prepareStatement(
-                        "passenger_creation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                CallableStatement passengerCreationFunction = db.connection().prepareCall(
+                        "SELECT passenger_creation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 passengerCreationFunction.setString(1, passenger.userName);
                 passengerCreationFunction.setString(2, hashing.hashPassword(passenger.password));
                 passengerCreationFunction.setString(3, hashing.getSalt());
@@ -89,7 +89,7 @@ public class PassengerController extends GenericAppController {
                 passengerCreationFunction.setString(8, passenger.telephone);
                 passengerCreationFunction.setString(9, passenger.email);
                 passengerCreationFunction.setDate(10, Date.valueOf(passenger.birthDate));
-                if (passengerCreationFunction.executeUpdate() == 1) {
+                if (passengerCreationFunction.execute()) {
                     ctx.res.setStatus(200);
                 } else {
                     ctx.res.setStatus(400);
@@ -103,6 +103,7 @@ public class PassengerController extends GenericAppController {
         }
         catch (Exception e){
             ctx.res.setStatus(500);
+            ctx.result(e.getMessage());
             e.printStackTrace();
             Base.close();
         }

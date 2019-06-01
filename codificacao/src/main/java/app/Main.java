@@ -1,5 +1,6 @@
 package app;
 
+import app.utils.DocumentValidation;
 import app.utils.RoutesSetUp;
 import io.javalin.Javalin;
 

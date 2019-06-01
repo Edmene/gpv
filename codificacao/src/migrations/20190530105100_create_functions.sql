@@ -1,5 +1,5 @@
-DELIMITER '
-'
+DELIMITER #
+#
 CREATE OR REPLACE FUNCTION passenger_creation(user_name users.name%type, secret users.password%type,
                                               u_extra users.extra%type, p_name passengers.name%type, p_surname passengers.surname%type,
                                               p_cpf passengers.cpf%type, p_rg passengers.rg%type, p_telephone passengers.telephone%type,
@@ -39,4 +39,4 @@ begin
             return false;
     end;
 end
-$$ language plpgsql;'
+$$ language plpgsql;#
