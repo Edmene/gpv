@@ -20,25 +20,6 @@ import java.util.ArrayList;
 
 public class PassengerController extends GenericAppController {
 
-    public void check(){
-        /*
-        if(xhr()){
-            Map<String, String> map = params1st();
-            if(map.keySet().size() > 0) {
-                String userName = String.valueOf(map.keySet().toArray()[0]);
-                CheckUserJson userJson = new CheckUserJson(User.find("name = ?", userName).size() == 0);
-                Gson gson = new Gson();
-                respond(gson.toJson(userJson)).contentType("application/json").status(200);
-            }
-            else {
-                CheckUserJson userJson = new CheckUserJson(false);
-                Gson gson = new Gson();
-                respond(gson.toJson(userJson)).contentType("application/json").status(200);
-            }
-        }
-        */
-    }
-
     private ArrayList<PassengerJson> passengersToPassengerJsonList(LazyList<Passenger> passengers){
         ArrayList<PassengerJson> json = new ArrayList<>();
         for (Passenger passenger : passengers) {
@@ -162,86 +143,119 @@ public class PassengerController extends GenericAppController {
 
     @Override
     public void update(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-        if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            User user = User.findById(Integer.parseInt(param("id")));
-            String oldName = user.getString("name");
-            user.fromMap(params1st());
-            PasswordHashing passwordHashing = new PasswordHashing();
-            user.set("extra", passwordHashing.getSalt());
-            user.set("password", passwordHashing.hashPassword(param("password").trim()));
-            user.set("name", param("user_name"));
-            user.set("id", Integer.parseInt(param("id")));
-            if (!user.save()) {
-                
-                
-            } else {
-                Passenger passenger = new Passenger();
-                passenger.fromMap(params1st());
-                passenger.set("user_id", Integer.parseInt(param("id")));
+        DocumentValidation validation = new DocumentValidation();
+        try {
+            Base.open(Db.getInstance());
+            PassengerJson passenger  = ctx.bodyAsClass(PassengerJson.class);
+            if(validation.validateCpf(passenger.cpf)) {
+                Passenger p = Passenger.findById(Integer.parseInt(resourceId));
+                passenger.setAttributesOfPassenger(p);
+                p.setInteger("user_id", Integer.parseInt(resourceId));
+                if (p.saveIt()) {
+                    ctx.res.setStatus(200);
+                }
+                else {
+                    ctx.res.setStatus(400);
+                    ctx.result("Invalid data received");
+                }
+                Base.close();
+            }
+            else{
+                ctx.res.setStatus(400);
+                ctx.result("CPF is invalid");
+                Base.close();
+            }
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            ctx.result(e.getMessage());
+            e.printStackTrace();
+            Base.close();
+        }
+    }
 
-                passenger.set("telephone", TransformMaskeredInput.format(param("telephone")));
-                passenger.set("cpf", TransformMaskeredInput.format(param("cpf")));
-                passenger.set("rg", TransformMaskeredInput.format(param("rg")));
+    public void listPlan(Context ctx, String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            ctx.result(PassengerDestinationWithInfo.find("passenger_id = ?",
+                    Integer.parseInt(resourceId)).toJson(false));
+            Base.close();
 
-                LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(param("birth_date")));
-                passenger.setDate("birth_date", date);
-                if (!passenger.save()) {
-                    
-                    
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            ctx.result(e.getMessage());
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    public void disableDestination(Context ctx, String resourceId, String planId, String destinationId){
+        changeDestination(ctx, resourceId, planId, destinationId, false);
+    }
+
+    private void changeDestination(Context ctx, String resourceId, String planId, String destinationId, boolean status){
+        try {
+            Base.open(Db.getInstance());
+            PassengerPlans pp = PassengerPlans.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(destinationId), Integer.parseInt(planId));
+            if(pp != null) {
+                pp.setBoolean("status", status);
+                if (pp.saveIt()) {
+                    ctx.res.setStatus(200);
                 } else {
-                    
-                    
-                    if (session("user").toString().contentEquals(((oldName)))) {
-                        session("user", (String) passenger.get("name"));
-                    }
+                    ctx.res.setStatus(400);
+                    ctx.result("Invalid data received");
                 }
             }
+            else{
+                ctx.res.setStatus(404);
+            }
+            Base.close();
+
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            ctx.result(e.getMessage());
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
-    public void listPlan(){
-        /*
-        if(!negateAccess(UserType.P, Integer.parseInt(getId())) || !negateAccess(UserType.A)) {
-            
-                    PassengerDestinationWithInfo.find("passenger_id = ?",
-                            Integer.parseInt(getId())).toMaps());
-        }
-        */
+    public void enableDestination(Context ctx, String resourceId, String planId, String destinationId){
+        changeDestination(ctx, resourceId, planId, destinationId, true);
     }
 
-    public void changePlan(){
-        /*
-        if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
-            PassengerPlans passengerPlans = (PassengerPlans) PassengerPlans.find("plan_id = ? AND" +
-                            " destination_id = ? AND passenger_id = ?", Integer.parseInt(param("plan_id")),
-                    Integer.parseInt(param("destination_id")), Integer.parseInt(param("passenger_id"))).get(0);
+    public void deletePlan(Context ctx, String resourceId, String planId){
+        try{
+            DB db = Base.open(Db.getInstance());
 
-            if (passengerPlans.getBoolean("status")) {
-                passengerPlans.set("status", false);
-                passengerPlans.save();
+            CallableStatement passengerCreationFunction = db.connection().prepareCall(
+                    "{? = call passenger_plan_unsubscribe(?, ?)}");
 
-                if (PassengerPlans.find("plan_id = ? AND" +
-                                " passenger_id = ? AND status IS TRUE", Integer.parseInt(param("plan_id")),
-                        Integer.parseInt(param("passenger_id"))).size() == 0) {
-                    LazyList<Reservation> reservations = Reservation.find("plan_id = ? AND passenger_id = ?" +
-                                    " AND date IS NULL",
-                            Integer.parseInt(param("plan_id")),
-                            Integer.parseInt(param("passenger_id")));
-                    for (Reservation reservation : reservations) {
-                        reservation.set("alteration_date", LocalDate.now().plusDays(15));
-                        reservation.save();
-                    }
-                }
-                
+            passengerCreationFunction.registerOutParameter(1, Types.INTEGER);
+
+            passengerCreationFunction.setInt(2, Integer.parseInt(resourceId));
+            passengerCreationFunction.setInt(3, Integer.parseInt(planId));
+            passengerCreationFunction.execute();
+
+            int response = passengerCreationFunction.getInt(1);
+            if (response == 2) {
+                ctx.res.setStatus(200);
             } else {
-                passengerPlans.set("status", true);
-                passengerPlans.save();
-                
+                if(response == 1){
+
+                }
+                ctx.res.setStatus(400);
+                ctx.result("Invalid data received");
             }
-            
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            ctx.result(e.getMessage());
+            e.printStackTrace();
+            Base.close();
+        }
     }
 }

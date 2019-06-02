@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class PassengerJson {
-    public Integer key, userKey;
+    public Integer userKey;
     public String name, surname, cpf, rg, telephone, email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
     @JsonSerialize(using = JavaScriptDateSerializer.class)
@@ -34,7 +34,6 @@ public class PassengerJson {
     }
 
     public PassengerJson(Passenger passenger){
-        this.key = (Integer) passenger.getId();
         this.name = passenger.getString("name");
         this.surname = passenger.getString("surname");
         this.cpf = passenger.getString("cpf");
@@ -46,8 +45,7 @@ public class PassengerJson {
     }
 
     public void setAttributesOfPassenger(Passenger passenger){
-        passenger.set("id", this.key,
-                "name", this.name,
+        passenger.set("name", this.name,
                 "surname", this.surname,
                 "cpf", this.cpf,
                 "rg", this.rg,

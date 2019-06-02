@@ -32,6 +32,23 @@ public class RoutesSetUp {
         app.get("/plans/:plan-id/passengers-count", ctx -> new PlanController()
                 .numPassengerOfPlan(ctx, ctx.pathParam("plan-id")));
 
+        //Passenger
+
+        app.get("passengers/:passenger-id/plans",
+                ctx -> new PassengerController().listPlan(ctx, ctx.pathParam("passenger-id")));
+
+        app.patch("passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
+                ctx -> new PassengerController().enableDestination(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+
+        app.delete("passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
+                ctx -> new PassengerController().disableDestination(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+
+        app.delete("passengers/:passenger-id/plan/:plan-id",
+                ctx -> new PassengerController().deletePlan(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id")));
+
         //Availability
 
         app.get("/availabilities", ctx -> new AvailabilityController().getAll(ctx));
