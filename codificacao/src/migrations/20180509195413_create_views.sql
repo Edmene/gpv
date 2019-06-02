@@ -15,12 +15,23 @@ CREATE VIEW count_passenger AS
 CREATE VIEW stops_info AS
   SELECT s.id, s.time, a.name as road, a.city_id FROM stops s JOIN roads a ON s.road_id = a.id;
 
+--Usada como filtro para descobrir as paradas que podem ser usadas baseadas nos destinos de um plano -> stop_into
 CREATE VIEW destination_plan_city AS
   SELECT dp.plan_id, a.city_id FROM destination_plans dp
     JOIN destinations d ON dp.destination_id = d.id
     JOIN roads a ON d.road_id = a.id
     GROUP BY dp.plan_id, a.city_id;
 
+CREATE VIEW plan_destinations AS
+    SELECT d.name as destination_name, d.address_number,
+            a.name as road_name, a.id as road_id,
+            ct.name as city_name, ct.id as city_id,
+            dp.plan_id FROM destination_plans dp
+        JOIN destinations d ON dp.destination_id = d.id
+        JOIN roads a ON d.road_id = a.id
+        JOIN cities ct ON a.city_id = ct.id;
+
+--Usada para descobrir as paradas de uma cidade
 CREATE VIEW destination_road AS
   SELECT d.*, a.city_id FROM destinations d
     JOIN roads a ON d.road_id = a.id;

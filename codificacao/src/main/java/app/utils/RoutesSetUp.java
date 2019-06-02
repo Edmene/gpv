@@ -26,29 +26,66 @@ public class RoutesSetUp {
     }
 
     private static void defineComplexRoutes(Javalin app){
+
+            cityRoutes(app);
+            passengerRoutes(app);
+            destinationRoutes(app);
+            planRoutes(app);
+            availabilityRoutes(app);
+            reservationRoutes(app);
+
+    }
+
+    private static void cityRoutes(Javalin app){
         app.get("/cities/state/:state-id", ctx ->
                 new CityController().getByState(ctx, ctx.pathParam("state-id")));
+    }
+
+    private static void passengerRoutes(Javalin app){
+        //Passenger
+
+        app.get("/passengers/:passenger-id/plans",
+                ctx -> new PassengerController().listPlan(ctx, ctx.pathParam("passenger-id")));
+
+        app.patch("/passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
+                ctx -> new PassengerController().enableDestination(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+
+        app.delete("/passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
+                ctx -> new PassengerController().disableDestination(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+
+        app.delete("/passengers/:passenger-id/plan/:plan-id",
+                ctx -> new PassengerController().deletePlan(ctx, ctx.pathParam("passenger-id"),
+                        ctx.pathParam("plan-id")));
+    }
+
+    private static void destinationRoutes(Javalin app){
+        //Destination
+
+        app.get("/destinations/city/:city-id", ctx -> new DestinationController().getByCity(ctx,
+                ctx.pathParam("city-id")));
+    }
+
+    private static void planRoutes(Javalin app){
+        //Plan
 
         app.get("/plans/:plan-id/passengers-count", ctx -> new PlanController()
                 .numPassengerOfPlan(ctx, ctx.pathParam("plan-id")));
 
-        //Passenger
+        app.get("/plans/:plan-id/destinations", ctx -> new PlanController().listDestinations(ctx,
+                ctx.pathParam("plan-id")));
 
-        app.get("passengers/:passenger-id/plans",
-                ctx -> new PassengerController().listPlan(ctx, ctx.pathParam("passenger-id")));
+        app.post("/plans/:plan-id/destination/:destination-id", ctx -> new PlanController().addDestination(ctx,
+                ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
 
-        app.patch("passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
-                ctx -> new PassengerController().enableDestination(ctx, ctx.pathParam("passenger-id"),
-                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+        app.delete("/plans/:plan-id/destination/:destination-id", ctx -> new PlanController().rmDestination(ctx,
+                ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
 
-        app.delete("passengers/:passenger-id/plan/:plan-id/destination/:destination-id",
-                ctx -> new PassengerController().disableDestination(ctx, ctx.pathParam("passenger-id"),
-                        ctx.pathParam("plan-id"), ctx.pathParam("destination-id")));
+        ///
+    }
 
-        app.delete("passengers/:passenger-id/plan/:plan-id",
-                ctx -> new PassengerController().deletePlan(ctx, ctx.pathParam("passenger-id"),
-                        ctx.pathParam("plan-id")));
-
+    private static void availabilityRoutes(Javalin app){
         //Availability
 
         app.get("/availabilities", ctx -> new AvailabilityController().getAll(ctx));
@@ -80,7 +117,9 @@ public class RoutesSetUp {
                 ctx.pathParam("stop-id")));
 
         ///
+    }
 
+    private static void reservationRoutes(Javalin app){
         //Reservation
 
         app.get("/reservations", ctx -> new AvailabilityController().getAll(ctx));

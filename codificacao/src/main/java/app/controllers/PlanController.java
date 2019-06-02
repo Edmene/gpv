@@ -142,100 +142,70 @@ public class PlanController extends GenericAppController {
     Adicionar triggers para os processos de criacao, alteracao e delecao
      */
 
-    //DestinationPlan Model related methods <-> RE-IMPLEMENTAR EM OUTRO CONTROLLER
-
-
-
-    public void addDestination(){
-        /*
-        Plan plan = Plan.findById(Integer.parseInt(getId()));
-        if(plan != null){
-            view("plan", plan, "states", State.findAll().toMaps(),
-                    "destination", true,  "add", true);
-            //view("destinations", Destination.findAll().toMaps());
-        }else{
-            view("message", "are you trying to hack the URL?");
-
+    public void listDestinations(@NotNull Context ctx, @NotNull String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            LazyList<PlanDestinations> pdList = PlanDestinations.find("plan_id = ?",
+                    Integer.parseInt(resourceId));
+            if(pdList.isEmpty()){
+                ctx.res.setStatus(404);
+            }
+            else{
+                ctx.result(pdList.toJson(false));
+            }
+            Base.close();
         }
-        */
-
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
-
-    public void rmDestination(){
-        /*
-        List<Map<String, Object>> destinationsPlan = DestinationPlan.find("plan_id = ?", Integer.parseInt(getId()))
-                .include(Destination.class).toMaps();
-        if(destinationsPlan != null){
-            view("destinationsPlan", destinationsPlan,
-                    "destination", true);
-            //view("destinations", Destination.findAll().toMaps());
-        }else{
-            view("message", "are you trying to hack the URL?");
-            
+    public void addDestination(@NotNull Context ctx, @NotNull String resourceId, @NotNull String destinationId){
+        try {
+            Base.open(Db.getInstance());
+            DestinationPlan dp = new DestinationPlan();
+            dp.set("destination_id", Integer.parseInt(destinationId),
+                    "plan_id", Integer.parseInt(resourceId));
+            if (dp.saveIt()) {
+                ctx.res.setStatus(200);
+            }
+            else {
+                ctx.res.setStatus(400);
+            }
+            Base.close();
         }
-        */
-
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
-    public void addDestinations() {
-        /*
-        if(param("items").contains(",")) {
-            String[] destinations = param("items").split(",");
-            for (String destination : destinations) {
-                if (PassengerPlans.findByCompositeKeys(Integer.parseInt(destination),
-                        Integer.parseInt(param("plan"))) == null) {
-
-                    DestinationPlan destinationPlan = new DestinationPlan();
-                    destinationPlan.set("destination_id", Integer.parseInt(destination),
-                            "plan_id", Integer.parseInt(param("plan")));
-                    destinationPlan.insert();
+    public void rmDestination(@NotNull Context ctx, @NotNull String resourceId, @NotNull String destinationId){
+        try {
+            Base.open(Db.getInstance());
+            DestinationPlan dp = DestinationPlan.findByCompositeKeys(Integer.parseInt(destinationId),
+                    Integer.parseInt(resourceId));
+            if(dp == null){
+                ctx.res.setStatus(404);
+                ctx.result("Not Found");
+            }
+            else {
+                if (dp.delete()) {
+                    ctx.res.setStatus(200);
                 } else {
-                    
+                    ctx.res.setStatus(400);
                 }
             }
+            Base.close();
         }
-        else {
-            if (PassengerPlans.findByCompositeKeys(Integer.parseInt(param("items")),
-                    Integer.parseInt(param("plan"))) == null) {
-
-                DestinationPlan destinationPlan = new DestinationPlan();
-                destinationPlan.set("destination_id", Integer.parseInt(param("items")),
-                        "plan_id", Integer.parseInt(param("plan")));
-                destinationPlan.insert();
-                
-            } else {
-                
-            }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        */
-        
-    }
-
-    public void rmDestinations(){
-        /*
-        LazyList destinationsPlan = DestinationPlan.find("plan_id = ?",
-                Integer.parseInt(param("plan")));
-        List destinations = new LinkedList();
-        if(param("item") != null) {
-            destinations = Arrays.asList(param("items").split(","));
-        }
-
-        for(Object destination : destinationsPlan){
-            DestinationPlan destinationPlan = (DestinationPlan) destination;
-            if(!destinations.contains(destinationPlan.get("destination_id").toString())){
-                if(PassengerPlans.find("plan_id = ?" +
-                        " AND destination_id = ?", Integer.parseInt(param("plan")),
-                        destinationPlan.getInteger("destination_id")).isEmpty()) {
-                    destinationPlan.delete();
-                }
-                else {
-                    
-                }
-            }
-        }
-        */
-        
     }
 
 }
