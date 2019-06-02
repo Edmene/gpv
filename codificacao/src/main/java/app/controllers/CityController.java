@@ -44,13 +44,9 @@ public class CityController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (city.delete()) {
-                    ctx.res.setStatus(200);
-                    CityJson cityJson = new CityJson(city);
-                    ctx.result(mapper.writeValueAsString(cityJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                CityJson cityJson = new CityJson(city);
+                ctx.result(mapper.writeValueAsString(cityJson));
             }
             Base.close();
         }

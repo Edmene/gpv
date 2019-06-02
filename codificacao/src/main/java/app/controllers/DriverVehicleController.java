@@ -44,13 +44,9 @@ public class DriverVehicleController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (driverVehicle.delete()) {
-                    ctx.res.setStatus(200);
-                    DriverVehicleJson driverVehicleJson = new DriverVehicleJson(driverVehicle);
-                    ctx.result(mapper.writeValueAsString(driverVehicleJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                DriverVehicleJson driverVehicleJson = new DriverVehicleJson(driverVehicle);
+                ctx.result(mapper.writeValueAsString(driverVehicleJson));
             }
             Base.close();
         }

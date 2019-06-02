@@ -43,13 +43,9 @@ public class ActivePeriodController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (activePeriod.delete()) {
-                    ctx.res.setStatus(200);
-                    ActivePeriodJson activePeriodJson = new ActivePeriodJson(activePeriod);
-                    ctx.result(mapper.writeValueAsString(activePeriodJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                ActivePeriodJson activePeriodJson = new ActivePeriodJson(activePeriod);
+                ctx.result(mapper.writeValueAsString(activePeriodJson));
             }
             Base.close();
         } catch (Exception e) {

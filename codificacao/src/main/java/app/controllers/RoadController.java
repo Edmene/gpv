@@ -45,13 +45,9 @@ public class RoadController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (road.delete()) {
-                    ctx.res.setStatus(200);
-                    RoadJson roadJson = new RoadJson(road);
-                    ctx.result(mapper.writeValueAsString(roadJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                RoadJson roadJson = new RoadJson(road);
+                ctx.result(mapper.writeValueAsString(roadJson));
             }
             Base.close();
         }

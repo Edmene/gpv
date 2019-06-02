@@ -44,13 +44,9 @@ public class StopController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (stop.delete()) {
-                    ctx.res.setStatus(200);
-                    StopJson stopJson = new StopJson(stop);
-                    ctx.result(mapper.writeValueAsString(stopJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                StopJson stopJson = new StopJson(stop);
+                ctx.result(mapper.writeValueAsString(stopJson));
             }
             Base.close();
         }
@@ -132,4 +128,105 @@ public class StopController extends GenericAppController {
     /*
     Adicionar triggers para os processos de criacao, alteracao e delecao
      */
+
+    public void stopsOfDestination(@NotNull Context ctx, @NotNull String resourceId){
+        /*
+        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
+         cidades em que o plano iria abranger nos seus destinos
+
+         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
+
+        if(xhr()){
+
+            Map<String, String> map = params1st();
+            Gson g = new Gson();
+            JsonParser jsonParser = new JsonParser();
+            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+            ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
+                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
+
+
+            LazyList<DestinationPlanCity> destinationPlanCities = DestinationPlanCity.find("plan_id = ?",
+                    shiftsEnableJson.plan);
+
+            //Forces a selection of stops in order to initialize the list.
+            LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+
+            filteredStopsList.removeAll(filteredStopsList);
+            for(DestinationPlanCity destinationPlanCity : destinationPlanCities){
+                Integer cityId = destinationPlanCity.getInteger("city_id");
+
+                if(shiftsEnableJson.morning) {
+                    filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId);
+                }
+                if(shiftsEnableJson.afternoon){
+                    filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                }
+                if(shiftsEnableJson.night){
+                    filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
+                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                    filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
+                            LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            cityId));
+                }
+            }
+
+            //LazyList<Stop> filteredStopsList = Stop.find("");
+            respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
+        }
+        */
+    }
+
+    public void stopsOfBase(@NotNull Context ctx, @NotNull String resourceId){
+        /*
+        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
+         cidades em que o plano iria abranger nas suas paradas de partida ou iniciais.
+
+         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
+
+        LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+
+        Map<String, String> map = params1st();
+        Gson g = new Gson();
+        JsonParser jsonParser = new JsonParser();
+        jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
+        ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
+                String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
+
+        filteredStopsList.removeAll(filteredStopsList);
+
+        if(shiftsEnableJson.morning) {
+            filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity);
+        }
+        if(shiftsEnableJson.afternoon){
+            filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+        }
+        if(shiftsEnableJson.night){
+            filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
+                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+            filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
+                    LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                    LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                    shiftsEnableJson.baseCity));
+        }
+
+        respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
+        */
+
+    }
 }

@@ -69,13 +69,9 @@ public class UserController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (user.delete()) {
-                    ctx.res.setStatus(200);
-                    UserJson userJson = new UserJson(user);
-                    ctx.result(mapper.writeValueAsString(userJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                UserJson userJson = new UserJson(user);
+                ctx.result(mapper.writeValueAsString(userJson));
             }
             Base.close();
         }

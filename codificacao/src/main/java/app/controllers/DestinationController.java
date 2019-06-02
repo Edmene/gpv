@@ -61,13 +61,9 @@ public class DestinationController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (destination.delete()) {
-                    ctx.res.setStatus(200);
-                    DestinationJson destinationJson = new DestinationJson(destination);
-                    ctx.result(mapper.writeValueAsString(destinationJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                DestinationJson destinationJson = new DestinationJson(destination);
+                ctx.result(mapper.writeValueAsString(destinationJson));
             }
             Base.close();
         }

@@ -45,13 +45,9 @@ public class StateController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (state.delete()) {
-                    ctx.res.setStatus(200);
-                    StateJson stateJson = new StateJson(state);
-                    ctx.result(mapper.writeValueAsString(stateJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                StateJson stateJson = new StateJson(state);
+                ctx.result(mapper.writeValueAsString(stateJson));
             }
             Base.close();
         }

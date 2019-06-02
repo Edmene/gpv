@@ -46,13 +46,9 @@ public class VehicleController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (vehicle.delete()) {
-                    ctx.res.setStatus(200);
-                    VehicleJson vehicleJson = new VehicleJson(vehicle);
-                    ctx.result(mapper.writeValueAsString(vehicleJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                VehicleJson vehicleJson = new VehicleJson(vehicle);
+                ctx.result(mapper.writeValueAsString(vehicleJson));
             }
             Base.close();
         }

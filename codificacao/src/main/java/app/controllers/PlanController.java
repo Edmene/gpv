@@ -48,13 +48,9 @@ public class PlanController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (plan.delete()) {
-                    ctx.res.setStatus(200);
-                    PlanJson planJson = new PlanJson(plan);
-                    ctx.result(mapper.writeValueAsString(planJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                PlanJson planJson = new PlanJson(plan);
+                ctx.result(mapper.writeValueAsString(planJson));
             }
             Base.close();
         }

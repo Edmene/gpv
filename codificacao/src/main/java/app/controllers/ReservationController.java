@@ -59,13 +59,9 @@ public class ReservationController extends GenericAppController {
                 ctx.res.setStatus(404);
             }
             else {
-                if (reservation.delete()) {
-                    ctx.res.setStatus(200);
-                    ReservationJson reservationJson = new ReservationJson(reservation);
-                    ctx.result(mapper.writeValueAsString(reservationJson));
-                } else {
-                    ctx.res.setStatus(400);
-                }
+                ctx.res.setStatus(200);
+                ReservationJson reservationJson = new ReservationJson(reservation);
+                ctx.result(mapper.writeValueAsString(reservationJson));
             }
             Base.close();
         }
@@ -157,56 +153,13 @@ public class ReservationController extends GenericAppController {
     Adicionar triggers para os processos de criacao, alteracao e delecao
      */
 
-    public void planSelection() {
-        /*
-        if(!negateAccess(UserType.A)) {
-            LazyList<DestinationPlan> destinationPlanLazyList = DestinationPlan.find("destination_id = ?",
-                    Integer.parseInt(getId())).include(Plan.class);
-            List<Map<String, Object>> destinationPlanMap = destinationPlanLazyList.toMaps();
-            if (CountPassenger.findAll().size() > 0) {
-                for (Map<String, Object> destinationMap : destinationPlanMap) {
-                    if (CountPassenger.find("plan_id = ?", destinationMap.get("plan_id")).size() > 0) {
-                        destinationMap.put("num_passengers", CountPassenger.find("plan_id = ?", destinationMap.get("plan_id"))
-                                .get(0).getInteger("num_passengers"));
-                    }
-                }
-            }
-            
-                    "destination", getId());
-        }
-        */
-    }
-
-
-    public void availabilitySelection() {
-        /*
-        if(!negateAccess(UserType.A)) {
-            LinkedList<List<List<Map<String, Object>>>> lazyLists = new LinkedList<>();
-            for (int day = 0; day < Day.values().length; day++) {
-                List<List<Map<String, Object>>> mapListFinal = new LinkedList<>();
-                for (int shift = 0; shift < Shift.values().length; shift++) {
-                    List<Map<String, Object>> mapList = AvailabilityStopAddress.find("plan_id = ?" +
-                                    "AND shift = ? AND day = ? AND status IS TRUE",
-                            Integer.parseInt(param("plan")),
-                            shift, day).toMaps();
-                    mapListFinal.add(mapList);
-                }
-                lazyLists.add(mapListFinal);
-            }
-
-            
-                    "shifts", Shift.values(),
-                    "destination", Integer.parseInt(param("destination")),
-                    "plan", Plan.findById(Integer.parseInt(param("plan"))),
-                    "directions", Direction.values(),
-                    "availabilitiesSubSets", lazyLists,
-                    "selection", true);
-        }
-        */
-    }
 
     public void availabilityConfirmation() {
         /*
+
+        -> CRIAR OU ALTERAR METODO PERMITINDO UM RETORNO COM O TOTAL CALCULADO DE ADERIR A UM PLANO.
+            LEMBRAR 'P' eh passagem e 'M' eh mensal e devem ser calculados diferentemente
+
         if(!negateAccess(UserType.A)) {
             ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
             Gson g = new Gson();
@@ -240,6 +193,9 @@ public class ReservationController extends GenericAppController {
 
     public void addReservations() {
         /*
+
+        -> FUNCIONALIDADE PASSA PARA UMA TRIGGER ATIVADA POR UMA ADICAO DE RESERVA
+
         if(!negateAccess(UserType.A)) {
             ArrayList<Reservation> reservationList = new ArrayList<>();
             Gson g = new Gson();
@@ -286,18 +242,6 @@ public class ReservationController extends GenericAppController {
         */
     }
 
-    public void list(){
-        /*
-        if(!negateAccess(UserType.P)) {
-            
-                    Integer.parseInt(getId())).toMaps(),
-                    "days", Day.values(),
-                    "shifts", Shift.values(),
-                    "reservation", true);
-        }
-        */
-    }
-
     public void filteredList(){
         /*
         if(!negateAccess(UserType.P)) {
@@ -335,6 +279,10 @@ public class ReservationController extends GenericAppController {
 
     public void reservationList(){
         /*
+
+        REORGANIZAR: PROVE UM LISTA COM AS RESERVAS DE UM PLANO PARA ADMIN COMO EH UMA API SUA FUNCIONALIDADE
+        SERA FUNDIDA COM FILTEREDLIST
+
         if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
             Integer passenger_id = Integer.parseInt(param("passenger_id"));
             Integer plan_id = Integer.parseInt(param("plan_id"));
@@ -383,6 +331,9 @@ public class ReservationController extends GenericAppController {
 
     public void changeReservation(){
         /*
+
+        -> Vira um trigger ativado pela delecao na base de dados
+
         Reservation reservation = (Reservation) Reservation.find("passenger_id = ? AND " +
                 "day = ? AND shift = ? AND direction = ? AND plan_id = ? AND " +
                 "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
@@ -471,6 +422,11 @@ public class ReservationController extends GenericAppController {
 
     /*
     private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
+
+        -> Forte candidato a se tornar uma trigger.
+
+        VERIFICA CONFLITOS COM OUTRAS RESERVAS
+
 
         boolean hasRepeatedReservations = true;
         //This command exists in order to avoid a issue if there are no records in the reservation table
