@@ -40,8 +40,18 @@ public class CityController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             City city = City.findById(Integer.parseInt(resourceId));
-            CityJson stateJson = new CityJson(city);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(city == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (city.delete()) {
+                    ctx.res.setStatus(200);
+                    CityJson cityJson = new CityJson(city);
+                    ctx.result(mapper.writeValueAsString(cityJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -115,11 +125,15 @@ public class CityController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             City city = City.findById(Integer.parseInt(resourceId));
-            if(city.delete()){
-                ctx.res.setStatus(200);
+            if(city == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (city.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

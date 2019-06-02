@@ -53,8 +53,18 @@ public class AvailabilityController extends GenericAppController{
             Base.open(Db.getInstance());
             Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
                     directionId, planId, driverId, vehicleId, stopId);
-            AvailabilityJson availabilityJson = new AvailabilityJson(availability);
-            ctx.result(mapper.writeValueAsString(availabilityJson));
+            if(availability == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (availability.delete()) {
+                    ctx.res.setStatus(200);
+                    AvailabilityJson availabilityJson = new AvailabilityJson(availability);
+                    ctx.result(mapper.writeValueAsString(availabilityJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -131,11 +141,15 @@ public class AvailabilityController extends GenericAppController{
             Base.open(Db.getInstance());
             Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
                     directionId, planId, driverId, vehicleId, stopId);
-            if(availability.delete()){
-                ctx.res.setStatus(200);
+            if(availability == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (availability.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

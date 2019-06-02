@@ -19,6 +19,7 @@ public class RoutesSetUp {
             ApiBuilder.crud("active_periods/:active_period-id", new ActivePeriodController());
             ApiBuilder.crud("plans/:plan-id", new PlanController());
             ApiBuilder.crud("passengers/:passenger-id", new PassengerController());
+            ApiBuilder.crud("users/:user-id", new UserController());
         });
 
         defineComplexRoutes(app);

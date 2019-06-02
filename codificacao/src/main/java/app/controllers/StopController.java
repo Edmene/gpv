@@ -40,8 +40,18 @@ public class StopController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Stop stop = Stop.findById(Integer.parseInt(resourceId));
-            StopJson stateJson = new StopJson(stop);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(stop == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (stop.delete()) {
+                    ctx.res.setStatus(200);
+                    StopJson stopJson = new StopJson(stop);
+                    ctx.result(mapper.writeValueAsString(stopJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -100,11 +110,15 @@ public class StopController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Stop stop = Stop.findById(Integer.parseInt(resourceId));
-            if(stop.delete()){
-                ctx.res.setStatus(200);
+            if(stop == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (stop.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

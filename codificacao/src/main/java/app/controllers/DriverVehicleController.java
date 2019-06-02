@@ -40,8 +40,18 @@ public class DriverVehicleController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             DriverVehicle driverVehicle = DriverVehicle.findById(Integer.parseInt(resourceId));
-            DriverVehicleJson stateJson = new DriverVehicleJson(driverVehicle);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(driverVehicle == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (driverVehicle.delete()) {
+                    ctx.res.setStatus(200);
+                    DriverVehicleJson driverVehicleJson = new DriverVehicleJson(driverVehicle);
+                    ctx.result(mapper.writeValueAsString(driverVehicleJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -100,11 +110,15 @@ public class DriverVehicleController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             DriverVehicle driverVehicle = DriverVehicle.findById(Integer.parseInt(resourceId));
-            if(driverVehicle.delete()){
-                ctx.res.setStatus(200);
+            if(driverVehicle == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (driverVehicle.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

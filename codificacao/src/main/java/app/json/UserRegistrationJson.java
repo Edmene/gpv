@@ -10,27 +10,29 @@ import app.models.User;
 
  */
 
-public class UserJson {
-    public Integer key;
-    public String name;
+public class UserRegistrationJson {
+    public String name, password;
     public UserType type;
 
-    public UserJson(){}
-
-    public UserJson(String name, UserType type){
-        this.name = name;
-        this.type = type;
+    public UserRegistrationJson(){
+        this.type = UserType.A;
     }
 
-    public UserJson(User user){
-        this.key = (Integer) user.getId();
+    public UserRegistrationJson(String name, String password){
+        this.name = name;
+        this.password = password;
+        this.type = UserType.A;
+    }
+
+    public UserRegistrationJson(User user){
         this.name = user.getString("name");
+        this.password = user.getString("password");
         this.type = UserType.valueOf(user.getString("type"));
     }
 
     public void setAttributesOfUser(User user){
-        user.set("id", this.key,
-                "name", this.name,
+        user.set("name", this.name,
+                "password", this.password,
                 "type", this.type.name());
     }
 }

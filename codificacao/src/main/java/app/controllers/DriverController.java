@@ -41,8 +41,18 @@ public class DriverController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Driver driver = Driver.findById(Integer.parseInt(resourceId));
-            DriverJson stateJson = new DriverJson(driver);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(driver == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (driver.delete()) {
+                    ctx.res.setStatus(200);
+                    DriverJson driverJson = new DriverJson(driver);
+                    ctx.result(mapper.writeValueAsString(driverJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -67,6 +77,9 @@ public class DriverController extends GenericAppController {
                     ctx.res.setStatus(400);
                 }
             }
+            else {
+                ctx.res.setStatus(400);
+            }
             Base.close();
         }
         catch (Exception e){
@@ -79,10 +92,18 @@ public class DriverController extends GenericAppController {
     @Override
     public void delete(@NotNull Context ctx, @NotNull String resourceId){
         try {
-            DocumentValidation validation = new DocumentValidation();
             Base.open(Db.getInstance());
             Driver driver = Driver.findById(Integer.parseInt(resourceId));
-            driver.delete();
+            if(driver == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (driver.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -95,12 +116,17 @@ public class DriverController extends GenericAppController {
     @Override
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
+            DocumentValidation validation = new DocumentValidation();
             Base.open(Db.getInstance());
             Driver driver = new Driver();
             DriverJson driverJson = ctx.bodyAsClass(DriverJson.class);
             driverJson.setAttributesOfDriver(driver);
-            if(driver.save()){
-                ctx.res.setStatus(200);
+            if(validation.validateCpf(driverJson.cpf) && validation.validateChn(driverJson.cnh)) {
+                if (driver.save()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             else{
                 ctx.res.setStatus(400);

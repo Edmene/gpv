@@ -51,13 +51,12 @@ public class PassengerController extends GenericAppController {
             if(passenger == null){
                 ctx.res.setStatus(404);
                 ctx.result("Passenger not found");
-                Base.close();
             }
             else {
                 PassengerJson passengerJson = new PassengerJson(passenger);
                 ctx.result(mapper.writeValueAsString(passengerJson));
-                Base.close();
             }
+            Base.close();
         }
         catch (Exception e){
             ctx.res.setStatus(500);

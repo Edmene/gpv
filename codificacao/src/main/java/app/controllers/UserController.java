@@ -19,92 +19,160 @@ package app.controllers;
 import app.controllers.authorization.PasswordHashing;
 import app.controllers.authorization.Protected;
 import app.enums.UserType;
+import app.json.UserJson;
+import app.json.UserRegistrationJson;
+import app.json.VehicleJson;
 import app.models.User;
+import app.models.Vehicle;
+import app.utils.Db;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import io.javalin.Context;
+import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
+import org.postgresql.util.PSQLException;
+
+import java.util.ArrayList;
 
 @Protected
 public class UserController extends GenericAppController {
 
+    private ArrayList<UserJson> usersToUserJsonList(LazyList<User> users){
+        ArrayList<UserJson> json = new ArrayList<>();
+        for (User user : users) {
+            json.add(new UserJson(user));
+        }
+        return json;
+    }
+
     @Override
     public void getAll(@NotNull Context ctx){
-        /*
-        if(!negateAccess(UserType.P)) {
-            
+        try {
+            Base.open(Db.getInstance());
+            LazyList<User> results = User.findAll();
+            ctx.result(mapper.writeValueAsString(usersToUserJsonList(results)));
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    @Override
+    public void getOne(@NotNull Context ctx, String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            User user = User.findById(Integer.parseInt(resourceId));
+            if(user == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (user.delete()) {
+                    ctx.res.setStatus(200);
+                    UserJson userJson = new UserJson(user);
+                    ctx.result(mapper.writeValueAsString(userJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
     public void create(@NotNull Context ctx) {
-        /*
-        if(!negateAccess(UserType.P)) {
+        try {
+
+            Base.open(Db.getInstance());
             User user = new User();
-            user.fromMap(params1st());
-
-            PasswordHashing passwordHashing = new PasswordHashing();
-            user.set("extra", passwordHashing.getSalt());
-            user.set("password", passwordHashing.hashPassword(param("password").trim()));
-            if(!user.save()){
-                
-                
-                
-                
-            }else{
-                
-                
+            UserRegistrationJson userJson = ctx.bodyAsClass(UserRegistrationJson.class);
+            if(userRegistration(user, userJson)){
+                ctx.res.setStatus(200);
             }
+            else{
+                ctx.res.setStatus(400);
+            }
+
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
     }
 
     @Override
-    public void delete(@NotNull Context ctx, @NotNull String contentId){
-        /*
-        if(!negateAccess(UserType.P)) {
-            User u = User.findById(Integer.parseInt(getId()));
-            String name = u.getString("name");
-            u.delete();
-            if (!session().isEmpty()) {
-                if (session("user").toString().contentEquals(name)) {
-                    
+    public void delete(@NotNull Context ctx, @NotNull String resourceId){
+        try{
+            Base.open(Db.getInstance());
+            User user = User.findById(Integer.parseInt(resourceId));
+            if(user == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (user.delete()) {
+                    ctx.res.setStatus(200);
                 } else {
-                    
-                    
+                    ctx.res.setStatus(400);
                 }
-            } else {
-                
-                
             }
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+    }
+
+    private boolean userRegistration(User user, UserRegistrationJson userJson){
+        try {
+            PasswordHashing passwordHashing = new PasswordHashing();
+
+            userJson.password = passwordHashing.hashPassword(userJson.password);
+            userJson.setAttributesOfUser(user);
+            user.set("extra", passwordHashing.getSalt());
+            boolean result = user.saveIt();
+            return result;
+        }
+        catch (Exception e){
+            return false;
+        }
+
     }
 
     @Override
-    public void update(@NotNull Context ctx, @NotNull String contentId){
-        /*
-        if(!negateAccess(UserType.P)) {
-            User user = User.findById(Integer.parseInt(param("id")));
-            String oldName = user.getString("name");
-
-            user.fromMap(params1st());
-            PasswordHashing passwordHashing = new PasswordHashing();
-            user.set("extra", passwordHashing.getSalt());
-            user.set("password", passwordHashing.hashPassword(param("password").trim()));
-            user.set("id", Integer.parseInt(param("id")));
-
-            if (!user.save()) {
-                
-                
-            } else {
-                
-                if (session("user").toString().contentEquals(((oldName)))) {
-                    session("user", (String) user.get("name"));
-                }
-                
-
+    public void update(@NotNull Context ctx, @NotNull String resourceId){
+        try {
+            Base.open(Db.getInstance());
+            UserRegistrationJson userJson = ctx.bodyAsClass(UserRegistrationJson.class);
+            User user = User.findById(Integer.parseInt(resourceId));
+            if(user == null){
+                ctx.res.setStatus(404);
             }
+            else {
+                if(userRegistration(user, userJson)){
+                    ctx.res.setStatus(200);
+                }
+                else{
+                    ctx.res.setStatus(400);
+                }
+            }
+            Base.close();
         }
-        */
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+
     }
 }

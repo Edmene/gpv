@@ -44,9 +44,18 @@ public class PlanController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Plan plan = Plan.findById(Integer.parseInt(resourceId));
-            PlanJson stateJson = new PlanJson(plan);
-            ctx.res.setStatus(200);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(plan == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (plan.delete()) {
+                    ctx.res.setStatus(200);
+                    PlanJson planJson = new PlanJson(plan);
+                    ctx.result(mapper.writeValueAsString(planJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -100,11 +109,15 @@ public class PlanController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Plan plan = Plan.findById(Integer.parseInt(resourceId));
-            if(plan.delete()){
-                ctx.res.setStatus(200);
+            if(plan == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (plan.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

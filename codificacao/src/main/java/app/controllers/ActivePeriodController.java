@@ -39,8 +39,18 @@ public class ActivePeriodController extends GenericAppController {
         try {
             Base.open(Db.getInstance());
             ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
-            ActivePeriodJson stateJson = new ActivePeriodJson(activePeriod);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(activePeriod == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (activePeriod.delete()) {
+                    ctx.res.setStatus(200);
+                    ActivePeriodJson activePeriodJson = new ActivePeriodJson(activePeriod);
+                    ctx.result(mapper.writeValueAsString(activePeriodJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         } catch (Exception e) {
             ctx.res.setStatus(500);
@@ -63,7 +73,8 @@ public class ActivePeriodController extends GenericAppController {
                 ctx.res.setStatus(400);
             }
             Base.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             ctx.res.setStatus(500);
             e.printStackTrace();
             Base.close();
@@ -83,7 +94,8 @@ public class ActivePeriodController extends GenericAppController {
                 ctx.res.setStatus(400);
             }
             Base.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             ctx.res.setStatus(500);
             e.printStackTrace();
             Base.close();
@@ -95,10 +107,15 @@ public class ActivePeriodController extends GenericAppController {
         try {
             Base.open(Db.getInstance());
             ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
-            if (activePeriod.delete()) {
-                ctx.res.setStatus(200);
-            } else {
-                ctx.res.setStatus(400);
+            if(activePeriod == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (activePeriod.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         } catch (Exception e) {

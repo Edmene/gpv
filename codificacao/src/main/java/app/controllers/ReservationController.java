@@ -55,8 +55,18 @@ public class ReservationController extends GenericAppController {
             Base.open(Db.getInstance());
             Reservation reservation = Reservation.findByCompositeKeys(dayId, shiftId,
                     directionId, planId, driverId, vehicleId, stopId, passengerId);
-            ReservationJson reservationJson = new ReservationJson(reservation);
-            ctx.result(mapper.writeValueAsString(reservationJson));
+            if(reservation == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (reservation.delete()) {
+                    ctx.res.setStatus(200);
+                    ReservationJson reservationJson = new ReservationJson(reservation);
+                    ctx.result(mapper.writeValueAsString(reservationJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -100,11 +110,15 @@ public class ReservationController extends GenericAppController {
                     directionId, planId, driverId, vehicleId, stopId, passengerId);
             ReservationJson reservationJson = ctx.bodyAsClass(ReservationJson.class);
             reservationJson.setAttributesOfReservation(reservation);
-            if (reservation.save()) {
-                ctx.res.setStatus(200);
+            if(reservation == null){
+                ctx.res.setStatus(404);
             }
             else {
-                ctx.res.setStatus(400);
+                if (reservation.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

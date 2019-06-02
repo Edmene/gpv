@@ -42,8 +42,18 @@ public class VehicleController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Vehicle vehicle = Vehicle.findById(Integer.parseInt(resourceId));
-            VehicleJson stateJson = new VehicleJson(vehicle);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(vehicle == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (vehicle.delete()) {
+                    ctx.res.setStatus(200);
+                    VehicleJson vehicleJson = new VehicleJson(vehicle);
+                    ctx.result(mapper.writeValueAsString(vehicleJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -80,11 +90,15 @@ public class VehicleController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Vehicle vehicle = Vehicle.findById(Integer.parseInt(resourceId));
-            if(vehicle.delete()){
-                ctx.res.setStatus(200);
+            if(vehicle == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (vehicle.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

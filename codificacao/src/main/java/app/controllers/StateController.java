@@ -41,8 +41,18 @@ public class StateController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             State state = State.findById(Integer.parseInt(resourceId));
-            StateJson stateJson = new StateJson(state);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            if(state == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (state.delete()) {
+                    ctx.res.setStatus(200);
+                    StateJson stateJson = new StateJson(state);
+                    ctx.result(mapper.writeValueAsString(stateJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -105,11 +115,15 @@ public class StateController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             State state = State.findById(Integer.parseInt(resourceId));
-            if(state.delete()){
-                ctx.res.setStatus(200);
+            if(state == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (state.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }

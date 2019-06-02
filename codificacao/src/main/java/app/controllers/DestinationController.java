@@ -56,9 +56,19 @@ public class DestinationController extends GenericAppController {
     public void getOne(@NotNull Context ctx, @NotNull String resourceId){
         try{
             Base.open(Db.getInstance());
-            Destination city = Destination.findById(Integer.parseInt(resourceId));
-            DestinationJson stateJson = new DestinationJson(city);
-            ctx.result(mapper.writeValueAsString(stateJson));
+            Destination destination = Destination.findById(Integer.parseInt(resourceId));
+            if(destination == null){
+                ctx.res.setStatus(404);
+            }
+            else {
+                if (destination.delete()) {
+                    ctx.res.setStatus(200);
+                    DestinationJson destinationJson = new DestinationJson(destination);
+                    ctx.result(mapper.writeValueAsString(destinationJson));
+                } else {
+                    ctx.res.setStatus(400);
+                }
+            }
             Base.close();
         }
         catch (Exception e){
@@ -117,11 +127,15 @@ public class DestinationController extends GenericAppController {
         try{
             Base.open(Db.getInstance());
             Destination destination = Destination.findById(Integer.parseInt(resourceId));
-            if(destination.delete()){
-                ctx.res.setStatus(200);
+            if(destination == null){
+                ctx.res.setStatus(404);
             }
-            else{
-                ctx.res.setStatus(400);
+            else {
+                if (destination.delete()) {
+                    ctx.res.setStatus(200);
+                } else {
+                    ctx.res.setStatus(400);
+                }
             }
             Base.close();
         }
