@@ -87,4 +87,63 @@ CREATE TRIGGER tr_delete_passenger after delete on passengers
 
 CREATE TRIGGER tr_delete_passenger_check before delete on passengers
     for each row execute procedure funtr_delete_passenger_check();
-#
+
+
+CREATE OR REPLACE FUNCTION passenger_plan_unsubscribe(cod_pas integer, cod_plan integer) returns boolean AS
+$$
+declare
+    reservation_cur cursor (plan integer, pass integer) for SELECT * FROM reservations r WHERE
+            r.plan_id = plan AND r.passenger_id = pass;
+    pass_destination_cur cursor (plan integer, pass integer) for SELECT * FROM passenger_plans pp WHERE
+            pp.passenger_id = pass AND pp.plan_id = plan;
+    cursor_data record;
+
+    has_executed integer = 0;
+
+begin
+
+    for cursor_data in reservation_cur(cod_plan, cod_pas) loop
+        if(cursor_data.reservation_type != 'P') then
+            UPDATE reservations r SET status = false WHERE r.plan_id = cod_plan
+                                                       AND r.passenger_id = cod_pas AND r.day = cursor_data.day
+                                                       AND r.direction = cursor_data.direction AND r.driver_id = cursor_data.driver_id
+                                                       AND r.shift = cursor_data.shift AND r.stop_id = cursor_data.stop_id
+                                                       AND r.vehicle_id = cursor_data.vehicle_id;
+
+        else
+
+            UPDATE reservations r SET alteration_date = current_date + 15 WHERE r.plan_id = cod_plan
+                                                                            AND r.passenger_id = cod_pas AND r.day = cursor_data.day
+                                                                            AND r.direction = cursor_data.direction AND r.driver_id = cursor_data.driver_id
+                                                                            AND r.shift = cursor_data.shift AND r.stop_id = cursor_data.stop_id
+                                                                            AND r.vehicle_id = cursor_data.vehicle_id;
+
+        end if;
+
+        has_executed := has_executed + 1;
+    end loop;
+
+    for cursor_data in pass_destination_cur(cod_plan, cod_pas) loop
+
+        if(!EXISTS(SELECT 1 FROM reservations WHERE plan_id = cursor_data.plan_id
+                                                AND passenger_id = cursor_data.passenger_id
+                                                AND reservation_type != 'P' AND status = true)) then
+
+            UPDATE passenger_plans pp SET status = false WHERE pp.passenger_id = cursor_data.passenger_id
+                                                           AND pp.plan_id = cursor_data.plan_id;
+            has_executed := has_executed + 1;
+
+        end if;
+
+    end loop;
+
+    if(has_executed != 0) then
+        return true;
+    end if;
+
+    return false;
+
+end;
+
+
+$$ language plpgsql;#

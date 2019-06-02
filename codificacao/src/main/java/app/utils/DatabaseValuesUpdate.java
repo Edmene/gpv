@@ -15,7 +15,7 @@ public class DatabaseValuesUpdate implements org.quartz.Job {
 
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        Base.open("org.postgresql.Driver", "jdbc:postgresql://172.17.0.3:5432/gpv", "postgres", "postgres");
+        Base.open(Db.getInstance());
         LazyList<Reservation> reservations = Reservation.find("reservation_type = ? " +
                 "AND alteration_date = ? AND status IS TRUE", "M", LocalDate.now());
         for (Reservation reservation : reservations){

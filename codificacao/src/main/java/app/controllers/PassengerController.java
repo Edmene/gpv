@@ -233,21 +233,17 @@ public class PassengerController extends GenericAppController {
             CallableStatement passengerCreationFunction = db.connection().prepareCall(
                     "{? = call passenger_plan_unsubscribe(?, ?)}");
 
-            passengerCreationFunction.registerOutParameter(1, Types.INTEGER);
+            passengerCreationFunction.registerOutParameter(1, Types.BOOLEAN);
 
             passengerCreationFunction.setInt(2, Integer.parseInt(resourceId));
             passengerCreationFunction.setInt(3, Integer.parseInt(planId));
             passengerCreationFunction.execute();
 
-            int response = passengerCreationFunction.getInt(1);
-            if (response == 2) {
+            boolean response = passengerCreationFunction.getBoolean(1);
+            if (response) {
                 ctx.res.setStatus(200);
             } else {
-                if(response == 1){
-
-                }
-                ctx.res.setStatus(400);
-                ctx.result("Invalid data received");
+                ctx.res.setStatus(404);
             }
             Base.close();
         }
