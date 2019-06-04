@@ -36,19 +36,21 @@ public class DriverVehicleReplacementController extends GenericAppController {
         }
     }
 
-    @Override
-    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId, @NotNull String vehicleId,
+                       @NotNull String driverVId, @NotNull String vehicleVId){
         try{
             Base.open(Db.getInstance());
-            DriverVehicleReplacement driverVehicleReplacement = DriverVehicleReplacement.findById(Integer.parseInt(resourceId));
-            DriverVehicleReplacementJson stateJson = new DriverVehicleReplacementJson(driverVehicleReplacement);
+            DriverVehicleReplacement driverVehicleReplacement = DriverVehicleReplacement.findByCompositeKeys(
+                    Integer.parseInt(resourceId),Integer.parseInt(vehicleId),
+                    Integer.parseInt(driverVId),Integer.parseInt(vehicleVId)
+            );
             if(driverVehicleReplacement == null){
                 ctx.res.setStatus(404);
             }
             else {
                 ctx.res.setStatus(200);
-                DriverVehicleReplacementJson driverVehicleReplacementrJson = new DriverVehicleReplacementJson(driverVehicleReplacement);
-                ctx.result(mapper.writeValueAsString(driverVehicleReplacementrJson));
+                DriverVehicleReplacementJson driverVehicleReplacementJson = new DriverVehicleReplacementJson(driverVehicleReplacement);
+                ctx.result(mapper.writeValueAsString(driverVehicleReplacementJson));
             }
             Base.close();
         }

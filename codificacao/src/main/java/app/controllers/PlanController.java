@@ -129,8 +129,16 @@ public class PlanController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            Plan plan = new Plan();
+            Plan plan = Plan.findById(Integer.parseInt(resourceId));
             PlanJson planJson = ctx.bodyAsClass(PlanJson.class);
+            if(plan == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(plan.getId() != planJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             planJson.setAttributesOfPlan(plan);
             if(plan.save()){
                 ctx.res.setStatus(200);

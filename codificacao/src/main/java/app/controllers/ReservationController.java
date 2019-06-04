@@ -1,24 +1,15 @@
 package app.controllers;
 
 import app.controllers.authorization.Protected;
-import app.enums.*;
 import app.json.ReservationJson;
-import app.json.ReservationsSearchFiltersJson;
 import app.models.*;
-import app.utils.DateOfDayFinder;
 import app.utils.Db;
-import app.utils.TotalValueOfPlanSelection;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 @Protected
 public class ReservationController extends GenericAppController {
@@ -29,6 +20,17 @@ public class ReservationController extends GenericAppController {
             json.add(new ReservationJson(reservation));
         }
         return json;
+    }
+
+    private boolean isEqualAvailability(Reservation reservation, ReservationJson reservationJson){
+        return (reservation.getInteger("passenger_id") == Integer.parseInt(reservationJson.passengerId) &&
+                reservation.getInteger("day") == reservationJson.day &&
+                reservation.getInteger("shift") == reservationJson.shift &&
+                reservation.getInteger("direction") == reservationJson.direction &&
+                reservation.getInteger("driver_id") == Integer.parseInt(reservationJson.driverId) &&
+                reservation.getInteger("vehicle_id") == Integer.parseInt(reservationJson.vehicleId) &&
+                reservation.getInteger("stop_id") == Integer.parseInt(reservationJson.stopId) &&
+                reservation.getInteger("plan_id") == reservationJson.planId);
     }
 
     @Override
@@ -105,11 +107,15 @@ public class ReservationController extends GenericAppController {
             Reservation reservation = Reservation.findByCompositeKeys(dayId, shiftId,
                     directionId, planId, driverId, vehicleId, stopId, passengerId);
             ReservationJson reservationJson = ctx.bodyAsClass(ReservationJson.class);
-            reservationJson.setAttributesOfReservation(reservation);
             if(reservation == null){
                 ctx.res.setStatus(404);
             }
+            if(isEqualAvailability(reservation, reservationJson)){
+                ctx.res.setStatus(400);
+                return;
+            }
             else {
+                reservationJson.setAttributesOfReservation(reservation);
                 if (reservation.delete()) {
                     ctx.res.setStatus(200);
                 } else {

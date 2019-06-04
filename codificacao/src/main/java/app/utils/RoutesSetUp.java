@@ -13,9 +13,7 @@ public class RoutesSetUp {
             ApiBuilder.crud("roads/:road-id", new RoadController());
             ApiBuilder.crud("destinations/:destination-id", new DestinationController());
             ApiBuilder.crud("drivers/:driver-id", new DriverController());
-            ApiBuilder.crud("vehicles/:vehicle-id", new VehicleController());
-            ApiBuilder.crud("driver_vehicles/:driver_vehicle-id", new DriverVehicleController());
-            ApiBuilder.crud("driver_vehicle_replacements/:driver_vehicle_replacement-id", new DriverVehicleReplacementController());
+            ApiBuilder.crud("vehicles/:vehicle-id", new VehicleController());            
             ApiBuilder.crud("active_periods/:active_period-id", new ActivePeriodController());
             ApiBuilder.crud("plans/:plan-id", new PlanController());
             ApiBuilder.crud("passengers/:passenger-id", new PassengerController());
@@ -34,7 +32,49 @@ public class RoutesSetUp {
             planRoutes(app);
             availabilityRoutes(app);
             reservationRoutes(app);
+            driverVehicleRoutes(app);
+            driverVehicleReplacementRoutes(app);
 
+    }
+    
+    private static void driverVehicleRoutes(Javalin app){
+
+        app.get("/driver-vehicles", ctx -> new DriverVehicleController().getAll(ctx));
+
+        app.post("/driver-vehicles", ctx -> new DriverVehicleController().create(ctx));
+
+        app.get("/driver-vehicles/:driver-id/vehicle/:vehicle-id", ctx -> new DriverVehicleController().getOne(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id")));
+
+        app.patch("/driver-vehicles/:driver-id/vehicle/:vehicle-id", ctx -> new DriverVehicleController().update(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id")));
+
+        app.delete("/driver-vehicles/:driver-id/vehicle/:vehicle-id", ctx -> new DriverVehicleController().delete(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id")));
+        
+    }
+
+    private static void driverVehicleReplacementRoutes(Javalin app){
+
+        app.get("/driver-vehicles-replacements", ctx -> new DriverVehicleReplacementController().getAll(ctx));
+
+        app.post("/driver-vehicles-replacements", ctx -> new DriverVehicleReplacementController().create(ctx));
+
+        app.get("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
+
+        app.patch("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
+
+        app.delete("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
+                ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
+                ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
+        
     }
 
     private static void cityRoutes(Javalin app){

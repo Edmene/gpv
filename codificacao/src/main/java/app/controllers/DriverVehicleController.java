@@ -35,11 +35,11 @@ public class DriverVehicleController extends GenericAppController {
         }
     }
 
-    @Override
-    public void getOne(@NotNull Context ctx, @NotNull String resourceId){
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId, @NotNull String vehicleId){
         try{
             Base.open(Db.getInstance());
-            DriverVehicle driverVehicle = DriverVehicle.findById(Integer.parseInt(resourceId));
+            DriverVehicle driverVehicle = DriverVehicle.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(vehicleId));
             if(driverVehicle == null){
                 ctx.res.setStatus(404);
             }
@@ -79,12 +79,16 @@ public class DriverVehicleController extends GenericAppController {
         }
     }
 
-    @Override
-    public void update(@NotNull Context ctx, @NotNull String resourceId){
+    public void update(@NotNull Context ctx, @NotNull String resourceId, @NotNull String vehicleId){
         try {
             Base.open(Db.getInstance());
-            DriverVehicle driverVehicle = new DriverVehicle();
+            DriverVehicle driverVehicle = DriverVehicle.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(vehicleId));
             DriverVehicleJson driverVehicleJson = ctx.bodyAsClass(DriverVehicleJson.class);
+            if(driverVehicle == null){
+                ctx.res.setStatus(404);
+                return;
+            }
             driverVehicleJson.setAttributesOfDriverVehicle(driverVehicle);
             if(driverVehicle.save()){
                 ctx.res.setStatus(200);
@@ -101,11 +105,11 @@ public class DriverVehicleController extends GenericAppController {
         }
     }
 
-    @Override
-    public void delete(@NotNull Context ctx, @NotNull String resourceId){
-        try{
+    public void delete(@NotNull Context ctx, @NotNull String resourceId, @NotNull String vehicleId){
+        try {
             Base.open(Db.getInstance());
-            DriverVehicle driverVehicle = DriverVehicle.findById(Integer.parseInt(resourceId));
+            DriverVehicle driverVehicle = DriverVehicle.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(vehicleId));
             if(driverVehicle == null){
                 ctx.res.setStatus(404);
             }

@@ -5,7 +5,7 @@ import org.javalite.activejdbc.annotations.CompositePK;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table("driver_vehicle_replacements")
-@CompositePK({ "driver_id", "vehicle_id", "driver_v_id INT NOT NULL",
+@CompositePK({ "driver_id", "vehicle_id", "driver_v_id",
         "vehicle_v_id", "date" })
 public class DriverVehicleReplacement extends Model {
     static {

@@ -30,6 +30,16 @@ public class AvailabilityController extends GenericAppController{
         return json;
     }
 
+    private boolean isEqualAvailability(Availability availability, AvailabilityJson availabilityJson){
+        return (availability.getInteger("day") == availabilityJson.day.ordinal() &&
+                availability.getInteger("shift") == availabilityJson.shift.ordinal() &&
+                availability.getInteger("direction") == availabilityJson.direction.ordinal() &&
+                availability.getInteger("driver_id") == availabilityJson.driver &&
+                availability.getInteger("vehicle_id") == availabilityJson.vehicle &&
+                availability.getInteger("stop_id") == availabilityJson.stop &&
+                availability.getInteger("plan_id") == availabilityJson.plan);
+    }
+
     @Override
     public void getAll(@NotNull Context ctx){
         try {
@@ -108,6 +118,14 @@ public class AvailabilityController extends GenericAppController{
             Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
             directionId, planId, driverId, vehicleId, stopId);
             AvailabilityJson availabilityJson = ctx.bodyAsClass(AvailabilityJson.class);
+            if(availability == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(isEqualAvailability(availability, availabilityJson)){
+                ctx.res.setStatus(400);
+                return;
+            }
             if(isTimeMatchingShift(availabilityJson)) {
                 availabilityJson.setAttributesOfAvailability(availability);
                 if (availability.save()) {

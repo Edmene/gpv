@@ -83,8 +83,16 @@ public class StopController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            Stop stop = new Stop();
+            Stop stop = Stop.findById(Integer.parseInt(resourceId));
             StopJson stopJson = ctx.bodyAsClass(StopJson.class);
+            if(stop == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(stop.getId() != stopJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             stopJson.setAttributesOfStop(stop);
             if(stop.save()){
                 ctx.res.setStatus(200);

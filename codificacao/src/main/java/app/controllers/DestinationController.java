@@ -100,8 +100,16 @@ public class DestinationController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String contentId){
         try {
             Base.open(Db.getInstance());
-            Destination destination = new Destination();
+            Destination destination = Destination.findById(Integer.parseInt(contentId));
             DestinationJson destinationJson = ctx.bodyAsClass(DestinationJson.class);
+            if(destination == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(destination.getId() != destinationJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             destinationJson.setAttributesOfDestination(destination);
             if(destination.save()){
                 ctx.res.setStatus(200);

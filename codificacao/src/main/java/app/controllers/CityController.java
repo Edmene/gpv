@@ -98,8 +98,16 @@ public class CityController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            City city = new City();
+            City city = City.findById(Integer.parseInt(resourceId));
             CityJson cityJson = ctx.bodyAsClass(CityJson.class);
+            if(city == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(city.getId() != cityJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             cityJson.setAttributesOfCity(city);
             if(city.save()){
                 ctx.res.setStatus(200);

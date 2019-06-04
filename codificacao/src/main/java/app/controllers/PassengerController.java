@@ -148,6 +148,14 @@ public class PassengerController extends GenericAppController {
             PassengerJson passenger  = ctx.bodyAsClass(PassengerJson.class);
             if(validation.validateCpf(passenger.cpf)) {
                 Passenger p = Passenger.findById(Integer.parseInt(resourceId));
+                if(p == null) {
+                    ctx.res.setStatus(404);
+                    return;
+                }
+                if(p.getId() != passenger.userKey){
+                    ctx.res.setStatus(400);
+                    return;
+                }
                 passenger.setAttributesOfPassenger(p);
                 p.setInteger("user_id", Integer.parseInt(resourceId));
                 if (p.saveIt()) {

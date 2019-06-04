@@ -84,8 +84,16 @@ public class RoadController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            Road road = new Road();
+            Road road = Road.findById(Integer.parseInt(resourceId));
             RoadJson roadJson = ctx.bodyAsClass(RoadJson.class);
+            if(road == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(road.getId() != roadJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             roadJson.setAttributesOfRoad(road);
             if(road.save()){
                 ctx.res.setStatus(200);

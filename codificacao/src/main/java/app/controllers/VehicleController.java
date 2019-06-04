@@ -110,8 +110,16 @@ public class VehicleController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            Vehicle vehicle = new Vehicle();
+            Vehicle vehicle = Vehicle.findById(Integer.parseInt(resourceId));
             VehicleJson vehicleJson = ctx.bodyAsClass(VehicleJson.class);
+            if(vehicle == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(vehicle.getId() != vehicleJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             vehicleJson.setAttributesOfVehicle(vehicle);
             if(vehicle.save()){
                 ctx.res.setStatus(200);

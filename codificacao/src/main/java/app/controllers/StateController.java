@@ -87,8 +87,16 @@ public class StateController extends GenericAppController {
     public void update(@NotNull Context ctx, @NotNull String resourceId){
         try {
             Base.open(Db.getInstance());
-            State state = new State();
+            State state = State.findById(Integer.parseInt(resourceId));
             StateJson stateJson = ctx.bodyAsClass(StateJson.class);
+            if(state == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(state.getId() != stateJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             stateJson.setAttributesOfState(state);
             if(state.save()){
                 ctx.res.setStatus(200);

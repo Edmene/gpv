@@ -114,8 +114,16 @@ public class DriverController extends GenericAppController {
         try {
             DocumentValidation validation = new DocumentValidation();
             Base.open(Db.getInstance());
-            Driver driver = new Driver();
+            Driver driver = Driver.findById(Integer.parseInt(resourceId));
             DriverJson driverJson = ctx.bodyAsClass(DriverJson.class);
+            if(driver == null) {
+                ctx.res.setStatus(404);
+                return;
+            }
+            if(driver.getId() != driverJson.key){
+                ctx.res.setStatus(400);
+                return;
+            }
             driverJson.setAttributesOfDriver(driver);
             if(validation.validateCpf(driverJson.cpf) && validation.validateChn(driverJson.cnh)) {
                 if (driver.save()) {

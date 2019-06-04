@@ -3,6 +3,7 @@ package app.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Context;
 import io.javalin.apibuilder.CrudHandler;
+import org.javalite.activejdbc.Model;
 import org.jetbrains.annotations.NotNull;
 
 
