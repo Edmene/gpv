@@ -1,6 +1,11 @@
 package app.json;
 
 import app.models.Stop;
+import app.utils.JavaScriptTimeDeserializer;
+import app.utils.JavaScriptTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -8,6 +13,9 @@ import java.time.LocalTime;
 public class StopJson {
     public Integer key, roadKey;
     public String addressNumber;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonSerialize(using = JavaScriptTimeSerializer.class)
+    @JsonDeserialize(using = JavaScriptTimeDeserializer.class)
     public LocalTime time;
 
     public StopJson(){}
