@@ -181,6 +181,11 @@ public class RoutesSetUp {
                 ctx.pathParam("plan-id"),  ctx.pathParam("passenger-id"),
                 ctx.pathParam("plan-calc")));
 
+        app.get("/reservations/:plan-id" +
+                "/passenger/:passenger-id", ctx ->
+                new ReservationController().reservationList(ctx,
+                        ctx.pathParam("plan-id"),  ctx.pathParam("passenger-id")));
+
         app.patch("/reservations/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
                 "/direction/:direction-id/stop/:stop-id" +

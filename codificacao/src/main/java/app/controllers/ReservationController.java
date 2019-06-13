@@ -13,6 +13,7 @@ import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Protected
 public class ReservationController extends GenericAppController {
@@ -194,47 +195,62 @@ public class ReservationController extends GenericAppController {
 
     }
 
+
+    public void reservationList(@NotNull Context ctx,
+                                @NotNull String planId,
+                                @NotNull String passengerId){
+        try{
+            Base.open(Db.getInstance());
+
+            LazyList<Reservation> reservationPAList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS TRUE",
+                    passengerId, planId, "T");
+
+            LazyList<Reservation> reservationPIList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS FALSE",
+                    passengerId, planId, "T");
+
+            LazyList<Reservation> reservationMList = Reservation.find(
+                    "passenger_id = ? AND plan_id = ? AND " +
+                            "reservation_type = ? AND status IS TRUE",
+                    passengerId, planId, "M");
+
+            Plan plan = Plan.findById(planId);
+
+            ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
+            for (Reservation reservationM : reservationMList) {
+                ReservationJson reservationJson = new ReservationJson(reservationM);
+                reservationJsonListM.add(reservationJson);
+            }
+            ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
+            TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
+
+            ArrayList<Object> arrayResult = new ArrayList<>();
+            arrayResult.add(ReservationInfoPassenger.find("passenger_id = ?" +
+                            " AND plan_id = ?", passengerId,
+                    planId).toMaps());
+            arrayResult.add(reservationPAList.size() * plan.getFloat("ticket_price"));
+            arrayResult.add(reservationPIList.size() * plan.getFloat("ticket_price"));
+            arrayResult.add(totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
+
+            mapper.writeValueAsString(arrayResult);
+
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+
+    }
+
+
     /*
     Adicionar triggers para os processos de criacao, alteracao e delecao
      */
-
-
-    public void availabilityConfirmation() {
-        /*
-
-        -> CRIAR OU ALTERAR METODO PERMITINDO UM RETORNO COM O TOTAL CALCULADO DE ADERIR A UM PLANO.
-            LEMBRAR 'P' eh passagem e 'M' eh mensal e devem ser calculados diferentemente
-
-        if(!negateAccess(UserType.A)) {
-            ArrayList<ReservationJson> reservationJsonList = new ArrayList<>();
-            Gson g = new Gson();
-            JsonParser jsonParser = new JsonParser();
-            JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
-            for (JsonElement element : jsonArray) {
-                ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
-                reservationJsonList.add(reservationJson);
-            }
-
-            Plan plan = Plan.findById(Integer.parseInt(param("plan")));
-            ArrayList<ArrayList<Map<String, Object>>> listOfDates = new DateOfDayFinder().datesArrayList(reservationJsonList);
-            TotalValueOfPlanSelection totalValueOfPlanSelection = new TotalValueOfPlanSelection(listOfDates);
-            CalculationMethod type = CalculationMethod.M;
-
-            if (param("reservation_type").contains("P")) {
-                type = CalculationMethod.T;
-            }
-
-            
-                    "json", jsonArray,
-                    "reservation_type", param("reservation_type"),
-                    "destination", param("destination"),
-                    "plan", param("plan"),
-                    "listOfDates", listOfDates,
-                    "totalValue", totalValueOfPlanSelection.calculateTotalValue(type, plan)
-            );
-        }
-        */
-    }
 
     public void addReservations() {
         /*
@@ -278,94 +294,11 @@ public class ReservationController extends GenericAppController {
 
             boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
             if (!hasRepeatedReservations) {
-                
+
             } else {
-                
-            }
-            
-        }
-        */
-    }
 
-    public void filteredList(){
-        /*
-        if(!negateAccess(UserType.P)) {
-            Map<String, String> map = params1st();
-            Gson g = new Gson();
-            JsonParser jsonParser = new JsonParser();
-            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
-            ReservationsSearchFiltersJson searchFiltersJson = g.fromJson(jsonParser.parse(
-                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ReservationsSearchFiltersJson.class);
-
-            String response;
-
-            if (searchFiltersJson.day == 0) {
-                if (searchFiltersJson.shift == 0) {
-                    response = ReservationInfoAgg.find("plan_id = ?", searchFiltersJson.plan_id).toJson(false);
-                } else {
-                    response = ReservationInfoAggShift.find("plan_id = ? AND " +
-                            "shift = ?", searchFiltersJson.plan_id, searchFiltersJson.shift).toJson(false);
-                }
-            } else {
-                if (searchFiltersJson.shift == 0) {
-                    response = ReservationInfoAggDay.find("plan_id = ? AND " +
-                            "day = ?", searchFiltersJson.plan_id, searchFiltersJson.day).toJson(false);
-                } else {
-                    response = ReservationInfoAggDayShift.find("plan_id = ? AND " +
-                                    "shift = ? AND day = ?", searchFiltersJson.plan_id,
-                            searchFiltersJson.shift, searchFiltersJson.day).toJson(false);
-                }
             }
 
-            respond(response).contentType("application/json").status(200);
-        }
-        */
-    }
-
-    public void reservationList(){
-        /*
-
-        REORGANIZAR: PROVE UM LISTA COM AS RESERVAS DE UM PLANO PARA ADMIN COMO EH UMA API SUA FUNCIONALIDADE
-        SERA FUNDIDA COM FILTEREDLIST
-
-        if(!negateAccess(UserType.P, Integer.parseInt(param("passenger_id"))) || !negateAccess(UserType.A)) {
-            Integer passenger_id = Integer.parseInt(param("passenger_id"));
-            Integer plan_id = Integer.parseInt(param("plan_id"));
-            LazyList<Reservation> reservationPAList = Reservation.find(
-                    "passenger_id = ? AND plan_id = ? AND " +
-                            "reservation_type = ? AND status IS TRUE",
-                    passenger_id, plan_id, "P");
-
-            LazyList<Reservation> reservationPIList = Reservation.find(
-                    "passenger_id = ? AND plan_id = ? AND " +
-                            "reservation_type = ? AND status IS FALSE",
-                    passenger_id, plan_id, "P");
-
-            LazyList<Reservation> reservationMList = Reservation.find(
-                    "passenger_id = ? AND plan_id = ? AND " +
-                            "reservation_type = ? AND status IS TRUE",
-                    passenger_id, plan_id, "M");
-
-            Plan plan = Plan.findById(plan_id);
-
-            ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
-            for (Reservation reservationM : reservationMList) {
-                ReservationJson reservationJson = new ReservationJson(reservationM);
-                reservationJsonListM.add(reservationJson);
-            }
-            ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
-            TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
-
-
-            
-                    "days", Day.values(),
-                    "directions", Direction.values(),
-                    "reservations", ReservationInfoPassenger.find("passenger_id = ?" +
-                                    " AND plan_id = ?", passenger_id,
-                            plan_id),
-                    "totalTicketActive", reservationPAList.size() * plan.getFloat("ticket_price"),
-                    "totalTicketInactive", reservationPIList.size() * plan.getFloat("ticket_price"),
-                    "totalMonthly", totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
         }
         */
     }
