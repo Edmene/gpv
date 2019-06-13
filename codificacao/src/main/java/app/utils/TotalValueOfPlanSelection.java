@@ -14,7 +14,7 @@ public class TotalValueOfPlanSelection {
         this.listOfDates = listOfDates;
     }
 
-    public Float calculateTotalValue(CalculationMethod type, Plan plan){
+    public TotalResult calculateTotalValue(CalculationMethod type, Plan plan){
         if(type == CalculationMethod.T){
             for(int i=0;i<listOfDates.size();i++){
                 if(!listOfDates.get(i).isEmpty()){
@@ -30,6 +30,22 @@ public class TotalValueOfPlanSelection {
                             * (Integer) listOfDates.get(i).get(0).get("nTimes"); }
             }
         }
-        return totalValue;
+        return new TotalResult(totalValue);
+    }
+
+    private class TotalResult{
+        private float total;
+
+        TotalResult(float total){
+            this.total = total;
+        }
+
+        public float getTotal(){
+            return this.total;
+        }
+
+        public void setTotal(float total){
+            this.total = total;
+        }
     }
 }

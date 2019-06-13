@@ -2,6 +2,8 @@ package app.json;
 
 import app.enums.CalculationMethod;
 import app.models.Reservation;
+import app.utils.CalcMethodDeserializer;
+import app.utils.CalcMethodSerializer;
 import app.utils.JavaScriptDateDeserializer;
 import app.utils.JavaScriptDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,6 +16,8 @@ import java.time.LocalDate;
 public class ReservationJson {
     public Integer day,shift,direction, planId;
     public String driverId,vehicleId,stopId,passengerId;
+    @JsonSerialize(using = CalcMethodSerializer.class)
+    @JsonDeserialize(using = CalcMethodDeserializer.class)
     public CalculationMethod reservationType;
     public Boolean status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")

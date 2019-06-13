@@ -1,9 +1,12 @@
 package app.controllers;
 
 import app.controllers.authorization.Protected;
+import app.enums.CalculationMethod;
 import app.json.ReservationJson;
 import app.models.*;
+import app.utils.DateOfDayFinder;
 import app.utils.Db;
+import app.utils.TotalValueOfPlanSelection;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
@@ -153,6 +156,42 @@ public class ReservationController extends GenericAppController {
             e.printStackTrace();
             Base.close();
         }
+    }
+
+    public void calculatePlanReservationValue(@NotNull Context ctx,
+                                              @NotNull String planId,
+                                              @NotNull String passengerId,
+                                              @NotNull String planType){
+        try{
+            Base.open(Db.getInstance());
+            LazyList<Reservation> reservations = Reservation.find("plan_id = ? AND" +
+                    "passenger_id = ? AND reservation_type = ? AND status = true",
+                    Integer.parseInt(planId), Integer.parseInt(passengerId), planType.charAt(0));
+            ArrayList<ReservationJson> reservationJsons = new ArrayList<>();
+            for (Reservation reservation: reservations) {
+                reservationJsons.add(new ReservationJson(reservation));
+            }
+            if(!reservations.isEmpty()){
+                DateOfDayFinder ddf = new DateOfDayFinder();
+                TotalValueOfPlanSelection tvps = new TotalValueOfPlanSelection(ddf.datesArrayList(reservationJsons));
+                ctx.result(
+                        mapper.writeValueAsString(
+                                tvps.calculateTotalValue(CalculationMethod.valueOf(planType),
+                                        Plan.findById(Integer.parseInt(planId)))
+                        )
+                );
+            }
+            else{
+                ctx.res.setStatus(404);
+            }
+            Base.close();
+        }
+        catch (Exception e){
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
+        }
+
     }
 
     /*

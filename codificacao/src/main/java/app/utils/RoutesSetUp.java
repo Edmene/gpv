@@ -175,6 +175,12 @@ public class RoutesSetUp {
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
 
+        app.get("/reservations/:plan-id" +
+                "/passenger/:passenger-id/plan-type/:plan-calc", ctx ->
+                new ReservationController().calculatePlanReservationValue(ctx,
+                ctx.pathParam("plan-id"),  ctx.pathParam("passenger-id"),
+                ctx.pathParam("plan-calc")));
+
         app.patch("/reservations/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
                 "/direction/:direction-id/stop/:stop-id" +
