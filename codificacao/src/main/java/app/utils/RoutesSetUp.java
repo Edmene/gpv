@@ -27,6 +27,7 @@ public class RoutesSetUp {
     private static void defineComplexRoutes(Javalin app){
 
             cityRoutes(app);
+            stopRoutes(app);
             passengerRoutes(app);
             destinationRoutes(app);
             planRoutes(app);
@@ -80,6 +81,29 @@ public class RoutesSetUp {
     private static void cityRoutes(Javalin app){
         app.get("/cities/state/:state-id", ctx ->
                 new CityController().getByState(ctx, ctx.pathParam("state-id")));
+    }
+
+    private static void stopRoutes(Javalin app){
+        app.get("/stops", ctx ->
+                new StopController().getAll(ctx));
+
+        app.get("/stops/:stop-id", ctx ->
+                new StopController().getOne(ctx, ctx.pathParam("stop-id")));
+
+        app.get("/stops/initial/:city-id", ctx ->
+                new StopController().stopsOfBase(ctx, ctx.pathParam("city-id")));
+
+        app.get("/stops/destinations/:plan-id", ctx ->
+                new StopController().stopsOfDestination(ctx, ctx.pathParam("plan-id")));
+
+        app.post("/stops", ctx ->
+                new StopController().create(ctx));
+
+        app.patch("/stops/:stop-id", ctx ->
+                new StopController().update(ctx, ctx.pathParam("stop-id")));
+
+        app.delete("/stops/:stop-id", ctx ->
+                new StopController().delete(ctx, ctx.pathParam("stop-id")));
     }
 
     private static void passengerRoutes(Javalin app){

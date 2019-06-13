@@ -1,17 +1,23 @@
 package app.controllers;
 
+import app.json.ShiftsEnableJson;
 import app.json.StopJson;
+import app.models.DestinationPlanCity;
 import app.models.Stop;
+import app.models.StopsInfo;
 import app.utils.Db;
 import io.javalin.Context;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class StopController extends GenericAppController {
 
+    private String[] shiftValues = {"11", "17", "03"};
     private ArrayList<StopJson> citiesToStopJsonList(LazyList<Stop> cities){
         ArrayList<StopJson> json = new ArrayList<>();
         for (Stop stop : cities) {
@@ -137,104 +143,100 @@ public class StopController extends GenericAppController {
     Adicionar triggers para os processos de criacao, alteracao e delecao
      */
 
-    public void stopsOfDestination(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
-         cidades em que o plano iria abranger nos seus destinos
-
-         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
-
-        if(xhr()){
-
-            Map<String, String> map = params1st();
-            Gson g = new Gson();
-            JsonParser jsonParser = new JsonParser();
-            jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
-            ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
-                    String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
-
+    public void stopsOfDestination(@NotNull Context ctx, @NotNull String resourceId) {
+        try {
+            Base.open(Db.getInstance());
+            if(ctx.body().isEmpty()){
+                ctx.res.setStatus(400);
+                Base.close();
+                return;
+            }
+            ShiftsEnableJson enableJson = ctx.bodyAsClass(ShiftsEnableJson.class);
 
             LazyList<DestinationPlanCity> destinationPlanCities = DestinationPlanCity.find("plan_id = ?",
-                    shiftsEnableJson.plan);
+                    Integer.parseInt(resourceId));
 
             //Forces a selection of stops in order to initialize the list.
             LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
 
             filteredStopsList.removeAll(filteredStopsList);
-            for(DestinationPlanCity destinationPlanCity : destinationPlanCities){
+            for (DestinationPlanCity destinationPlanCity : destinationPlanCities) {
                 Integer cityId = destinationPlanCity.getInteger("city_id");
 
-                if(shiftsEnableJson.morning) {
+                if (enableJson.morning) {
                     filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
                             LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
                             LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
                             cityId);
                 }
-                if(shiftsEnableJson.afternoon){
+                if (enableJson.afternoon) {
                     filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
-                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[1] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
                             cityId));
                 }
-                if(shiftsEnableJson.night){
+                if (enableJson.night) {
                     filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
-                            LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[1] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
                             cityId));
                     filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
-                            LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
-                            LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse("00:00", DateTimeFormatter.ofPattern("HH:mm")),
+                            LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
                             cityId));
                 }
             }
+            ctx.result(filteredStopsList.toJson(false));
 
-            //LazyList<Stop> filteredStopsList = Stop.find("");
-            respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
+            Base.close();
+        } catch (Exception e) {
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        */
     }
 
     public void stopsOfBase(@NotNull Context ctx, @NotNull String resourceId){
-        /*
-        Aparentemente era para retornar as paradas disponiveis para o plano baseado nas
-         cidades em que o plano iria abranger nas suas paradas de partida ou iniciais.
+        try {
+            Base.open(Db.getInstance());
+            if(ctx.body().isEmpty()){
+                ctx.res.setStatus(400);
+                Base.close();
+                return;
+            }
+            ShiftsEnableJson enableJson = ctx.bodyAsClass(ShiftsEnableJson.class);
 
-         -> OBS: PASSA PARA O CONTROLLER DE PARADAS
+            //Forces a selection of stops in order to initialize the list.
+            LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+            if(enableJson.morning) {
+                filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                        LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
+                        Integer.parseInt(resourceId));
+            }
+            if(enableJson.afternoon){
+                filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
+                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        Integer.parseInt(resourceId)));
+            }
+            if(enableJson.night){
+                filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
+                        LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        Integer.parseInt(resourceId)));
+                filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
+                        LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
+                        LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
+                        Integer.parseInt(resourceId)));
+            }
 
-        LazyList<StopsInfo> filteredStopsList = StopsInfo.find("");
+            ctx.result(filteredStopsList.toJson(false));
 
-        Map<String, String> map = params1st();
-        Gson g = new Gson();
-        JsonParser jsonParser = new JsonParser();
-        jsonParser.parse(String.valueOf(map.keySet().toArray()[0])).getAsJsonObject();
-        ShiftsEnableJson shiftsEnableJson = g.fromJson(jsonParser.parse(
-                String.valueOf(map.keySet().toArray()[0])).getAsJsonObject(), ShiftsEnableJson.class);
-
-        filteredStopsList.removeAll(filteredStopsList);
-
-        if(shiftsEnableJson.morning) {
-            filteredStopsList = StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
-                    LocalTime.parse(shiftValues[0] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
-                    LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")),
-                    shiftsEnableJson.baseCity);
+            Base.close();
+        } catch (Exception e) {
+            ctx.res.setStatus(500);
+            e.printStackTrace();
+            Base.close();
         }
-        if(shiftsEnableJson.afternoon){
-            filteredStopsList.addAll(StopsInfo.find("time < ? AND time >= ? AND city_id = ?",
-                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                    LocalTime.parse(shiftValues[0]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                    shiftsEnableJson.baseCity));
-        }
-        if(shiftsEnableJson.night){
-            filteredStopsList.addAll(StopsInfo.find("time >= ? AND city_id = ?",
-                    LocalTime.parse(shiftValues[1]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                    shiftsEnableJson.baseCity));
-            filteredStopsList.addAll(StopsInfo.find("time >= ? AND time < ? AND city_id = ?",
-                    LocalTime.parse("00:00",DateTimeFormatter.ofPattern("HH:mm")),
-                    LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")),
-                    shiftsEnableJson.baseCity));
-        }
-
-        respond(filteredStopsList.toJson(false)).contentType("application/json").status(200);
-        */
 
     }
 }
