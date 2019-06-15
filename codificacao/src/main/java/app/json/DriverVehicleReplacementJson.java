@@ -1,6 +1,11 @@
 package app.json;
 
 import app.models.DriverVehicleReplacement;
+import app.utils.JavaScriptDateDeserializer;
+import app.utils.JavaScriptDateSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -8,6 +13,9 @@ import java.time.LocalDate;
 public class DriverVehicleReplacementJson {
     public Integer driverKey, vehicleKey,
             driverVKey,vehicleVKey;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
+    @JsonSerialize(using = JavaScriptDateSerializer.class)
+    @JsonDeserialize(using = JavaScriptDateDeserializer.class)
     public LocalDate date;
 
     public DriverVehicleReplacementJson(){}

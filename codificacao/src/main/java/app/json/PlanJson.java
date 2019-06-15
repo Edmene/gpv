@@ -21,7 +21,7 @@ public class PlanJson {
     public PlanJson(Plan plan){
         this.key = (Integer) plan.getId();
         this.availableReservations = plan.getShort("available_reservations");
-        this.ticketValue = plan.getFloat("ticket_value");
+        this.ticketValue = plan.getFloat("ticket_price");
         this.dailyValue = plan.getFloat("daily_value");
         this.availableCondition = plan.getString("availability_condition").charAt(0);
     }
@@ -29,8 +29,8 @@ public class PlanJson {
     public void setAttributesOfPlan(Plan plan){
         plan.set("id", this.key,
                 "available_reservations", this.availableReservations,
-                "available_condition", this.availableCondition,
-                "ticket_value", this.ticketValue,
+                "availability_condition", this.availableCondition,
+                "ticket_price", this.ticketValue,
                 "daily_value", this.dailyValue);
     }
 }

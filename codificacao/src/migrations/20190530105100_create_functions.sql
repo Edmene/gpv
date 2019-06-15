@@ -146,4 +146,105 @@ begin
 end;
 
 
-$$ language plpgsql;#
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION funtr_delete_availability() RETURNS TRIGGER AS
+$$
+
+begin
+
+    if((SELECT COUNT(*) FROM reservations r
+        WHERE r.plan_id = old.plan_id AND
+                r.vehicle_id = old.vehicle_id AND
+                r.stop_id = old.stop_id AND
+                r.shift = old.shift AND
+                r.driver_id = old.driver_id AND
+                r.direction = old.direction AND
+                r.day = old.day AND r.status = true
+          AND r.alteration_date is null) = 0) then
+
+        delete from reservations r  WHERE r.plan_id = old.plan_id AND
+                r.vehicle_id = old.vehicle_id AND
+                r.stop_id = old.stop_id AND
+                r.shift = old.shift AND
+                r.driver_id = old.driver_id AND
+                r.direction = old.direction AND
+                r.day = old.day;
+
+    else
+
+        update reservations r set alteration_date = current_date+15 WHERE r.plan_id = old.plan_id AND
+                r.vehicle_id = old.vehicle_id AND
+                r.stop_id = old.stop_id AND
+                r.shift = old.shift AND
+                r.driver_id = old.driver_id AND
+                r.direction = old.direction AND
+                r.day = old.day;
+
+    end if;
+
+    return old;
+
+end;
+
+$$ language plpgsql;
+
+CREATE TRIGGER tr_delete_availability before delete on availabilities
+    for each row execute procedure funtr_delete_availability();
+
+
+CREATE OR REPLACE FUNCTION funtr_create_reservation() RETURNS TRIGGER AS
+$$
+
+begin
+
+    if((SELECT COUNT(*) FROM reservations r
+        WHERE r.plan_id = new.plan_id AND
+                r.vehicle_id = new.vehicle_id AND
+                r.stop_id = new.stop_id AND
+                r.shift = new.shift AND
+                r.driver_id = new.driver_id AND
+                r.direction = new.direction AND
+                r.day = new.day AND r.passenger_id = new.passenger_id
+          AND r.status = true) != 0) then
+
+        raise exception 'Attempted insertion of record already present in database';
+
+
+    end if;
+
+    return new;
+
+end;
+
+$$ language plpgsql;
+
+CREATE TRIGGER tr_create_reservation before insert on reservations
+    for each row execute procedure funtr_create_reservation();
+
+CREATE OR REPLACE FUNCTION funtr_create_availability() RETURNS TRIGGER AS
+$$
+
+begin
+
+    if((SELECT COUNT(*) FROM availabilities a
+        WHERE a.plan_id = new.plan_id AND
+                a.vehicle_id = new.vehicle_id AND
+                a.stop_id = new.stop_id AND
+                a.shift = new.shift AND
+                a.driver_id = new.driver_id AND
+                a.direction = new.direction AND
+                a.day = new.day AND a.status = true) != 0) then
+
+        raise exception 'Attempted insertion of record already present in database';
+
+    end if;
+
+    return new;
+
+end;
+
+$$ language plpgsql;
+
+CREATE TRIGGER tr_create_availability before insert on availabilities
+    for each row execute procedure funtr_create_availability();#

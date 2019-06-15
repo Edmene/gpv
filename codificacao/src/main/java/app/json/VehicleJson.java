@@ -26,7 +26,7 @@ public class VehicleJson {
     public void setAttributesOfVehicle(Vehicle vehicle){
         vehicle.set("id", this.key,
                 "model", this.model,
-                "licensePlate", this.licensePlate,
+                "license_plate", this.licensePlate,
                 "capacity", this.capacity,
                 "year", this.year);
     }

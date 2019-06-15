@@ -74,6 +74,8 @@ public class DriverController extends GenericAppController {
                 }
             }
             else {
+                System.out.println(validation.validateCpf(driverJson.cpf));
+                System.out.println(validation.validateCpf(driverJson.cnh));
                 ctx.res.setStatus(400);
             }
             Base.close();

@@ -30,7 +30,7 @@ public class StopJson {
         this.key = (Integer) stop.getId();
         this.addressNumber = stop.getString("address_number");
         this.roadKey = stop.getInteger("road_id");
-        this.time = LocalTime.from(stop.getTime("time").toInstant());
+        this.time = stop.getTime("time").toLocalTime();
     }
 
     public void setAttributesOfStop(Stop stop){

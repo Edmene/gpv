@@ -4,6 +4,6 @@ import org.javalite.activejdbc.Model;
 
 public class Stop extends Model {
     static {
-        validatePresenceOf("time","address_id");
+        validatePresenceOf("time","road_id");
     }
 }

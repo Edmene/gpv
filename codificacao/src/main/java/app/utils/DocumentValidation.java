@@ -35,8 +35,8 @@ public class DocumentValidation {
     }
 
     public boolean validateChn(String cnh){
-        String digits = cnh.substring(0,8);
-        String validationDigits = cnh.substring(9,10);
+        String digits = cnh.substring(0,9);
+        String validationDigits = cnh.substring(9,11);
         int descDig2 = 0;
 
         if(blacklist.contains(cnh)) {
@@ -48,6 +48,7 @@ public class DocumentValidation {
             descDig2 = 2;
             calcDigitOne = 0;
         }
+
         List cnhDigitWeightList = Arrays.asList(cnhDigitWeight.toArray());
         Collections.reverse(cnhDigitWeightList);
         Integer calcDigitTwo = digitCalculation(digits, cnhDigitWeightList, 11, false);

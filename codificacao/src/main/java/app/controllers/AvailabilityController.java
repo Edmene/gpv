@@ -94,10 +94,12 @@ public class AvailabilityController extends GenericAppController{
                     ctx.res.setStatus(200);
                 }
                 else {
+                    System.out.println("cai");
                     ctx.res.setStatus(400);
                 }
             }
             else{
+                System.out.println("eh do banco");
                 ctx.res.setStatus(400);
             }
             Base.close();
