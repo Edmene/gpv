@@ -20,7 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AvailabilityController extends GenericAppController{
-    private String[] shiftValues = {"11", "17", "03"};
+    private String[] shiftValues = {"12", "18", "03"};
 
     private ArrayList<AvailabilityJson> availabilitiesToAvailabilityJsonList(LazyList<Availability> availabilitys){
         ArrayList<AvailabilityJson> json = new ArrayList<>();
@@ -61,8 +61,8 @@ public class AvailabilityController extends GenericAppController{
                        @NotNull String directionId, @NotNull String stopId){
         try{
             Base.open(Db.getInstance());
-            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
-                    directionId, planId, driverId, vehicleId, stopId);
+            Availability availability = Availability.findByCompositeKeys(toInt(dayId), toInt(shiftId),
+                    toInt(directionId), toInt(planId), toInt(driverId), toInt(vehicleId), toInt(stopId));
             if(availability == null){
                 ctx.res.setStatus(404);
             }
@@ -94,12 +94,11 @@ public class AvailabilityController extends GenericAppController{
                     ctx.res.setStatus(200);
                 }
                 else {
-                    System.out.println("cai");
                     ctx.res.setStatus(400);
                 }
             }
             else{
-                System.out.println("eh do banco");
+                ctx.result("Shift doesn't match stop time");
                 ctx.res.setStatus(400);
             }
             Base.close();
@@ -117,8 +116,8 @@ public class AvailabilityController extends GenericAppController{
                        @NotNull String directionId, @NotNull String stopId){
         try {
             Base.open(Db.getInstance());
-            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
-            directionId, planId, driverId, vehicleId, stopId);
+            Availability availability = Availability.findByCompositeKeys(toInt(dayId), toInt(shiftId),
+                    toInt(directionId), toInt(planId), toInt(driverId), toInt(vehicleId), toInt(stopId));
             AvailabilityJson availabilityJson = ctx.bodyAsClass(AvailabilityJson.class);
             if(availability == null) {
                 ctx.res.setStatus(404);
@@ -155,8 +154,8 @@ public class AvailabilityController extends GenericAppController{
                        @NotNull String directionId, @NotNull String stopId){
         try{
             Base.open(Db.getInstance());
-            Availability availability = Availability.findByCompositeKeys(dayId, shiftId,
-                    directionId, planId, driverId, vehicleId, stopId);
+            Availability availability = Availability.findByCompositeKeys(toInt(dayId), toInt(shiftId),
+                    toInt(directionId), toInt(planId), toInt(driverId), toInt(vehicleId), toInt(stopId));
             if(availability == null){
                 ctx.res.setStatus(404);
             }
@@ -180,16 +179,16 @@ public class AvailabilityController extends GenericAppController{
         StopJson stop = new StopJson(Stop.findById(availabilityJson.stop));
 
         if(availabilityJson.shift == Shift.Manha) {
-            return stop.time.isBefore(LocalTime.parse(shiftValues[0] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) &&
-                    stop.time.isAfter(LocalTime.parse(shiftValues[2] + ":59", DateTimeFormatter.ofPattern("HH:mm")));
+            return stop.time.isBefore(LocalTime.parse(shiftValues[0] + ":00",DateTimeFormatter.ofPattern("HH:mm"))) &&
+                    stop.time.isAfter(LocalTime.parse(shiftValues[2] + ":00", DateTimeFormatter.ofPattern("HH:mm")));
         }
         if(availabilityJson.shift == Shift.Tarde){
-            return stop.time.isBefore(LocalTime.parse(shiftValues[1] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) &&
-                    stop.time.isAfter(LocalTime.parse(shiftValues[0] + ":59",DateTimeFormatter.ofPattern("HH:mm")));
+            return stop.time.isBefore(LocalTime.parse(shiftValues[1] + ":00",DateTimeFormatter.ofPattern("HH:mm"))) &&
+                    stop.time.isAfter(LocalTime.parse(shiftValues[0] + ":00",DateTimeFormatter.ofPattern("HH:mm")));
         }
         if(availabilityJson.shift == Shift.Noite){
-            return stop.time.isAfter(LocalTime.parse(shiftValues[1] + ":59",DateTimeFormatter.ofPattern("HH:mm"))) ||
-                    stop.time.isBefore(LocalTime.parse(shiftValues[2]+":59",DateTimeFormatter.ofPattern("HH:mm")));
+            return stop.time.isAfter(LocalTime.parse(shiftValues[1] + ":00",DateTimeFormatter.ofPattern("HH:mm"))) ||
+                    stop.time.isBefore(LocalTime.parse(shiftValues[2]+":00",DateTimeFormatter.ofPattern("HH:mm")));
         }
         return false;
     }
@@ -208,6 +207,10 @@ public class AvailabilityController extends GenericAppController{
             Base.close();
         }
 
+    }
+
+    private Integer toInt(String text){
+        return Integer.parseInt(text);
     }
 
     public void alterStatus() {

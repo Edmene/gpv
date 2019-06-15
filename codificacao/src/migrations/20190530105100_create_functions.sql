@@ -161,7 +161,7 @@ begin
                 r.driver_id = old.driver_id AND
                 r.direction = old.direction AND
                 r.day = old.day AND r.status = true
-          AND r.alteration_date is null) = 0) then
+          AND r.alteration_date >= current_date) = 0) then
 
         delete from reservations r  WHERE r.plan_id = old.plan_id AND
                 r.vehicle_id = old.vehicle_id AND
@@ -172,15 +172,32 @@ begin
                 r.day = old.day;
 
     else
+        if((SELECT COUNT(*) FROM reservations r
+            WHERE r.plan_id = old.plan_id AND
+                    r.vehicle_id = old.vehicle_id AND
+                    r.stop_id = old.stop_id AND
+                    r.shift = old.shift AND
+                    r.driver_id = old.driver_id AND
+                    r.direction = old.direction AND
+                    r.day = old.day AND r.status = true
+              AND r.alteration_date is null) != 0) then
 
-        update reservations r set alteration_date = current_date+15 WHERE r.plan_id = old.plan_id AND
-                r.vehicle_id = old.vehicle_id AND
-                r.stop_id = old.stop_id AND
-                r.shift = old.shift AND
-                r.driver_id = old.driver_id AND
-                r.direction = old.direction AND
-                r.day = old.day;
+            update reservations r set alteration_date = current_date+15 WHERE r.plan_id = old.plan_id AND
+                    r.vehicle_id = old.vehicle_id AND
+                    r.stop_id = old.stop_id AND
+                    r.shift = old.shift AND
+                    r.driver_id = old.driver_id AND
+                    r.direction = old.direction AND
+                    r.day = old.day AND r.alteration_date is null;
 
+            if((select COUNT(*) FROM availabilities
+                where plan_id = old.plan_id and status = true)
+                = 0) then
+
+                update passenger_plans pp set status = false where pp.plan_id = old.plan_id;
+
+            end if;
+        end if;
     end if;
 
     return old;
@@ -193,34 +210,60 @@ CREATE TRIGGER tr_delete_availability before delete on availabilities
     for each row execute procedure funtr_delete_availability();
 
 
-CREATE OR REPLACE FUNCTION funtr_create_reservation() RETURNS TRIGGER AS
+CREATE OR REPLACE function create_reservation(plan_reserv reservations.plan_id%type, vehicle reservations.vehicle_id%type,
+                                              stop reservations.stop_id%type, shift_reserv reservations.shift%type,
+                                              driver reservations.driver_id%type, direction_reserv reservations.direction%type,
+                                              day_reserv reservations.day%type, passenger reservations.passenger_id%type,
+                                              type_reserv reservations.reservation_type%type, date_reserv reservations.date%type,
+                                              destination destinations.id%type) returns BOOLEAN
+
+as
 $$
-
 begin
-
     if((SELECT COUNT(*) FROM reservations r
-        WHERE r.plan_id = new.plan_id AND
-                r.vehicle_id = new.vehicle_id AND
-                r.stop_id = new.stop_id AND
-                r.shift = new.shift AND
-                r.driver_id = new.driver_id AND
-                r.direction = new.direction AND
-                r.day = new.day AND r.passenger_id = new.passenger_id
+        WHERE r.plan_id = plan_reserv AND
+                r.vehicle_id = vehicle AND
+                r.stop_id = stop AND
+                r.shift = shift_reserv AND
+                r.driver_id = driver AND
+                r.direction = direction_reserv AND
+                r.day = day_reserv AND r.passenger_id = passenger
           AND r.status = true) != 0) then
 
-        raise exception 'Attempted insertion of record already present in database';
+        return false;
 
+    else
+        if(day_reserv is not null) then
+            INSERT INTO reservations(reservation_type, status, date,
+                                     passenger_id, day, shift, direction, plan_id,
+                                     driver_id, vehicle_id, stop_id)
+            VALUES (type_reserv, true, date_reserv, passenger, day_reserv,
+                    shift_reserv, direction_reserv, plan_reserv,
+                    driver, vehicle, stop);
+        else
+
+            INSERT INTO reservations(reservation_type, status,
+                                     passenger_id, day, shift, direction, plan_id,
+                                     driver_id, vehicle_id, stop_id)
+            VALUES (type_reserv, true, passenger, day_reserv,
+                    shift_reserv, direction_reserv, plan_reserv,
+                    driver, vehicle, stop);
+        end if;
+
+        if((SELECT COUNT(*) FROM passenger_plans WHERE plan_id = plan_reserv) != 0) then
+            UPDATE passenger_plans set status = true
+            WHERE destination_id = destination AND plan_id = plan_reserv AND passenger_id = passenger;
+        else
+            INSERT INTO passenger_plans(passenger_id, destination_id, plan_id, status)
+            VALUES (passenger, destination, plan_reserv, true);
+        end if;
 
     end if;
-
-    return new;
-
+    return true;
 end;
-
 $$ language plpgsql;
 
-CREATE TRIGGER tr_create_reservation before insert on reservations
-    for each row execute procedure funtr_create_reservation();
+
 
 CREATE OR REPLACE FUNCTION funtr_create_availability() RETURNS TRIGGER AS
 $$
@@ -247,4 +290,22 @@ end;
 $$ language plpgsql;
 
 CREATE TRIGGER tr_create_availability before insert on availabilities
-    for each row execute procedure funtr_create_availability();#
+    for each row execute procedure funtr_create_availability();
+
+
+CREATE OR REPLACE FUNCTION funtr_change_reservation() RETURNS TRIGGER AS
+$$
+
+begin
+
+    update passenger_plans pp set status = false WHERE pp.plan_id = old.plan_id AND
+            pp.passenger_id = old.passenger_id;
+
+    return old;
+
+end;
+
+$$ language plpgsql;
+
+CREATE TRIGGER tr_change_reservation after delete on reservations
+    for each row execute procedure funtr_change_reservation();#

@@ -19,14 +19,12 @@ public class DatabaseValuesUpdate implements org.quartz.Job {
         LazyList<Reservation> reservations = Reservation.find("reservation_type = ? " +
                 "AND alteration_date = ? AND status IS TRUE", "M", LocalDate.now());
         for (Reservation reservation : reservations){
-            reservation.set("status", false);
-            reservation.save();
+            reservation.delete();
         }
         reservations = Reservation.find("reservation_type = ? " +
                 "AND date < ? AND status IS TRUE", "P", LocalDate.now());
         for (Reservation reservation : reservations){
-            reservation.set("status", false);
-            reservation.save();
+            reservation.delete();
         }
         Base.close();
 

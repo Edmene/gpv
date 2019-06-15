@@ -169,14 +169,14 @@ public class RoutesSetUp {
 
         app.patch("/availabilities/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
-                "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().getOne(ctx,
+                "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().update(ctx,
                 ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id")));
 
         app.delete("/availabilities/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
-                "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().getOne(ctx,
+                "/direction/:direction-id/stop/:stop-id", ctx -> new AvailabilityController().delete(ctx,
                 ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id")));
@@ -187,14 +187,14 @@ public class RoutesSetUp {
     private static void reservationRoutes(Javalin app){
         //Reservation
 
-        app.get("/reservations", ctx -> new AvailabilityController().getAll(ctx));
+        app.get("/reservations", ctx -> new ReservationController().getAll(ctx));
 
-        app.post("/reservations", ctx -> new AvailabilityController().create(ctx));
+        app.post("/reservations", ctx -> new ReservationController().create(ctx));
 
         app.get("/reservations/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
                 "/direction/:direction-id/stop/:stop-id" +
-                "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                "/passenger/:passenger-id/", ctx -> new ReservationController().getOne(ctx,
                 ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
@@ -213,7 +213,7 @@ public class RoutesSetUp {
         app.patch("/reservations/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
                 "/direction/:direction-id/stop/:stop-id" +
-                "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                "/passenger/:passenger-id", ctx -> new ReservationController().update(ctx,
                 ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));
@@ -221,7 +221,7 @@ public class RoutesSetUp {
         app.delete("/reservations/:plan-id/driver/:driver-id/vehicle/" +
                 ":vehicle-id/shift/:shift-id/day/:day-id" +
                 "/direction/:direction-id/stop/:stop-id" +
-                "/passenger/:passenger-id", ctx -> new ReservationController().getOne(ctx,
+                "/passenger/:passenger-id/", ctx -> new ReservationController().delete(ctx,
                 ctx.pathParam("plan-id"), ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("shift-id"), ctx.pathParam("day-id"), ctx.pathParam("direction-id"),
                 ctx.pathParam("stop-id"), ctx.pathParam("passenger-id")));

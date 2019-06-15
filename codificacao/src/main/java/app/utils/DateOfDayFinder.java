@@ -5,7 +5,9 @@ import app.json.ReservationJson;
 import app.models.ActivePeriod;
 import org.javalite.activejdbc.LazyList;
 
+import java.sql.Date;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -49,11 +51,12 @@ public class DateOfDayFinder {
                 testDate += "/" + month.toString();
             }
             testDate += "/" + Year.now().getValue();
+            Date dateTest = Date.valueOf(LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(testDate)));
 
-            LazyList<ActivePeriod> activePeriods = ActivePeriod.find("month = ? AND day = ?",
-                    month, i);
+            LazyList<ActivePeriod> activePeriods = ActivePeriod.find("plan_id = ? AND ? BETWEEN initial_date AND final_date",
+                    reservationJsonList.get(0).planId, dateTest);
 
-            if (activePeriods.size() == 0) {
+            if (activePeriods.size() != 0) {
                 TemporalAccessor date = DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(testDate);
 
                 int dayOfWeek = DayOfWeek.from(date).getValue();

@@ -25,10 +25,14 @@ public class ReservationJson {
     @JsonDeserialize(using = JavaScriptDateDeserializer.class)
     public LocalDate date, alterationDate;
 
+    public Integer destination;
+
+    public ReservationJson(){}
+
     public ReservationJson(Integer day, Integer shift, Integer direction, String driverId,
                            String vehicleId, String stopId, String passengerId, Integer planId,
                            CalculationMethod reservationType, Boolean status, LocalDate date,
-                           LocalDate alterationDate){
+                           LocalDate alterationDate, Integer destination){
         this.day = day;
         this.shift = shift;
         this.direction = direction;
@@ -41,6 +45,7 @@ public class ReservationJson {
         this.status = status;
         this.date = date;
         this.alterationDate = alterationDate;
+        this.destination = destination;
     }
 
     public ReservationJson(Reservation reservation){
@@ -54,8 +59,12 @@ public class ReservationJson {
         this.passengerId = reservation.get("passenger_id").toString();
         this.reservationType = CalculationMethod.valueOf(reservation.getString("reservation_type"));
         this.status = reservation.getBoolean("status");
-        this.date = reservation.getDate("date").toLocalDate();
-        this.alterationDate = reservation.getDate("alteration_date").toLocalDate();
+        if(reservation.getDate("date") != null) {
+            this.date = reservation.getDate("date").toLocalDate();
+        }
+        if(reservation.getDate("alteration_date") != null) {
+            this.alterationDate = reservation.getDate("alteration_date").toLocalDate();
+        }
     }
 
     public void setAttributesOfReservation(Reservation reservation){
@@ -68,8 +77,12 @@ public class ReservationJson {
                 "plan_id", this.planId,
                 "passenger_id", Integer.parseInt(this.passengerId),
                 "reservation_type", this.reservationType.name(),
-                "status", this.status,
-                "date", Date.valueOf(this.date),
-                "alteration_date", Date.valueOf(this.alterationDate));
+                "status", this.status);
+        if(this.date != null){
+            reservation.set("date", Date.valueOf(this.date));
+        }
+        if(this.alterationDate != null){
+            reservation.set("alteration_date", Date.valueOf(this.alterationDate));
+        }
     }
 }
