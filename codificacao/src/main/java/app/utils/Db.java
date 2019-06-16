@@ -11,7 +11,7 @@ public class Db {
         if(dataSource == null) {
             BasicDataSource bds = new BasicDataSource();
             bds.setDriverClassName("org.postgresql.Driver");
-            bds.setUrl("jdbc:postgresql://172.17.0.3:5432/gpv");
+            bds.setUrl("jdbc:postgresql://172.17.0.2:5432/gpv");
             bds.setUsername("postgres");
             bds.setPassword("postgres");
             dataSource = bds;

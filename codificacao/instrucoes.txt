@@ -1,0 +1,23 @@
+Intrucoes para Teste
+
+1) Importe as dependencias pelo Maven.
+
+2) Identifique o endereco do banco de dados postgresql que sera utilizado.
+OBS: Por padrao a configuracao de endereco eh a de uma imagem postgres que foi iniciada
+por primeiro no docker o 172.17.0.2.
+
+3) Crie um banco de dados com o nome gpv.
+
+4) Execute a compilacao via comando maven ou da IDE que estiver sendo utilizada.
+
+5) Execute a instrumentacao do projeto via plugin maven.
+OBS: Se a requisicao falhar pode ser que seja necessario novamente instrumentar,
+de qualquer forma o erro vai aparecer no terminal.
+
+6) Execute a classe principal do projeto que contem a incializacao do Javalin
+
+7) Importe a colecao de requisicoes do Postman provida junta com o projeto.
+
+8) Execute a colecao.
+
+OBS: o Postman a que me refiro eh o disponivel em https://www.getpostman.com/
