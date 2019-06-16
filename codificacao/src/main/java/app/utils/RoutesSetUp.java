@@ -13,8 +13,7 @@ public class RoutesSetUp {
             ApiBuilder.crud("roads/:road-id", new RoadController());
             ApiBuilder.crud("destinations/:destination-id", new DestinationController());
             ApiBuilder.crud("drivers/:driver-id", new DriverController());
-            ApiBuilder.crud("vehicles/:vehicle-id", new VehicleController());            
-            ApiBuilder.crud("active_periods/:active_period-id", new ActivePeriodController());
+            ApiBuilder.crud("vehicles/:vehicle-id", new VehicleController());
             ApiBuilder.crud("plans/:plan-id", new PlanController());
             ApiBuilder.crud("passengers/:passenger-id", new PassengerController());
             ApiBuilder.crud("users/:user-id", new UserController());
@@ -30,12 +29,28 @@ public class RoutesSetUp {
             stopRoutes(app);
             passengerRoutes(app);
             destinationRoutes(app);
+            activePeriodRoutes(app);
             planRoutes(app);
             availabilityRoutes(app);
             reservationRoutes(app);
             driverVehicleRoutes(app);
             driverVehicleReplacementRoutes(app);
 
+    }
+
+    private static void activePeriodRoutes(Javalin app){
+        app.get("/active_periods", ctx -> new ActivePeriodController().getAll(ctx));
+
+        app.post("/active_periods", ctx -> new ActivePeriodController().create(ctx));
+
+        app.get("/active_periods/:active-id/plan/:plan-id", ctx -> new ActivePeriodController().getOne(ctx,
+                ctx.pathParam("active-id"), ctx.pathParam("plan-id")));
+
+        app.patch("/active_periods/:active-id/plan/:plan-id", ctx -> new ActivePeriodController().update(ctx,
+                ctx.pathParam("active-id"), ctx.pathParam("plan-id")));
+
+        app.delete("/active_periods/:active-id/plan/:plan-id", ctx -> new ActivePeriodController().delete(ctx,
+                ctx.pathParam("active-id"), ctx.pathParam("plan-id")));
     }
     
     private static void driverVehicleRoutes(Javalin app){
@@ -61,17 +76,17 @@ public class RoutesSetUp {
 
         app.post("/driver-vehicles-replacements", ctx -> new DriverVehicleReplacementController().create(ctx));
 
-        app.get("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+        app.get("/driver-vehicles-replacements/:driver-id/vehicle/:vehicle-id" +
                 "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
                 ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
 
-        app.patch("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+        app.patch("/driver-vehicles-replacements/:driver-id/vehicle/:vehicle-id" +
                 "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().update(ctx,
                 ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
 
-        app.delete("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
+        app.delete("/driver-vehicles-replacements/:driver-id/vehicle/:vehicle-id" +
                 "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().delete(ctx,
                 ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));

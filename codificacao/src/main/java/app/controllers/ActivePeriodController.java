@@ -34,11 +34,11 @@ public class ActivePeriodController extends GenericAppController {
         }
     }
 
-    @Override
-    public void getOne(@NotNull Context ctx, @NotNull String resourceId) {
+    public void getOne(@NotNull Context ctx, @NotNull String resourceId, @NotNull String planId) {
         try {
             Base.open(Db.getInstance());
-            ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
+            ActivePeriod activePeriod = ActivePeriod.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(planId));
             if(activePeriod == null){
                 ctx.res.setStatus(404);
             }
@@ -77,12 +77,12 @@ public class ActivePeriodController extends GenericAppController {
         }
     }
 
-    @Override
-    public void update(@NotNull Context ctx, @NotNull String resourceId) {
+    public void update(@NotNull Context ctx, @NotNull String resourceId, @NotNull String planId) {
         try {
             Base.open(Db.getInstance());
             ActivePeriodJson activePeriodJson = ctx.bodyAsClass(ActivePeriodJson.class);
-            ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
+            ActivePeriod activePeriod = ActivePeriod.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(planId));
             if(activePeriod == null) {
                 ctx.res.setStatus(404);
                 return;
@@ -106,11 +106,11 @@ public class ActivePeriodController extends GenericAppController {
         }
     }
 
-    @Override
-    public void delete(@NotNull Context ctx, @NotNull String resourceId) {
+    public void delete(@NotNull Context ctx, @NotNull String resourceId, @NotNull String planId) {
         try {
             Base.open(Db.getInstance());
-            ActivePeriod activePeriod = ActivePeriod.findById(Integer.parseInt(resourceId));
+            ActivePeriod activePeriod = ActivePeriod.findByCompositeKeys(Integer.parseInt(resourceId),
+                    Integer.parseInt(planId));
             if(activePeriod == null){
                 ctx.res.setStatus(404);
             }

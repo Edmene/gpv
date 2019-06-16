@@ -8,7 +8,8 @@ import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.time.*;
 import java.util.ArrayList;
 
 public class DriverVehicleReplacementController extends GenericAppController {
@@ -51,7 +52,8 @@ public class DriverVehicleReplacementController extends GenericAppController {
             Base.open(Db.getInstance());
             DriverVehicleReplacement driverVehicleReplacement = DriverVehicleReplacement.findByCompositeKeys(
                     Integer.parseInt(resourceId),Integer.parseInt(vehicleId),
-                    Integer.parseInt(driverVId),Integer.parseInt(vehicleVId)
+                    Integer.parseInt(driverVId),Integer.parseInt(vehicleVId),
+                    parseDate(ctx.body())
             );
             if(driverVehicleReplacement == null){
                 ctx.res.setStatus(404);
@@ -129,7 +131,8 @@ public class DriverVehicleReplacementController extends GenericAppController {
             Base.open(Db.getInstance());
             DriverVehicleReplacement driverVehicleReplacement = DriverVehicleReplacement.findByCompositeKeys(
                     Integer.parseInt(resourceId),Integer.parseInt(vehicleId),
-                    Integer.parseInt(driverVId),Integer.parseInt(vehicleVId)
+                    Integer.parseInt(driverVId),Integer.parseInt(vehicleVId),
+                    parseDate(ctx.body())
             );
             if(driverVehicleReplacement == null){
                 ctx.res.setStatus(404);
@@ -148,6 +151,11 @@ public class DriverVehicleReplacementController extends GenericAppController {
             e.printStackTrace();
             Base.close();
         }
+    }
+
+    private Date parseDate(String requestBody){
+        Instant instant = Instant.parse(requestBody);
+        return Date.valueOf(LocalDateTime.ofInstant(instant, ZoneId.of(ZoneOffset.UTC.getId())).toLocalDate());
     }
 
     /*
