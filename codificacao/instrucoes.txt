@@ -6,6 +6,9 @@ Intrucoes para Teste
 OBS: Por padrao a configuracao de endereco eh a de uma imagem postgres que foi iniciada
 por primeiro no docker o 172.17.0.2.
 
+Altere o endereco do banco de dados no database.properties em resources e no utils
+o Db.java.
+
 3) Crie um banco de dados com o nome gpv.
 
 4) Execute a compilacao via comando maven ou da IDE que estiver sendo utilizada.
