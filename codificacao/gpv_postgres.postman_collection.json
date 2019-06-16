@@ -1,0 +1,2651 @@
+{
+	"info": {
+		"_postman_id": "efb18bfc-c35b-492c-89ff-2ce5b79b8247",
+		"name": "gpv_postgres",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:7000/states",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Rio Grande do Sul\",\n\t\"acronym\": \"RS\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/states",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/states",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Rio Grande do Sul\",\n\t\"acronym\": \"RS\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/states",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Erechim\",\n\t\"stateKey\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Passo Fundo\",\n\t\"stateKey\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/roads",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Avenida Sete de Setembro\",\n\t\"cityKey\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/roads",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"roads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/roads",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Avenida Brasil\",\n\t\"cityKey\": \"2\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/roads",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"roads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"addressNumber\": \"422\",\n\t\"roadKey\": \"1\",\n\t\"time\": \"2019-04-01T10:00:00.000Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"addressNumber\": \"1024\",\n\t\"roadKey\": \"2\",\n\t\"time\": \"2019-04-01T15:00:00.000Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/stops",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/destinations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"addressNumber\": \"1024\",\n\t\"roadKey\": \"2\",\n\t\"name\": \"Instituicao Institucional\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/destinations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"destinations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"availableReservations\": \"56\",\n\t\"ticketValue\": \"0\",\n\t\"dailyValue\": \"5.40\",\n\t\"availableCondition\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/plans",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/plans",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/drivers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cpf\": \"01475220057\",\n\t\"cnh\": \"81274697895\",\n\t\"rg\": \"453645597864\",\n\t\"name\": \"Claudio\",\n\t\"surname\": \"Perez\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/drivers",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/drivers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cpf\": \"13688042093\",\n\t\"cnh\": \"34579549009\",\n\t\"rg\": \"453645597864\",\n\t\"name\": \"Lucas\",\n\t\"surname\": \"Guarnieri\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/drivers",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"licensePlate\": \"MRA2096\",\n\t\"capacity\": \"56\",\n\t\"model\": \"Qualquer\",\n\t\"year\": \"2011\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/vehicles",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"licensePlate\": \"MRA2096\",\n\t\"capacity\": \"56\",\n\t\"model\": \"Qualquer\",\n\t\"year\": \"2011\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/vehicles",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"licensePlate\": \"MRA2A96\",\n\t\"capacity\": \"56\",\n\t\"model\": \"Qualquer\",\n\t\"year\": \"2011\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/vehicles",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"licensePlate\": \"HVY4589\",\n\t\"capacity\": \"56\",\n\t\"model\": \"Qualquer\",\n\t\"year\": \"2008\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/vehicles",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/active_periods",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"planKey\": \"1\",\n\t\"initialDate\": \"2019-01-01T02:00:00.000Z\",\n\t\"finalDate\": \"2020-01-01T02:00:00.000Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/active_periods",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"active_periods"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1/destinations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/plans/1/destinations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1",
+						"destinations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1/destination/1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/plans/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"driverKey\": \"1\",\n\t\"vehicleKey\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles-replacements/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"driverKey\": \"2\",\n\t\"vehicleKey\": \"1\",\n\t\"driverVKey\": \"1\",\n\t\"vehicleVKey\": \"1\",\n\t\"date\": \"2019-07-22T03:00:00.000Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles-replacements/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles-replacements",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cpf\": \"09579002010\",\n\t\"name\": \"Marcos\",\n\t\"surname\": \"Swarovski\",\n\t\"telephone\": \"54965341265\",\n\t\"email\": \"marcosswa@teste.com\",\n\t\"rg\": \"87958473891\",\n\t\"userName\": \"msvski\",\n\t\"password\": \"marcosvki123\",\n\t\"birthDate\": \"1985-06-07T03:00:00.000Z\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Edmenes\",\n\t\"password\": \"123\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/availabilities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driver\": \"1\",\n\t\"vehicle\": \"1\",\n\t\"stop\": \"1\",\n\t\"plan\": \"1\",\n\t\"status\": \"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/availabilities",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\",\n\t\"destination\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/passenger/1/plan-type/M",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plan/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plan",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\",\n\t\"destination\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations",
+						"1",
+						"driver",
+						"1",
+						"vehicle",
+						"1",
+						"shift",
+						"0",
+						"day",
+						"1",
+						"direction",
+						"1",
+						"stop",
+						"1",
+						"passenger",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/availabilities/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\",\n\t\"destination\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/availabilities/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"availabilities",
+						"1",
+						"driver",
+						"1",
+						"vehicle",
+						"1",
+						"shift",
+						"0",
+						"day",
+						"1",
+						"direction",
+						"1",
+						"stop",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/passenger/1/plan-type/M",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations/1/passenger/1/plan-type/M",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations",
+						"1",
+						"passenger",
+						"1",
+						"plan-type",
+						"M"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/vehicles",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/drivers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/drivers",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"drivers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/active_periods",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/active_periods",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"active_periods"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/availabilities",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/availabilities",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"availabilities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/destinations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/destinations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"destinations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/plans",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1/destinations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/plans/1/destinations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1",
+						"destinations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/states",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/states",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"states"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations",
+						"1",
+						"driver",
+						"1",
+						"vehicle",
+						"1",
+						"shift",
+						"0",
+						"day",
+						"1",
+						"direction",
+						"1",
+						"stop",
+						"1",
+						"passenger",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles/1/vehicle/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles/1/vehicle/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles",
+						"1",
+						"vehicle",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles-replacements/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles-replacements/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles-replacements",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities/state/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"day\": \"1\",\n\t\"shift\": \"0\",\n\t\"direction\": \"1\",\n\t\"driverId\": \"1\",\n\t\"vehicleId\": \"1\",\n\t\"stopId\": \"1\",\n\t\"planId\": \"1\",\n\t\"passengerId\": \"1\",\n\t\"status\": \"true\",\n\t\"reservationType\": \"M\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities/state/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities",
+						"state",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops/initial/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops/initial/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops",
+						"initial",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops/destinations/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops/destinations/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops",
+						"destinations",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1/plans",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plans",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1/plan/1/destination/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plan/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plan",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1/plan/1/destination/1",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plan/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plan",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1/plans",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plans",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/destinations/city/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/destinations/city/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"destinations",
+						"city",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/destinations/city/2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/destinations/city/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"destinations",
+						"city",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/availabilities/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/availabilities/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"availabilities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/passenger/1/plan-type/M",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations/1/passenger/1/plan-type/M",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations",
+						"1",
+						"passenger",
+						"1",
+						"plan-type",
+						"M"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1/",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/reservations/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1/passenger/1/",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"reservations",
+						"1",
+						"driver",
+						"1",
+						"vehicle",
+						"1",
+						"shift",
+						"0",
+						"day",
+						"1",
+						"direction",
+						"1",
+						"stop",
+						"1",
+						"passenger",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1/plan/1/destination/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1/plan/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1",
+						"plan",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/availabilities/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/availabilities/1/driver/1/vehicle/1/shift/0/day/1/direction/1/stop/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"availabilities",
+						"1",
+						"driver",
+						"1",
+						"vehicle",
+						"1",
+						"shift",
+						"0",
+						"day",
+						"1",
+						"direction",
+						"1",
+						"stop",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1/destination/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/plans/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/passengers/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/passengers/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"passengers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1/destination/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/plans/1/destination/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1",
+						"destination",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/users/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/users/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/destinations/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/destinations/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"destinations",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/stops/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/stops/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"stops",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/roads/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/roads/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"roads",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/roads/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/roads/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"roads",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/cities/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/cities/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"cities",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/states/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/states/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"states",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/states/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"morning\":\"true\",\n\t\"afternoon\":\"true\",\n\t\"night\":\"true\"\n}"
+				},
+				"url": {
+					"raw": "localhost:7000/states/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"states",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles-replacements/2/vehicle/1/driverv/1/vehiclev/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "2019-07-22T03:00:00.000Z"
+				},
+				"url": {
+					"raw": "localhost:7000/driver-vehicles-replacements/2/vehicle/1/driverv/1/vehiclev/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles-replacements",
+						"2",
+						"vehicle",
+						"1",
+						"driverv",
+						"1",
+						"vehiclev",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/driver-vehicles/1/vehicle/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/driver-vehicles/1/vehicle/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"driver-vehicles",
+						"1",
+						"vehicle",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/active_periods/1/plan/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/active_periods/1/plan/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"active_periods",
+						"1",
+						"plan",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/plans/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/plans/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"plans",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/drivers/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/drivers/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"drivers",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/drivers/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/drivers/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"drivers",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles/1",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/vehicles/1",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:7000/vehicles/2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:7000/vehicles/2",
+					"host": [
+						"localhost"
+					],
+					"port": "7000",
+					"path": [
+						"vehicles",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
