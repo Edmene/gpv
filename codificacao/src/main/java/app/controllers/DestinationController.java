@@ -40,7 +40,7 @@ public class DestinationController extends GenericAppController {
     public void getByCity(@NotNull Context ctx, @NotNull String resourceId){
         try{
             Base.open(Db.getInstance());
-            LazyList<DestinationRoad> destinations = Destination.find("city_id = ?", Integer.parseInt(resourceId));
+            LazyList<DestinationRoad> destinations = DestinationRoad.find("city_id = ?", Integer.parseInt(resourceId));
             ctx.result((destinations.toJson(false)));
             Base.close();
         }

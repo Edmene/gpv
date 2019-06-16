@@ -89,7 +89,7 @@ CREATE TRIGGER tr_delete_passenger_check before delete on passengers
     for each row execute procedure funtr_delete_passenger_check();
 
 
-CREATE OR REPLACE FUNCTION passenger_plan_unsubscribe(cod_pas integer, cod_plan integer) returns boolean AS
+CREATE OR REPLACE FUNCTION passenger_plan_unsubscribe(cod_pas integer, cod_plan integer) RETURNS BOOLEAN AS
 $$
 declare
     reservation_cur cursor (plan integer, pass integer) for SELECT * FROM reservations r WHERE
@@ -103,7 +103,7 @@ declare
 begin
 
     for cursor_data in reservation_cur(cod_plan, cod_pas) loop
-        if(cursor_data.reservation_type != 'P') then
+        if(cursor_data.reservation_type = 'T') then
             UPDATE reservations r SET status = false WHERE r.plan_id = cod_plan
                                                        AND r.passenger_id = cod_pas AND r.day = cursor_data.day
                                                        AND r.direction = cursor_data.direction AND r.driver_id = cursor_data.driver_id
@@ -125,9 +125,12 @@ begin
 
     for cursor_data in pass_destination_cur(cod_plan, cod_pas) loop
 
-        if(!EXISTS(SELECT 1 FROM reservations WHERE plan_id = cursor_data.plan_id
-                                                AND passenger_id = cursor_data.passenger_id
-                                                AND reservation_type != 'P' AND status = true)) then
+
+        SELECT EXISTS(SELECT 1 FROM reservations WHERE plan_id = cursor_data.plan_id
+                                                   AND passenger_id = cursor_data.passenger_id
+                                                   AND reservation_type != 'T' AND status = true) into teste;
+
+        if(not teste) then
 
             UPDATE passenger_plans pp SET status = false WHERE pp.passenger_id = cursor_data.passenger_id
                                                            AND pp.plan_id = cursor_data.plan_id;
@@ -220,6 +223,21 @@ CREATE OR REPLACE function create_reservation(plan_reserv reservations.plan_id%t
 as
 $$
 begin
+
+    if((SELECT COUNT(*) FROM reservations r
+        WHERE r.plan_id = plan_reserv AND
+                r.vehicle_id = vehicle AND
+                r.stop_id = stop AND
+                r.shift = shift_reserv AND
+                r.driver_id = driver AND
+                r.direction = direction_reserv AND
+                r.day = day_reserv
+          AND r.status = true) =
+       (SELECT available_reservations FROM plans
+        WHERE plans.id = plan_reserv)) then
+        return false;
+    end if;
+
     if((SELECT COUNT(*) FROM reservations r
         WHERE r.plan_id = plan_reserv AND
                 r.vehicle_id = vehicle AND

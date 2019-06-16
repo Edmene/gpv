@@ -28,8 +28,8 @@ public class ActivePeriodJson {
 
     public ActivePeriodJson(ActivePeriod activePeriod){
         this.key = (Integer) activePeriod.getId();
-        this.initialDate = LocalDate.from(activePeriod.getDate("initial_date").toInstant());
-        this.finalDate = LocalDate.from(activePeriod.getDate("final_date").toInstant());
+        this.initialDate = activePeriod.getDate("initial_date").toLocalDate();
+        this.finalDate = activePeriod.getDate("final_date").toLocalDate();
         this.planKey = activePeriod.getInteger("plan_id");
     }
 

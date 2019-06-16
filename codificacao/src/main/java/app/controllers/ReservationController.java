@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.controllers.authorization.Protected;
 import app.enums.CalculationMethod;
+import app.json.PassengerReservationsInfoJson;
 import app.json.ReservationJson;
 import app.models.*;
 import app.utils.DateOfDayFinder;
@@ -246,19 +247,19 @@ public class ReservationController extends GenericAppController {
             LazyList<Reservation> reservationPAList = Reservation.find(
                     "passenger_id = ? AND plan_id = ? AND " +
                             "reservation_type = ? AND status IS TRUE",
-                    passengerId, planId, "T");
+                    toInt(passengerId), toInt(planId), "T");
 
             LazyList<Reservation> reservationPIList = Reservation.find(
                     "passenger_id = ? AND plan_id = ? AND " +
                             "reservation_type = ? AND status IS FALSE",
-                    passengerId, planId, "T");
+                    toInt(passengerId), toInt(planId), "T");
 
             LazyList<Reservation> reservationMList = Reservation.find(
                     "passenger_id = ? AND plan_id = ? AND " +
                             "reservation_type = ? AND status IS TRUE",
-                    passengerId, planId, "M");
+                    toInt(passengerId), toInt(planId), "M");
 
-            Plan plan = Plan.findById(planId);
+            Plan plan = Plan.findById(toInt(planId));
 
             ArrayList<ReservationJson> reservationJsonListM = new ArrayList<>();
             for (Reservation reservationM : reservationMList) {
@@ -268,15 +269,17 @@ public class ReservationController extends GenericAppController {
             ArrayList<ArrayList<Map<String, Object>>> listOfDatesM = new DateOfDayFinder().datesArrayList(reservationJsonListM);
             TotalValueOfPlanSelection totalValueOfReservationM = new TotalValueOfPlanSelection(listOfDatesM);
 
-            ArrayList<Object> arrayResult = new ArrayList<>();
-            arrayResult.add(ReservationInfoPassenger.find("passenger_id = ?" +
-                            " AND plan_id = ?", passengerId,
-                    planId).toMaps());
-            arrayResult.add(reservationPAList.size() * plan.getFloat("ticket_price"));
-            arrayResult.add(reservationPIList.size() * plan.getFloat("ticket_price"));
-            arrayResult.add(totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan));
 
-            mapper.writeValueAsString(arrayResult);
+            PassengerReservationsInfoJson item = new PassengerReservationsInfoJson();
+            item.reservationInfo = ReservationInfoPassenger.find("passenger_id = ?" +
+                            " AND plan_id = ?", toInt(passengerId),
+                    toInt(planId)).toMaps();
+            item.totalTicketActive = reservationPAList.size() * plan.getFloat("ticket_price");
+            item.totalTicketInactive = reservationPIList.size() * plan.getFloat("ticket_price");
+            item.signature = totalValueOfReservationM.calculateTotalValue(CalculationMethod.M, plan);
+
+
+            ctx.result(mapper.writeValueAsString(item));
 
             Base.close();
         }
@@ -289,195 +292,8 @@ public class ReservationController extends GenericAppController {
     }
 
 
-    /*
-    Adicionar triggers para os processos de criacao, alteracao e delecao
-     */
-
-    public void addReservations() {
-        /*
-
-        -> FUNCIONALIDADE PASSA PARA UMA TRIGGER ATIVADA POR UMA ADICAO DE RESERVA
-
-        if(!negateAccess(UserType.A)) {
-            ArrayList<Reservation> reservationList = new ArrayList<>();
-            Gson g = new Gson();
-            JsonParser jsonParser = new JsonParser();
-            JsonArray jsonArray = jsonParser.parse(param("json")).getAsJsonArray();
-            for (JsonElement element : jsonArray) {
-                Reservation reservation = new Reservation();
-                ReservationJson reservationJson = g.fromJson(element.getAsJsonObject(), ReservationJson.class);
-                reservationJson.setAttributesOfReservation(reservation);
-                if (param("reservation_type").contains("P")) {
-                    for (Day day : Day.values()) {
-                        if (param(day.name()) != null && reservationJson.day == day.ordinal()) {
-                            LocalDate date = LocalDate.from(DateTimeFormatter.ofPattern("dd/MM/yyyy").parse(param(day.name())));
-                            reservation.setDate("date", date);
-                        }
-                    }
-                }
-                reservation.set("plan_id", Integer.parseInt(param("plan_id")),
-                        "passenger_id", session().get("id"),
-                        "status", true,
-                        "reservation_type", param("reservation_type"));
-                reservationList.add(reservation);
-
-            }
-
-            if (PassengerPlans.find("plan_id = ? AND passenger_id = ? AND destination_id = ?",
-                    Integer.parseInt(param("plan_id")), session().get("id"),
-                    Integer.parseInt(param("destination"))).size() == 0) {
-                PassengerPlans passengerPlans = new PassengerPlans();
-                passengerPlans.set("plan_id", Integer.parseInt(param("plan_id")),
-                        "passenger_id", session().get("id"),
-                        "destination_id", Integer.parseInt(param("destination")));
-                passengerPlans.save();
-            }
-
-            boolean hasRepeatedReservations = sendReservationsQuery(reservationList);
-            if (!hasRepeatedReservations) {
-
-            } else {
-
-            }
-
-        }
-        */
-    }
-
     private Integer toInt(String s){
         return Integer.parseInt(s);
     }
-
-    public void changeReservation(){
-        /*
-
-        -> Vira um trigger ativado pela delecao na base de dados
-
-        Reservation reservation = (Reservation) Reservation.find("passenger_id = ? AND " +
-                "day = ? AND shift = ? AND direction = ? AND plan_id = ? AND " +
-                "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
-                    toInt(param("passenger_id")),
-                    toInt(param("day")),
-                    toInt(param("shift")),
-                    toInt(param("direction")),
-                    toInt(param("plan_id")),
-                    toInt(param("driver_id")),
-                    toInt(param("vehicle_id")),
-                    toInt(param("stop_id"))).get(0);
-        if(reservation.getBoolean("status")) {
-
-            if (reservation.getString("reservation_type").contains("M")) {
-                if (reservation.getDate("alteration_date") == null) {
-                    reservation.set("alteration_date", LocalDate.now().plusDays(15));
-                    
-                }
-                else {
-                    reservation.set("alteration_date", null);
-                    
-                }
-            }
-            else {
-                reservation.set("status", false);
-                
-            }
-
-        }
-        else {
-            if(isAvailabilityStillActive(reservation)) {
-                if (reservation.getDate("date") == null) {
-                    if (isPassengerNumberNotExcessive(reservation)) {
-                        reservation.set("status", true);
-                        
-                    } else {
-                        
-                    }
-                } else {
-                    if (LocalDate.now().isAfter(reservation.getDate("date").toLocalDate())) {
-                        
-                    } else {
-                        if (isPassengerNumberNotExcessive(reservation)) {
-                            reservation.set("status", true);
-                            
-                        } else {
-                            
-                        }
-                    }
-                }
-            }
-            else {
-                
-            }
-        }
-        reservation.save()'
-        */
-        
-    }
-
-    private boolean isPassengerNumberNotExcessive(Reservation reservation){
-        if(CountPassenger.find("plan_id = ?",
-                reservation.getInteger("plan_id")).get(0).
-                getInteger("num_passengers") < Plan.findById(
-                reservation.getInteger("plan_id")).getShort("available_reservations")) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    
-    private boolean isAvailabilityStillActive(Reservation reservation){
-        Boolean isActive = Reservation.find("day = ? AND shift = ? AND " +
-                        "direction = ? AND plan_id = ? AND " +
-                        "driver_id = ? AND vehicle_id = ? AND stop_id = ?",
-                reservation.getInteger("day"),
-                reservation.getInteger("shift"),
-                reservation.getInteger("direction"),
-                reservation.getInteger("plan_id"),
-                reservation.getInteger("driver_id"),
-                reservation.getInteger("vehicle_id"),
-                reservation.getInteger("stop_id")).get(0).getBoolean("status");
-        return isActive;
-    }
-
-    /*
-    private boolean sendReservationsQuery(ArrayList<Reservation> reservationList) {
-
-        -> Forte candidato a se tornar uma trigger.
-
-        VERIFICA CONFLITOS COM OUTRAS RESERVAS
-
-
-        boolean hasRepeatedReservations = true;
-        //This command exists in order to avoid a issue if there are no records in the reservation table
-        if (CountPassenger.findAll().size() != 0) {
-            if ((Integer) Plan.findById(Integer.parseInt(param("plan_id"))).get("available_reservations") <=
-                    CountPassenger.find("plan_id = ?", Integer.parseInt(param("plan_id")))
-                            .get(0).getInteger("num_passengers")) {
-                hasRepeatedReservations = false;
-                return hasRepeatedReservations;
-            }
-        }
-        for (Reservation reservation : reservationList) {
-            Integer numResults = Reservation.find("(date = ? OR date is null) AND " +
-                            "passenger_id = ? AND day = ? AND shift = ? AND direction = ? AND " +
-                            "plan_id = ? AND driver_id = ? AND vehicle_id = ? AND stop_id = ?",
-                    reservation.getDate("date"),
-                    reservation.getInteger("passenger_id"),
-                    reservation.getInteger("day"),
-                    reservation.getInteger("shift"),
-                    reservation.getInteger("direction"),
-                    reservation.getInteger("plan_id"),
-                    reservation.getInteger("driver_id"),
-                    reservation.getInteger("vehicle_id"),
-                    reservation.getInteger("stop_id")).size();
-            if (numResults != 0) {
-                hasRepeatedReservations = false;
-            } else {
-                reservation.insert();
-            }
-        }
-        return hasRepeatedReservations;
-    }
-    */
 
 }

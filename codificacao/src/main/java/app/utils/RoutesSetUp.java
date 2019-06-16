@@ -67,12 +67,12 @@ public class RoutesSetUp {
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
 
         app.patch("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
-                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
+                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().update(ctx,
                 ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
 
         app.delete("/driver-vehicles/:driver-id/vehicle/:vehicle-id" +
-                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().getOne(ctx,
+                "/driverv/:driverv-id/vehiclev/:vehiclev-id", ctx -> new DriverVehicleReplacementController().delete(ctx,
                 ctx.pathParam("driver-id"), ctx.pathParam("vehicle-id"),
                 ctx.pathParam("driverv-id"), ctx.pathParam("vehiclev-id")));
         

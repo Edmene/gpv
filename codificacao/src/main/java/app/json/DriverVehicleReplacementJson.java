@@ -35,7 +35,7 @@ public class DriverVehicleReplacementJson {
         this.vehicleKey = driverVehicleReplacement.getInteger("vehicle_id");
         this.driverVKey = driverVehicleReplacement.getInteger("driver_v_id");
         this.vehicleVKey = driverVehicleReplacement.getInteger("vehicle_v_id");
-        this.date = LocalDate.from(driverVehicleReplacement.getDate("date").toInstant());
+        this.date = driverVehicleReplacement.getDate("date").toLocalDate();
     }
 
     public void setAttributesOfDriverVehicleReplacement(DriverVehicleReplacement driverVehicleReplacement){

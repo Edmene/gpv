@@ -18,7 +18,7 @@ public class VehicleJson {
     public VehicleJson(Vehicle vehicle){
         this.key = (Integer) vehicle.getId();
         this.model = vehicle.getString("model");
-        this.licensePlate = vehicle.getString("licensePlate");
+        this.licensePlate = vehicle.getString("license_plate");
         this.capacity = vehicle.getInteger("capacity");
         this.year = vehicle.getInteger("year");
     }
